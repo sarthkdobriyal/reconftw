@@ -13,6 +13,7 @@ import favicon, requests, subprocess
 def new_scan_single_domain(*command):
     """task that creates scan project"""
     command = str(command).split("'")
+    print('Scan Command --> ', command)
     del command[0::2]
     single_domain = command[2]
 
@@ -24,11 +25,14 @@ def new_scan_single_domain(*command):
 
     path = BASE_DIR.parent / f"Recon/{single_domain}_v{next}"
 
+    print("Path --> ", path)
     command.append('-o') 
     command.append(str(path))
     
 
     mode = str(command[3])
+
+    print('Mode', mode)
 
     if mode == '-r': # RECON
         scan_mode = "[ -r ] - Recon"
@@ -60,6 +64,7 @@ def new_scan_single_domain(*command):
     # ADDING DOMAIN
     puredomain = str(single_domain).split('.')[0]
     
+    print('pure domain', puredomain)
     # SAVING PROJECT IN DB
     Project.objects.create(number=next,
                              domain=single_domain,
@@ -89,13 +94,15 @@ def new_scan_single_domain(*command):
             print(err)
     
     # STARTING RUN_SCAN TASK
-    r = run_scan.apply_async(args=[command, next], queue="run_scans")
+    print("starting run scan")
+    r = run_scan.delay(command, next)
 
 
-
+ 
 @app.task(name='run_scan')
 def run_scan(command, num):
     """task to run scan"""
+    print("run scan has")
     proj = Project.objects.filter(number=num, domain=command[2])[0]
     proj_id = proj.pk
 
@@ -114,3 +121,9 @@ def run_scan(command, num):
     proj.status = 'FINISHED'
     proj.save()
    
+
+
+
+
+
+

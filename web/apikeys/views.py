@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from editprofile.imgUser import imgUser
 from apikeys.config import amassConfig, ReconConfig, GithubConfig
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 # Create your views here.
 
 otherNames = {'passivedns': '360PassiveDNS', 'digicert': 'CertCentral', 'psbdmp':'Pastebin', 'rikiq':'PassiveTotal', 'quake360':'quake', 'cisco':'Umbrella', 'leaklookup_priv':'leak-lookup_priv', 'leaklookup_pub':'leak-lookup_pub'}
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def conf(request):
     keys = dict(request.POST)
     del keys["csrfmiddlewaretoken"]
@@ -52,7 +54,8 @@ def conf(request):
 #            if name != "spyse":
 #                theHarvesterConfig(name, key=key)
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
+@api_view(['GET'])
 def index(request):
 
     if request.method == "POST":
@@ -61,13 +64,12 @@ def index(request):
     imagePath = imgUser(request.user.id)
 
     context = {
-                'shodan_value': ReconConfig('shodan', get=True),
+        'shodan_value': ReconConfig('shodan', get=True),
         'whoisxml_value': ReconConfig('whoisxml', get=True),
         'xss_server_value': ReconConfig('xssserver', get=True),
         'collab_server_value': ReconConfig('collabserver', get=True),
         'slack_channel_value': ReconConfig('slackchanel', get=True),
         'slack_auth_value': ReconConfig('slackauth', get=True),
-
         'passivedns_value': amassConfig("360PassiveDNS", get=True),
         'asnlookup_value': amassConfig("asnlookup", get=True),
         'ahrefs_value': amassConfig("ahrefs", get=True),
@@ -141,4 +143,5 @@ def index(request):
     }
 
 
-    return render(request, "apikeys_settings.html", context)
+    # return render(request, "apikeys_settings.html", context)
+    return Response(context)

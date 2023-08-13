@@ -1369,7 +1369,7 @@ def cms_f2db(project_id):
     path = project_obj[0].command.split("'")
     del path[0::2]
 
-    cms_path = f"{path[-1]}/{project_obj[0].domain}/cms/"
+    cms_path = f"{path[-1]}/{project_obj[0].domain}/cms"
     
     if Path(cms_path).is_dir() and len(listdir(cms_path)) > 0:
         cms_files = listdir(cms_path)

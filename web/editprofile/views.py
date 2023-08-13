@@ -5,6 +5,10 @@ from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
 from .imgUser import imgUser
 import os
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
 
 def edit(request):
     response = "change made!"
@@ -12,7 +16,7 @@ def edit(request):
     username = request.user
     dbUser = User.objects.get(username=username)
 
-    post = request.POST
+    post = request.data
 
 
     if 'username' in post:
@@ -70,13 +74,11 @@ def edit(request):
     
 
     return post['username'], response 
+ 
 
-
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
+@api_view(['POST'])
 def index(request):
-
-    
-
 
     if request.method == "POST":
         username, response = edit(request)
@@ -84,20 +86,25 @@ def index(request):
     else:
         username = request.user
         response = ""
+    print(request.data)
+    print(request.user) 
 
+    # dbUser = User.objects.get(username=username)
 
-
-    dbUser = User.objects.get(username=username)
     
-    email = dbUser.email
+    # email = dbUser.email
 
-    imagePath = imgUser(request.user.id)
+    # imagePath = imgUser(request.user.id)
 
-    context = {
-        "imagePath": imagePath,
-        'UserName': username, 
-        'email': email,
-        'response': response,
-        }
+    # context = {
+    #     "imagePath": imagePath,
+    #     'UserName': username, 
+    #     'email': email,
+    #     'response': response,
+    #     }
         
-    return render(request, "edit_profile.html", context)
+    # return render(request, "edit_profile.html", context)
+    if response == 'change made!':
+        return Response(response)
+    else:
+        return Response(response, status=400)

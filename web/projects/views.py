@@ -1,5 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
+from rest_framework.response import Response
+# from .serializers import ProjectSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from projects.models import Project
 from django.core.files.base import ContentFile
 from django.shortcuts import redirect
@@ -14,8 +18,22 @@ from pathlib import Path
 from subprocess import Popen
 import zipfile
 
+
+from rest_framework.serializers import ModelSerializer
+from projects.models import Project
+
+class ProjectSerializer(ModelSerializer):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+
+
 # Main Projects Page
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def index(request):
 
     imagePath = imgUser(request.user.id)
@@ -157,27 +175,39 @@ def index(request):
             
 
         context = {'projects_output':projects_output, "imagePath": imagePath, "timezones":timezones}
+        
+        
+
+        projectSerialized= ProjectSerializer(projects_output, many=True)
+        print('projects -> ',projectSerialized.data)
+
+        return Response({"projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
+        # return render(request, 'projects.html',context)
 
 
-        return render(request, 'projects.html',context)
 
 
 # Delete Projects Function
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
+@api_view(['DELETE', 'GET'])
+# @permission_classes([IsAuthenticated])
 def delete_project(request, id):
-    if request.method == "POST":
+
+    target = Project.objects.get(id=id)
+    if target:
+        print("Project exists")
         project = get_object_or_404(Project, id=id)
         puredomain = str(project.icon).split('.')[0]
 
         command = str(project.command).split("'")
         del command[0::2]
         
-        if project.status != 'FINISHED':
-            cancel_scan(request, id)
+        # if project.status != 'FINISHED':
+        #     cancel_scan(request, id)
 
         if os.path.exists(command[-1]):
             path_projects_delete = command[-1]
-        elif os.path.exists(f"{BASE_DIR.parent}/Recon/{str(project)}"):
+        elif os.path.exists(f"{BASE_DIR.parent}/Recon/{str(project)}"): 
             path_projects_delete = f"{BASE_DIR.parent}/Recon/{str(project)}"
         else:
             path_projects_delete = "xxx"
@@ -192,11 +222,16 @@ def delete_project(request, id):
             print("Error: %s - %s." % (e.filename, e.strerror))
 
         Project.objects.filter(id=id).delete()
-        deleteScheduleFromId(request, id=id)
+        # deleteScheduleFromId(request, id=id)
+        print("Project Deleted")
 
-        return redirect('projects:index')
-
-@login_required(login_url='/login/')
+        # return redirect('projects:index')
+        return Response("Project Deleted", status=200)
+    else :
+        return Response("Project Not Found", status=404)
+# @login_required(login_url='/login/')
+@api_view(['Get'])
+# @permission_classes([IsAuthenticated]) 
 def DownloadBackup(requests, id):
 
     project = Project.objects.get(id=id)
@@ -234,7 +269,9 @@ def DownloadBackup(requests, id):
         return HttpResponse('Scanning is not completed, please wait.')
 
 # TODO: Cancel Scan Function 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
+@api_view(['Get'])
+# @permission_classes([IsAuthenticated])
 def cancel_scan(request, id):
     if request.method == "POST":
         project = Project.objects.get(id=id)

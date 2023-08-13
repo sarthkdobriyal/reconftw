@@ -12,7 +12,15 @@ from ast import literal_eval
 from json import loads
 
 
-@login_required(login_url='/login/')
+from rest_framework.serializers import ModelSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializers import *
+
+
+# @login_required(login_url='/login/')
+@api_view(['GET'])
 def index(request, number):
 
 
@@ -121,7 +129,41 @@ def index(request, number):
         context['web_dicts_passwords'] = 'N/A' if web_dicts == None or 'N/A' in web_dicts.password_dict else web_dicts.password_dict.splitlines()
         context['cms_scanners'] = CMS.objects.filter(project_id=number)
         context['subdomains_table'] = subdomains_context(project_id=number)
-        return render(request, "scans_recon.html", context)
+        
+
+        zoneTransferSerilaized = ZoneTransferSerializer(context['zonetransfer'])
+        subdomainsDns = SubdomainsDNSSerializer(context['subdomains_dns'], many=True)
+
+        recon_data = {
+            'subdomains_table' : context['subdomains_table'],
+            'dns_zone_transfers' : zoneTransferSerilaized.data,
+            'dns_registry' : subdomainsDns.data,
+            'cloud_assets' : CloudAssetsSerializer(context['cloud_assets'], many=True).data,
+            'screenshots' : context['screenshots'],
+            'nuclei' : {
+                'nuclei_outputs_info': context['nuclei_outputs_info'],
+                'nuclei_outputs_low': context['nuclei_outputs_low'],
+                'nuclei_outputs_medium': context['nuclei_outputs_medium'],
+                'nuclei_outputs_high': context['nuclei_outputs_high'],
+                'nuclei_outputs_critical': context['nuclei_outputs_critical'],
+            },
+            'javascript' : {
+                'live_links' : context['js_checks_livelinks'],
+                'url_extracts': context['js_checks_url_extract_js'],
+                'endpoints': context['js_checks_js_endpoints'],
+                'secrets' : context['js_checks_js_secrets']
+                },
+            'dictionaries' : {
+            'params': context['web_dicts_params'],
+            'values' : context['web_dicts_values'] ,
+            'words' : context['web_dicts_words'] ,
+            'paths' : context['web_dicts_paths'] ,
+            'passwords' :  context['web_dicts_passwords'],
+            }
+        }
+
+        return Response(recon_data)
+
 
     elif type_scan == '-s': # SUBDOMAINS
         context['subdomains_dns'] = SubdomainsDNS.objects.filter(project_id=number).order_by('host')
@@ -134,7 +176,24 @@ def index(request, number):
         context['web_uncommon_ports'] = WebsUncommonPorts.objects.filter(project_id=number)
         context['screenshots'] = screenshots_context(number)
         context['subdomains_table'] = subdomains_context(project_id=number)
-        return render(request, "scans_subdomains.html", context)
+
+
+
+        zoneTransferSerilaized =  ZoneTransferSerializer(context['zonetransfer']) if context['zonetransfer'] else ''
+        subdomainsDns = SubdomainsDNSSerializer(context['subdomains_dns'], many=True)
+        webProbesSerialized = WebProbesSerializer(context['web_probes'])
+        websUncommonPortsSerialized = WebsUncommonPortsSerializer(context['web_uncommon_ports'])
+
+
+        subdomains_data = {
+            'subdomains_table' : context['subdomains_table'],
+            # 'dns_zone_transfers' : zoneTransferSerilaized.data if zoneTransferSerilaized.data else '' ,
+            'dns_registry' : subdomainsDns.data,
+            'screenshots' : context['screenshots'],
+            'web_probes' : webProbesSerialized.data,
+            'web_uncommon_ports' : websUncommonPortsSerialized.data
+        }
+        return Response(subdomains_data)
 
     elif type_scan == '-p': # PASSIVE
         context['domain_info_email'] = DomainInfoEmail.objects.filter(project_id=number).last()
@@ -192,7 +251,70 @@ def index(request, number):
             if info.passwords != "":
                 context['osintusersinfopassword_count'] += 1
         context['subdomains_table'] = subdomains_context(project_id=number)
-        return render(request, "scans_passive.html", context)
+
+        passive_data = {
+            'subdomains_table' : context['subdomains_table'],
+            'dns_zone_transfers' : zoneTransferSerilaized.data,
+            'dns_registry' : subdomainsDns.data,
+            'screenshots' : context['screenshots'],
+            'osint_resources': [
+            {
+                'id': 'googleDorks',
+                'title': 'Google Dorks',
+                'count': context['google_dorks_count'],
+                'google_dorks': context['google_dorks']
+            },
+            {
+                'id': 'githubDorks',
+                'title': 'Github Dorks',
+                'count': context['git_dorks_count'],
+                'data': context['git_dorks'],
+            },
+            {
+                'id': 'softwares',
+                'title': 'Softwares Used',
+                'count': context['software_infos_count'],
+                'data': context['software_infos'],
+            },
+            {
+                'id': 'users',
+                'title': 'Users Related',
+                'count': context['osintusersinfouser_count'],
+                'data': OSINTUsersInfoSerializer(context['osintusersinfo'], many=True).data
+            },
+            {
+                'id': 'metadata',
+                'title': 'Metadata Results',
+                'count': context['metadata_results_count'],
+                'data': context['metadata_results']
+            },
+            {
+                'id': 'emails',
+                'title': 'Emails Found',
+                'count': len(context['emails']),
+                'data': context['emails']
+            },
+            {
+                'id': 'passwords',
+                'title': 'Passwords Found',
+                'count': context['osintusersinfopassword_count'],
+                'data': OSINTUsersInfoSerializer(context['osintusersinfo'], many=True).data
+            },
+            {
+                'id': 'domain',
+                'title': 'Domain Info',
+                'count': context['domain_info_general_count'],
+                'data' : context['domain_info_general']
+            }
+        ],
+            
+        }
+
+        return Response(passive_data)
+
+
+
+        # return render(request, "scans_passive.html", context)
 
     elif type_scan == '-w': # WEB
         context['s3buckets'] = S3Buckets.objects.filter(project_id=number).last()
@@ -239,7 +361,57 @@ def index(request, number):
         if "cookies" in smuggling: smuggling.pop("cookies")
         context['smuggling'] = [2*"N/A"] if vulns == None else smuggling
         context['brokenlinks'] = ["N/A"] if vulns == None else literal_eval(vulns.brokenlinks)
-        return render(request, "scans_web.html", context)
+
+        zoneTransferSerilaized = ZoneTransferSerializer(context['zonetransfer'])
+        subdomainsDnsSerialized = SubdomainsDNSSerializer(context['subdomains_dns'], many=True)
+        cmsSerialized = CMSSerializer(context['cms_scanners'], many=True)
+
+        web_data = {
+        'subdomains_table' : context['subdomains_table'],
+        'dns_zone_transfers' : zoneTransferSerilaized.data,
+        'dns_registry' : subdomainsDnsSerialized.data,
+        'screenshots' : context['screenshots'],
+        'CMS': cmsSerialized.data,
+
+        'nuclei' : {
+            'nuclei_outputs_info': context['nuclei_outputs_info'],
+            'nuclei_outputs_low': context['nuclei_outputs_low'],
+            'nuclei_outputs_medium': context['nuclei_outputs_medium'],
+            'nuclei_outputs_high': context['nuclei_outputs_high'],
+            'nuclei_outputs_critical': context['nuclei_outputs_critical'],
+            },
+        'vulnerabilities' : {
+            'cors' : context['cors'],
+            'broken_links' : context['brokenlinks'],
+            'smuggling' : context['smuggling'],
+            'crlf' : context['crlf'],
+            'open_redirect': context['redirect'],
+            'command_injection': context['command_injection'],
+            'ssrf': context['ssrf'],
+            'xss': context['xss'],
+            'lfi': context['lfi'],
+            'ssti': context['ssti'],
+        },
+        'javascript' : {
+            'live_links' : context['js_checks_livelinks'],
+            'url_extracts': context['js_checks_url_extract_js'],
+            'endpoints': context['js_checks_js_endpoints'],
+            'secrets' : context['js_checks_js_secrets']
+        },
+        'dictionaries' : {
+            'params': context['web_dicts_params'],
+            'values' : context['web_dicts_values'] ,
+            'words' : context['web_dicts_words'] ,
+            'paths' : context['web_dicts_paths'] ,
+            'passwords' :  context['web_dicts_passwords'],
+            }
+
+        } 
+
+        return Response(web_data)
+
+
+        # return render(request, "scans_web.html", context)
 
     elif type_scan == '-n': # OSINT
         context['domain_info_email'] = DomainInfoEmail.objects.filter(project_id=number).last()
@@ -254,7 +426,14 @@ def index(request, number):
         context['metadata_results'] = [] if metadatas == None else metadatas.metadata_results.splitlines()
         context['zonetransfer'] = Zonetransfer.objects.filter(project_id=number).last()
         context['favicontest'] = Favicontest.objects.filter(project_id=number).last()
-        return render(request, "scans_osint.html", context)
+        
+        osint_data = {
+            'dns_zone_transfers' : zoneTransferSerilaized.data,
+            'metadata_results' :  context['metadata_results'],
+            'emails' : context['emails']
+        }
+        return Response(osint_data)
+        # return render(request, "scans_osint.html", context)
 
     elif type_scan == '-a': # ALL
         domain_info_general = DomainInfoGeneral.objects.filter(project_id=number).last()
@@ -359,53 +538,155 @@ def index(request, number):
         context['web_dicts_passwords'] = 'N/A' if web_dicts == None or 'N/A' in web_dicts.password_dict else web_dicts.password_dict.splitlines()             
         context['cms_scanners'] = CMS.objects.filter(project_id=number)
         context['subdomains_table'] = subdomains_context(project_id=number)
-        return render(request, "scans.html", context)
+        # return render(request, "scans.html", context)
 
-    return render(request, "scans.html", context)
+    # return render(request, "scans.html", context)
+
+    zoneTransferSerilaized = ZoneTransferSerializer(context['zonetransfer'])
+    subdomainsDnsSerialized = SubdomainsDNSSerializer(context['subdomains_dns'], many=True)
+    cmsSerialized = CMSSerializer(context['cms_scanners'], many=True)
+    res_data = {
+        'subdomains_table' : context['subdomains_table'],
+        'dns_zone_transfers' : zoneTransferSerilaized.data,
+        'dns_registry' : subdomainsDnsSerialized.data,
+        'cloud_assets' : CloudAssetsSerializer(context['cloud_assets'], many=True).data,
+        'screenshots' : context['screenshots'],
+        'CMS': cmsSerialized.data,
+        'portscan_active' : PortscanActiveSerializer(context['portscan_active']).data,
+        'portscan_passive' : PortscanActiveSerializer(context['portscan_passive']).data,
+ 
+         'osint_resources': [
+            {
+                'id': 'googleDorks',
+                'title': 'Google Dorks',
+                'count': context['google_dorks_count'],
+                'data': DorksSerializer(context['google_dorks']).data['dorks']
+            },
+            {
+                'id': 'githubDorks',
+                'title': 'Github Dorks',
+                'count': context['git_dorks_count'],
+                'data': context['git_dorks'],
+            },
+            {
+                'id': 'softwares',
+                'title': 'Softwares Used',
+                'count': context['software_infos_count'],
+                'data': context['software_infos'],
+            },
+            {
+                'id': 'users',
+                'title': 'Users Related',
+                'count': context['osintusersinfouser_count'],
+                'data': OSINTUsersInfoSerializer(context['osintusersinfo'], many=True).data
+            },
+            {
+                'id': 'metadata',
+                'title': 'Metadata Results',
+                'count': context['metadata_results_count'],
+                'data': context['metadata_results']
+            },
+            {
+                'id': 'emails',
+                'title': 'Emails Found',
+                'count': len(context['emails']),
+                'data': context['emails']
+            },
+            {
+                'id': 'passwords',
+                'title': 'Passwords Found',
+                'count': context['osintusersinfopassword_count'],
+                'data': OSINTUsersInfoSerializer(context['osintusersinfo'], many=True).data
+            },
+            {
+                'id': 'domain',
+                'title': 'Domain Info',
+                'count': context['domain_info_general_count'],
+                'data' : context['domain_info_general']
+            }
+        ],
+        'nuclei' : {
+            'nuclei_outputs_info': context['nuclei_outputs_info'],
+            'nuclei_outputs_low': context['nuclei_outputs_low'],
+            'nuclei_outputs_medium': context['nuclei_outputs_medium'],
+            'nuclei_outputs_high': context['nuclei_outputs_high'],
+            'nuclei_outputs_critical': context['nuclei_outputs_critical'],
+            },
+        'vulnerabilities' : {
+            'cors' : context['cors'],
+            'broken_links' : context['brokenlinks'],
+            'smuggling' : context['smuggling'],
+            'crlf' : context['crlf'],
+            'open_redirect': context['redirect'],
+            'command_injection': context['command_injection'],
+            'ssrf': context['ssrf'],
+            'xss': context['xss'],
+            'lfi': context['lfi'],
+            'ssti': context['ssti'],
+        },
+        'javascript' : {
+            'live_links' : context['js_checks_livelinks'],
+            'url_extracts': context['js_checks_url_extract_js'],
+            'endpoints': context['js_checks_js_endpoints'],
+            'secrets' : context['js_checks_js_secrets']
+        },
+        'dictionaries' : {
+            'params': context['web_dicts_params'],
+            'values' : context['web_dicts_values'] ,
+            'words' : context['web_dicts_words'] ,
+            'paths' : context['web_dicts_paths'] ,
+            'passwords' :  context['web_dicts_passwords'],
+        }
+
+    } 
+
+    return Response(res_data)
 
 
-@login_required(login_url='/login/')
+
+@api_view(['POST'])
 def new_scan(request):
     '''
     type_domain = 0 -> single domain scan
     type_domain = 1 -> list domain scan
     '''
     if request.method == "POST":
-        type_domain = request.POST.get('typeDomain')
+        type_domain = request.data['typeDomain']
         
         if type_domain == "0":
-            single_domain = request.POST.get('singleDomain')
-            print("Single Domain")
+            single_domain = request.data['singleDomain']
+            print("Single Domain -> " , single_domain)
 
-            if validators.domain(single_domain):
+            if validators.domain(single_domain): 
                 command = ['../reconftw.sh','-d',single_domain]
 
-                req_params = list(request.POST)
-                
+                req_params = request.data
+                print('req_params -> ' , req_params)
                 # MODE OPTIONS
-                if req_params[4] == 'switch-recon':
-                    command.append('-r')
-                elif req_params[4] == 'switch-subdomains':
-                    command.append('-s')
-                elif req_params[4] == 'switch-passive':
-                    command.append('-p')
-                elif req_params[4] == 'switch-all':
+                if req_params['switch-all'] == True :
                     command.append('-a')
-                elif req_params[4] == 'switch-web':
+                elif req_params['switch-recon'] == True:
+                    command.append('-r')
+                elif req_params['switch-subdomains'] == True:
+                    command.append('-s')
+                elif req_params['switch-passive'] == True:
+                    command.append('-p')
+                elif req_params['switch-web'] == True:
                     command.append('-w')
-                elif req_params[4] == 'switch-osint':
+                elif req_params['switch-osint'] == True:
                     command.append('-n')
 
                 # GENERAL OPTIONS
-                if 'switch-deep' in req_params:
+                if req_params['switch-deep'] == True :
                         command.append('--deep')
-                if 'switch-vps' in req_params:
+                if req_params['switch-vps'] == True:
                         command.append('-v')
 
+
+                print('Command -> ', command)
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
-                celery_task = new_scan_single_domain.apply_async(command, queue="default")
-                
+                celery_task = new_scan_single_domain.delay(command)
 
         elif type_domain == "1":
             list_domain = request.POST.get('listDomain')
@@ -445,4 +726,4 @@ def new_scan(request):
             else:
                 print("Wrong!!")
 
-    return redirect('projects:index')
+    return Response('ok')
