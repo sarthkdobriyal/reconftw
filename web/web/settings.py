@@ -205,7 +205,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_ROUTES = {
  'scans.tasks.run_scan': {'queue': 'run_scans'},
- 'scans.tasks.new_scan_single_domain': {'queue': 'default'}
+ 'scans.tasks.new_scan_single_domain': {'queue': 'new_scan'}
 }
 
 CORS_ALLOWED_ORIGINS = [

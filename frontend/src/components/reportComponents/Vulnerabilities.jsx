@@ -15,39 +15,51 @@ const Vulnerabilities = ({cors,
                         lfi
                      }) => {
 
+        console.log(cors)
+
+const corsArray = []; 
+
+Object.keys(cors).map((key) => corsArray.push({
+    'url' : key,
+     'class' : cors[key]['class'],
+     'description': cors[key]['description'],
+     'severity': cors[key]['severity'],
+     'exploitation': cors[key]['exploitation'],
+     'acao header': cors[key]['acao header'],
+     'acac header': cors[key]['acac header'], 
+}))
+
 const corsColumns = [
     {
         header: 'S. NO.',
         accessorFn: (info, index) => index + 1,
     },
     {
-        header: 'URL',
-        accessorKey: 'url',
-    },
-    {
-        header: 'Class',
-        accessorKey: 'class',
-    },
+        header: 'url',
+        accessorKey : 'url'
+    },    
+    
     {
         header: 'Description',
-        accessorKey: 'description',
+        accessorKey : 'description'
     },
     {
         header: 'Severity',
-        accessorKey: 'severity',
+        accessorKey : 'severity'
     },
     {
         header: 'Exploitation',
-        accessorKey: 'exploitation',
+        accessorKey : 'exploitation',
     },
     {
         header: 'ACAO Header',
-        accessorKey: 'acao_header',
+        accessorKey : 'acao header',
     },
     {
         header: 'ACAC Header',
-        accessorKey: 'acac_header',
+        accessorKey : 'acac header',
     }
+
 ]
 const brokenLinksColumns = [
     {
@@ -56,33 +68,7 @@ const brokenLinksColumns = [
     },
     {
         header: 'Broken Links',
-        accessorKey: 'broken_links',
-    }
-]
-const smugglingColumns = [
-    {
-        header: 'S. NO.',
-        accessorFn: (info, index) => index + 1,
-    },
-    {
-        header: 'URL',
-        accessorKey: 'url',
-    },
-    {
-        header: 'Method',
-        accessorKey: 'method',
-    },
-    {
-        header: 'Endpoint',
-        accessorKey: 'endpoint',
-    },
-    {
-        header: 'Cookies',
-        accessorKey: 'cookies',
-    },
-    {
-        header : 'Results',
-        accessorKey : 'results'
+        accessorFn: info => info,
     }
 ]
 
@@ -142,64 +128,59 @@ const vulns = [
     {
         'id': 1,
         'heading': 'CORS',
-        'data':cors,
-        'columns':corsColumns
+        'data': corsArray,
+        'columns': corsColumns
     },
     {
         'id': 2,
         'heading': 'Broken Links',
-        'data':broken_links,
-        'columns':brokenLinksColumns
+        'data': broken_links,
+        'columns': brokenLinksColumns
     },
     {
-        'id': 3,
-        'heading': 'Smuggling',
-        'data':smuggling,
-        'columns':smugglingColumns
-    },
-    {
-        'id': 4,
+        'id': 3,  
         'heading': 'Command Injection',
-        'data' : command_injection,
+        'data': command_injection,
         'columns': commandInjectionColumns
     },
     {
-        'id': 5,
+        'id': 4,  // Corrected ID for Open Redirect
         'heading': 'Open Redirect',
-        'data':open_redirect,
-        'columns':openRedirectColumns
+        'data': open_redirect,
+        'columns': openRedirectColumns
     },
     {
-        'id': 6,
+        'id': 5,  // Corrected ID for Server-Side Request Forgery
         'heading': 'Server-Side Request Forgery',
-        'data':ssrf,
-        'columns':ssrfColumns
+        'data': ssrf,
+        'columns': ssrfColumns
     },
     {
-        'id': 7,
+        'id': 6,  // Corrected ID for Carriage Return Line Feed
         'heading': 'Carriage Return Line Feed',
-        'data':crlf,
-        'columns':crlfColumns
+        'data': crlf,
+        'columns': crlfColumns
     },
     {
-        'id': 8,
+        'id': 7,  // Corrected ID for Cross Site Scripting
         'heading': 'Cross Site Scripting',
-        'data':xss,
-        'columns':xssColumns
+        'data': xss,
+        'columns': xssColumns
     },
     {
-        'id': 9,
+        'id': 8,  // Corrected ID for Local File Inclusion
         'heading': 'Local File Inclusion',
-        'data':lfi,
-        'columns':lfiColumns
+        'data': lfi,
+        'columns': lfiColumns
     },
     {
-        'id': 10,
+        'id': 9,  // Corrected ID for Server-Side Template Injection
         'heading': 'Server-Side Template Injection',
-        'data':ssti,
-        'columns':sstiColumns
+        'data': ssti,
+        'columns': sstiColumns
     },
-]
+];
+
 
 
 const gfOutputs = [
@@ -248,18 +229,26 @@ const gfOutputs = [
         'name': 'Potential',
         'data': ''
     },
+    {
+        'id': 'smuggling',
+        'name': 'Smuggling',
+        'data': smuggling
+    },
 ]
+
+
+
 
   return (
     <ReportContainer heading='Vulnerabilities'>
         {/* CORS */}
         {
-            vulns.map(({id, heading, data, columns}) => (
-                <div key={id} className='my-6'>
-                <h1 className='text-2xl font-bold tracking-wide text-base-content'>{heading}</h1>
+            vulns.map((vuln) => (
+                <div key={vuln.id} className='my-6'>
+                <h1 className='text-2xl font-bold tracking-wide text-base-content'>{vuln.heading}</h1>
                 <TableComponent 
-                    data={data}
-                    columns={columns}
+                    data={vuln.data}
+                    columns={vuln.columns}
                 />
                 </div>
             ))
@@ -268,14 +257,15 @@ const gfOutputs = [
 
         <div className='w-full flex flex-wrap gap-x-5 gap-y-3'>
             {
-                gfOutputs.map((gfOutput) => (
-                    <ReportModal 
+                gfOutputs.map((gfOutput) => {
+                    return <ReportModal 
                         key={gfOutput.id}
                         id={gfOutput.id}
                         heading={gfOutput.name}
                         data={gfOutput.data}
+                        modalClassName={gfOutput.id === 'smuggling' ? 'w-[60%] max-w-[60%]': '' }
                     />
-                ))
+                })
             }
         </div>
 

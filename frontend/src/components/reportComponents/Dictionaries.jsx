@@ -13,7 +13,7 @@ const Dictionaries = ({params, values, words, paths, passwords}) => {
         },
         {
             header: 'Params',
-            accessorKey: 'params'
+            accessorFn: info => info
         }
     ]
 
@@ -24,7 +24,7 @@ const Dictionaries = ({params, values, words, paths, passwords}) => {
         },
         {
             header: 'Values',
-            accessorKey: 'values'
+            accessorFn: info => info
         }
     ]
 
@@ -35,7 +35,7 @@ const Dictionaries = ({params, values, words, paths, passwords}) => {
         },
         {
             header: 'Words',
-            accessorKey: 'words'
+            accessorFn: info => info
         }
     ]
 
@@ -46,7 +46,7 @@ const Dictionaries = ({params, values, words, paths, passwords}) => {
         },
         {
             header: 'Paths',
-            accessorKey: 'paths'
+            accessorFn: info => info
         }
     ]
 

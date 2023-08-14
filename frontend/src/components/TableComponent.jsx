@@ -8,7 +8,8 @@ const TableComponent = ({data, columns }) => {
   const [sorting, setSorting] = useState();
   const [filtering, setFiltering] = useState('');
 
-  if(data.length === 0) return (
+
+  if(!data || data && data.length === 0) return (
     <div className='text-2xl font-semibold tracking-wider mt-5 text-center text-red-600'>
       No data to show
     </div>

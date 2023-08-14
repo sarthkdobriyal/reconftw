@@ -362,16 +362,12 @@ def index(request, number):
         context['smuggling'] = [2*"N/A"] if vulns == None else smuggling
         context['brokenlinks'] = ["N/A"] if vulns == None else literal_eval(vulns.brokenlinks)
 
-        zoneTransferSerilaized = ZoneTransferSerializer(context['zonetransfer'])
-        subdomainsDnsSerialized = SubdomainsDNSSerializer(context['subdomains_dns'], many=True)
+
         cmsSerialized = CMSSerializer(context['cms_scanners'], many=True)
 
         web_data = {
-        'subdomains_table' : context['subdomains_table'],
-        'dns_zone_transfers' : zoneTransferSerilaized.data,
-        'dns_registry' : subdomainsDnsSerialized.data,
-        'screenshots' : context['screenshots'],
         'CMS': cmsSerialized.data,
+        'cloud_assets' : CloudAssetsSerializer(context['cloud_assets'], many=True).data,
 
         'nuclei' : {
             'nuclei_outputs_info': context['nuclei_outputs_info'],
@@ -689,15 +685,16 @@ def new_scan(request):
                 celery_task = new_scan_single_domain.delay(command)
 
         elif type_domain == "1":
-            list_domain = request.POST.get('listDomain')
-            print("List Domain")
+            list_domain = request.data['listDomain']
+            print("List Domain1", list_domain)
             list_domain = list(map(str.strip, list_domain.split("\n")))
+            print("List Domain2", list_domain)
 
             for single_domain in list_domain:
                 if validators.domain(single_domain):
                     command = ['../reconftw.sh','-d',single_domain]
 
-                    req_params = list(request.POST)
+                    req_params = list(request.data)
                     
                     # MODE OPTIONS
                     if req_params[4] == 'switch-recon':
@@ -719,10 +716,10 @@ def new_scan(request):
                     if 'switch-vps' in req_params:
                             command.append('-v')
 
-                    # RUN new_scan_single_domain TASK
-                    print("=====>>>> about to run new_scan_single_domain")
-                    celery_task = new_scan_single_domain.apply_async(command, queue="default")
-
+                    # # RUN new_scan_single_domain TASK
+                    # print("=====>>>> about to run new_scan_single_domain")
+                    # celery_task = new_scan_single_domain.apply_async(command, queue="default")
+                    print("perfect")
             else:
                 print("Wrong!!")
 

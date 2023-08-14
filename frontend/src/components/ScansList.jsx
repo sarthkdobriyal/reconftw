@@ -28,7 +28,9 @@ const ScansList = () => {
                 })
             },
             onSuccess: () => {
+                console.log("success")
                 queryClient.invalidateQueries(['projects'])
+                refetch();
             },
 
             onError: (e) => {

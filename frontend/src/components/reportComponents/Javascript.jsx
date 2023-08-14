@@ -10,7 +10,7 @@ const Javascript = ({live_links, url_extracts, endpoints, secrets}) => {
         },
         {
             header: 'Live Links',
-            accessorKey: 'live_links',
+            accessorFn: info => info,
         }
     ]
     const urlExtractsColumns = [
@@ -19,8 +19,8 @@ const Javascript = ({live_links, url_extracts, endpoints, secrets}) => {
             accessorFn: (info, index) => index + 1,
         },
         {
-            header: 'Live Links',
-            accessorKey: 'live_links',
+            header: 'Url Extracts',
+            accessorFn: info => info,
         }
     ]
     const endpointsColumns = [
@@ -29,8 +29,8 @@ const Javascript = ({live_links, url_extracts, endpoints, secrets}) => {
             accessorFn: (info, index) => index + 1,
         },
         {
-            header: 'Live Links',
-            accessorKey: 'live_links',
+            header: 'Endpoints',
+            accessorFn: info => info,
         }
     ]
     const secretsColumns = [
@@ -68,10 +68,6 @@ const Javascript = ({live_links, url_extracts, endpoints, secrets}) => {
         <TableComponent 
             data={endpoints}
             columns={endpointsColumns}
-        />
-        <TableComponent 
-            data={secrets}
-            columns={secretsColumns}
         />
     </ReportContainer>
   )

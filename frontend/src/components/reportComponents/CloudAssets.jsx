@@ -27,6 +27,7 @@ const CloudAssets = ({data}) => {
     }
   ]
 
+  console.log('cloud' ,data)
 
   return (
     <>

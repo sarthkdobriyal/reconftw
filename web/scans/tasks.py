@@ -104,6 +104,7 @@ def run_scan(command, num):
     """task to run scan"""
     print("run scan has")
     proj = Project.objects.filter(number=num, domain=command[2])[0]
+    print('project', proj)
     proj_id = proj.pk
 
     single_domain = command[2]
@@ -111,14 +112,17 @@ def run_scan(command, num):
 
     proj.status = 'SCANNING'
     proj.save()
-
+    print('project saved')
+    print('Starting scan')
     # RUNNING RECONFTW.SH
     p = subprocess.Popen(command).wait()
 
-    print(p)
+    print('scan:', p)
 
+    print('Saving files to db')
     f2db = files_to_db(command[3], proj_id)
     proj.status = 'FINISHED'
+    print('Finished daving to db')
     proj.save()
    
 
