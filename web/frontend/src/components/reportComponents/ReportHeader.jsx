@@ -1,4 +1,3 @@
-import React from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 import UserActions from '../UserActions';
@@ -7,7 +6,7 @@ import { BsBoxArrowLeft } from 'react-icons/bs';
 const ReportHeader = ({ user, location, logoutUser }) => {
     const searchParams = new URLSearchParams(location.search);
 
-    const id = location.pathname.split('/').pop();
+    // const id = location.pathname.split('/').pop();
     const domain = searchParams.get('domain');
     const scanMode = searchParams.get('scan_mode').split('-')[2];
     const status = searchParams.get('status').toUpperCase();

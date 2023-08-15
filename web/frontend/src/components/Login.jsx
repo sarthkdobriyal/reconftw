@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import {useForm} from 'react-hook-form'
 import AuthContext from '../context/AuthContext'
 import { Navigate } from 'react-router-dom'
@@ -7,12 +7,12 @@ const Login = () => {
 
   const {user, loginUser} = useContext(AuthContext)
 
+  const {
+    register, handleSubmit,  formState: { errors }
+  } = useForm()
 
   if(user) return <Navigate to='/' replace />
 
-  const {
-    register, handleSubmit, reset, setError, formState: { errors }
-  } = useForm()
 
 
   const onSubmit = handleSubmit((formData) => {

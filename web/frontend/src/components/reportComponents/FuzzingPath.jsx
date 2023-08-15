@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ReportContainer from './ReportContainer'
 
 const FuzzingPath = () => {

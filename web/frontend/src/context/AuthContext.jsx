@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -32,53 +32,51 @@ export const AuthProvider = ({children}) => {
             navigate('/')
         }
     }
+    const logoutUser = useCallback(() => {
+        setUser(null);
+        setAuthToken(null);
+        localStorage.removeItem('access_token');
+        navigate('/login');
+      }, [setUser, setAuthToken, navigate]);
+    
 
-    const logoutUser = () => {
-        setUser(null)
-        setAuthToken(null)
-        localStorage.removeItem('access_token')
-        navigate('/login')
-    }
-
-    const updateToken = async () => {
-        try{
-            
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/token/refresh/`, {
+    const updateToken = useCallback(async () => {
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_API_URL}/token/refresh/`, {
             refresh: authToken?.refresh
-        }, {
-            'headers' : {
-                'Content-Type': 'application/json'
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
             }
-        })
-
-        if(res.status === 200) {
-            setAuthToken(res.data)
-            localStorage.setItem('access_token', JSON.stringify(res.data))
-        }else{
-            logoutUser()
+          });
+    
+          if (res.status === 200) {
+            setAuthToken(res.data);
+            localStorage.setItem('access_token', JSON.stringify(res.data));
+          } else {
+            logoutUser();
+          }
+          setLoading(false);
+        } catch (e) {
+          logoutUser();
+          console.log(e);
         }
-        setLoading(false)
-    }catch(e) {
-        logoutUser()
-        console.log(e)
-    }
-}
+      }, [authToken, logoutUser]);
 
-    useEffect(() => {
-
-        if(loading){
-            console.log('laoding', loading)
-            updateToken()
+      useEffect(() => {
+        const fifteenMinutes = 1000 * 60 * 5;
+        let interval = null;
+    
+        if (loading) {
+          console.log('loading', loading);
+          updateToken();
+          interval = setInterval(updateToken, fifteenMinutes);
+        } else if (authToken) {
+          interval = setInterval(updateToken, fifteenMinutes);
         }
-
-        const fifteenMinutes = 1000 * 60 * 5
-        let intreval = setInterval(() => {
-            if(authToken) {
-                updateToken()
-            }
-        }, fifteenMinutes)
-        return () => clearInterval(intreval)
-    }, [authToken, loading])
+    
+        return () => clearInterval(interval);
+      }, [authToken, loading, updateToken]);
 
     let contextData = {
         user: user,

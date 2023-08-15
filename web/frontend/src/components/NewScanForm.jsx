@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import  { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AuthContext from '../context/AuthContext'
 
@@ -10,7 +10,7 @@ const NewScanForm = () => {
     const { authToken } = useContext(AuthContext);
     
     const {
-        register, handleSubmit, reset, setError, formState: { errors }, setValue
+        register, handleSubmit, reset,  formState: { errors }, setValue, refetch
     } = useForm()
     
     const [allMode, setAllMode] = useState(false)
@@ -27,9 +27,10 @@ const NewScanForm = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['projects'])
+            refetch()
         },
 
-        onError: (e) => {
+        onError: () => {
             alert("Something went wrong")
         },
     })
@@ -41,7 +42,7 @@ const NewScanForm = () => {
       })
 
 
-      const handleAllMode = (e) => {
+      const handleAllMode = () => {
         setValue('switch-recon', false)
         setValue('switch-subdomains', false)
         setValue('switch-passive', false)

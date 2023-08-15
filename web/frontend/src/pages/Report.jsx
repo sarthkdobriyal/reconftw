@@ -31,7 +31,6 @@ const Report = () => {
       Go back</Link>
   </div>
 
-  console.log(data.vulnerabilities)
 
   return (
     <div className='w-full flex-col flex justify-center'>

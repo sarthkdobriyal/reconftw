@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+
 import { PiCaretUpBold } from 'react-icons/pi'
 import TableComponent from '../TableComponent';
 import { twMerge } from 'tailwind-merge'
@@ -112,10 +112,10 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
                                                 <div className='w-full flex flex-wrap gap-5'>
                                                     {
                                                         Object.keys(data).map(url => {
-                                                            console.log(url);
+                                                            
                                                             const urlData = data[url]
                                                             return (
-                                                                <div className="collapse collapse-arrow bg-base-200">
+                                                                <div key={url} className="collapse collapse-arrow bg-base-200">
                                                                     <input type="checkbox" name="my-accordion-2" />
                                                                     <div className="collapse-title text-2xl  font-bold ">
                                                                         {url}
@@ -127,7 +127,7 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
                                                                             <div className='flex flex-col '>
                                                                                 {
                                                                                     Object.keys(urlData).map((key) => (
-                                                                                        <div className='border-b border-opacity-20 border-gray-500 py-3 font-bold'>
+                                                                                        <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-bold'>
                                                                                             {
                                                                                                 key
                                                                                             }
@@ -141,7 +141,7 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
                                                                             <div>
                                                                                 {
                                                                                     Object.keys(urlData).map((key) => (
-                                                                                        <div className='border-b border-opacity-20 border-gray-500 py-3 font-semibold'>
+                                                                                        <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-semibold'>
                                                                                             {
                                                                                                 urlData[key]
                                                                                             }

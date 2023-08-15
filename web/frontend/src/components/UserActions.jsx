@@ -1,5 +1,6 @@
-import React from 'react'
+
 import { BsBoxArrowUpRight } from 'react-icons/bs'
+import { HiOutlineUserCircle } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 
 const UserActions = ({user, logoutUser}) => {

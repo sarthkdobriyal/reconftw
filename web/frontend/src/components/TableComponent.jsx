@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from '@tanstack/react-table'
 
 
@@ -7,7 +7,21 @@ const TableComponent = ({data, columns }) => {
 
   const [sorting, setSorting] = useState();
   const [filtering, setFiltering] = useState('');
-
+  
+  const table = useReactTable({
+      data: data,
+      columns: columns,
+      getCoreRowModel: getCoreRowModel(),
+      getPaginationRowModel: getPaginationRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      state : {
+        sorting: sorting,
+        globalFilter: filtering,
+      },
+      onSortingChange: setSorting,
+      onGlobalFilterChange: setFiltering,
+    })
 
   if(!data || data && data.length === 0) return (
     <div className='text-2xl font-semibold tracking-wider mt-5 text-center text-red-600'>
@@ -16,20 +30,6 @@ const TableComponent = ({data, columns }) => {
 
   )
 
-    const table = useReactTable({
-        data: data,
-        columns: columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        state : {
-          sorting: sorting,
-          globalFilter: filtering,
-        },
-        onSortingChange: setSorting,
-        onGlobalFilterChange: setFiltering,
-      })
 
 
   return (

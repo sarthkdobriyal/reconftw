@@ -1,5 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// /** @type {import('tailwindcss').Config} */
+const tailwindScrollbar = require('tailwind-scrollbar');
+const daisyui = require('daisyui');
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,5 +12,5 @@ export default {
   daisyui : {
     themes: ['business',]
   },
-  plugins: [require('daisyui'),  require('tailwind-scrollbar')({ nocompatible: true })],
+  plugins: [daisyui, tailwindScrollbar({ nocompatible: true })],
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ScanListItem from './ScanListItem'
 import axios from 'axios'
 import AuthContext from '../context/AuthContext'
@@ -34,13 +34,13 @@ const ScansList = () => {
             },
 
             onError: (e) => {
-                alert("Something went wrong")
+                alert("Something went wrong", e)
             },
         })
 
 
-    const handleDownload = (id) => { }
-    const handleCancel = (id) => { }
+    // const handleDownload = (id) => { }
+    // const handleCancel = (id) => { }
 
 
 
@@ -96,7 +96,7 @@ const ScansList = () => {
 
                                 {
                                     scans?.map((scan) => (
-                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={handleCancel} handleDownload={handleDownload} />
+                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={() => {}} handleDownload={() => {}} />
                                     ))
                                 }
                             </div>)}

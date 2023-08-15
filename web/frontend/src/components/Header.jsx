@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { IoMdAddCircleOutline } from 'react-icons/io'
-import { HiOutlineUserCircle } from 'react-icons/hi'
-import { BsBoxArrowUpRight } from "react-icons/bs";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
 import ReportHeader from './reportComponents/ReportHeader';
 import UserActions from './UserActions';
@@ -12,10 +10,10 @@ import NewScanForm from './NewScanForm';
 const Header = () => {
 
     const { user, logoutUser } = useContext(AuthContext)
+    const location = useLocation()
 
     if (!user) return <Navigate to='/login' replace />
 
-    const location = useLocation()
 
     const isReport = location.pathname.includes('report')
 

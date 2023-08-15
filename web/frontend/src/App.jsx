@@ -1,4 +1,3 @@
-import { useContext, useEffect, useState } from 'react'
 import Header from './components/Header'
 import ScansList from './components/ScansList'
 import {

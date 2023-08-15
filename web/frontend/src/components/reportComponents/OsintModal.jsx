@@ -1,4 +1,4 @@
-import { BsGoogle, BsGithub } from 'react-icons/bs'
+import { BsGoogle, BsGithub } from 'react-icons/bs' 
 import { LuMonitor } from 'react-icons/lu'
 import { FiUser } from 'react-icons/fi'
 import { BiCoinStack } from 'react-icons/bi'

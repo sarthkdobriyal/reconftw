@@ -1,54 +1,67 @@
-import React from 'react'
+
 import ReportContainer from './ReportContainer'
 import TableComponent from '../TableComponent'
 import ReportModal from './ReportModal'
+import { useMemo } from 'react';
 
 const Dictionaries = ({params, values, words, paths, passwords}) => {
 
 
-    const paramsColumns = [
-        {
+    const paramsColumns = useMemo(
+        () => [
+          {
             header: 'S. NO.',
-            accessorFn: (row, i) => i + 1
-        },
-        {
+            accessorFn: (row, i) => i + 1,
+          },
+          {
             header: 'Params',
-            accessorFn: info => info
-        }
-    ]
-
-    const valuesColumns = [
-        {
+            accessorFn: (info) => info,
+          },
+        ],
+        []
+      );
+    
+      const valuesColumns = useMemo(
+        () => [
+          {
             header: 'S. NO.',
-            accessorFn: (row, i) => i + 1
-        },
-        {
+            accessorFn: (row, i) => i + 1,
+          },
+          {
             header: 'Values',
-            accessorFn: info => info
-        }
-    ]
-
-    const wordsColumns = [
-        {
+            accessorFn: (info) => info,
+          },
+        ],
+        []
+      );
+    
+      const wordsColumns = useMemo(
+        () => [
+          {
             header: 'S. NO.',
-            accessorFn: (row, i) => i + 1
-        },
-        {
+            accessorFn: (row, i) => i + 1,
+          },
+          {
             header: 'Words',
-            accessorFn: info => info
-        }
-    ]
-
-    const pathsColumns = [
-        {
+            accessorFn: (info) => info,
+          },
+        ],
+        []
+      );
+    
+      const pathsColumns = useMemo(
+        () => [
+          {
             header: 'S. NO.',
-            accessorFn: (row, i) => i + 1
-        },
-        {
+            accessorFn: (row, i) => i + 1,
+          },
+          {
             header: 'Paths',
-            accessorFn: info => info
-        }
-    ]
+            accessorFn: (info) => info,
+          },
+        ],
+        []
+      );
 
 
   return (
