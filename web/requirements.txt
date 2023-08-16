@@ -37,3 +37,7 @@ wcwidth
 wrapt
 untangle
 PyYAML
+django-celery-results
+django-cors-headers
+djangorestframework-simplejwt
+djangorestframework
