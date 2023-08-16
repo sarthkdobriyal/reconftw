@@ -6,6 +6,10 @@ const cssFileName = 'index.min.css'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: true,
+    port : 80
+  },
   plugins: [react()],
   publicDir: './public',
   build: {
