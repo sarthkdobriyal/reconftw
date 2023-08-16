@@ -1,9 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const cssFileName = 'index.min.css'
-
-
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -13,18 +10,4 @@ export default defineConfig({
     port: 80,
   },
   plugins: [react()],
-  publicDir: './public',
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: (file) => {
-          return `assets/${cssFileName}`
-        },
-        entryFileNames: (file) => {
-          return `assets/[name].min.js`
-        }
-      }
-    }
-  }
-
 })
