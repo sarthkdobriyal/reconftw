@@ -7,7 +7,7 @@ const cssFileName = 'index.min.css'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: true
+    host: true,
   },
   preview: {
     port: 80,
