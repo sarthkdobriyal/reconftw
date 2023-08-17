@@ -7,3 +7,4 @@ output/
 *.tar
 *.tar.*
 *.zip
+web/db.sqlite3
