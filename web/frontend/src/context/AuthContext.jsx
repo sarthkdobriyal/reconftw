@@ -19,7 +19,6 @@ export const AuthProvider = ({children}) => {
                 ...formData
             })
 
-
             if(res.status === 200) {
                 setAuthToken(res.data)
                 setUser(jwt_decode(res.data.access))

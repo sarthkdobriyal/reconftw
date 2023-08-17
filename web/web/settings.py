@@ -209,11 +209,11 @@ CELERY_ROUTES = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost",
     "http://localhost:4173",
-    "http://127.0.0.1:5173",
+    "http://127.0.0.1",
     "http://127.0.0.1:4173",
-    "http://3.110.51.70"
+    "http://43.204.147.61/"
 ]
 
 
