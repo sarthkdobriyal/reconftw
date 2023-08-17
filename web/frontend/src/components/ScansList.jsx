@@ -90,7 +90,16 @@ const ScansList = () => {
                             </div>
 
 
-                        ) :
+                        ): 
+                        
+                        
+                        data && data?.status === 404 ? (
+                            <div className="w-full flex justify-center mt-20">
+                            <span className='text-orange-500 text-xl font-bold w-[25%] text-center'>
+                                {data?.message}
+                            </span>
+                            </div>
+                        ):
 
                             (<div className='w-full h-screen overflow-y-scroll mb-20 scrollbar scrollbar-w-3   scrollbar-thumb-rounded-xl scrollbar-track-black scrollbar-thumb-stone-700 '>
 

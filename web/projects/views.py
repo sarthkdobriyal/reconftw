@@ -57,7 +57,10 @@ def index(request):
 
     if not path.exists():
         context = {'projects_output':projects_output, "imagePath": imagePath, "timezones":timezones}
-        return render(request, 'projects.html',context)
+        return Response({
+            'message' : 'Recon folder is not created yet. Try to running a scan',
+            'status' : 404,
+        })
     elif path.exists():
         # Sort Archives by Creation Date
         archives_parsed = sorted(Path(path).iterdir(), key=os.path.getmtime)
@@ -181,7 +184,11 @@ def index(request):
         projectSerialized= ProjectSerializer(projects_output, many=True)
         print('projects -> ',projectSerialized.data)
 
-        return Response({"projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
+        return Response({
+            'message' : 'Recon folder is not created yet. Try to running a scan',
+            'status' : 404,
+        })
+        # return Response({'status': 200, 'message': 'Projects found'  , "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
         # return render(request, 'projects.html',context)
 
 
