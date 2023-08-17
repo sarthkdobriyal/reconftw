@@ -184,11 +184,8 @@ def index(request):
         projectSerialized= ProjectSerializer(projects_output, many=True)
         print('projects -> ',projectSerialized.data)
 
-        return Response({
-            'message' : 'Recon folder is not created yet. Try to running a scan',
-            'status' : 404,
-        })
-        # return Response({'status': 200, 'message': 'Projects found'  , "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
+
+        return Response({'status': 200, 'message': 'Projects found'  , "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
         # return render(request, 'projects.html',context)
 
 
