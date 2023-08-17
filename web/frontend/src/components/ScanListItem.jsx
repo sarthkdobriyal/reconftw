@@ -18,7 +18,7 @@ const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
                 <div className='  w-[20%] flex justify-center items-center border-r border-gray-700'>
                     {domain}
                 </div>
-                <div className='  w-[10%] flex justify-center items-center border-r border-gray-700'>
+                <div className='w-[10%] flex justify-center items-center border-r border-gray-700'>
                     {number}
                 </div>
                 <div className='  w-[10%] flex justify-center items-center border-r border-gray-700'>
