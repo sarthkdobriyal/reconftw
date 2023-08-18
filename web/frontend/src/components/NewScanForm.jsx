@@ -30,8 +30,8 @@ const NewScanForm = () => {
             refetch()
         },
 
-        onError: () => {
-            alert("Something went wrong")
+        onError: (e) => {
+            alert("Something went wrong", e)
         },
     })
     

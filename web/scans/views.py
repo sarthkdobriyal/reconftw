@@ -462,7 +462,7 @@ def index(request, number):
         context['lfi'] = ["N/A"] if vulns == None else vulns.lfi.splitlines()
         context['ssrf'] = ["N/A"] if vulns == None else vulns.ssrf_requested_url.splitlines()
         context['ssti'] = ["N/A"] if vulns == None else vulns.ssti.splitlines()
-        context['cors'] = ["N/A"] if vulns == None else loads(vulns.cors)
+        context['cors'] = ["N/A"] if vulns.cors == None else loads(vulns.cors)
         context['command_injection'] = ["N/A"] if vulns == None else vulns.command_injection.splitlines()
         smuggling = {} if vulns == None else loads(vulns.smuggling)
         context['smuggling_Method'] = smuggling['method'] if "method" in smuggling else "N/A"
@@ -683,6 +683,7 @@ def new_scan(request):
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
                 celery_task = new_scan_single_domain.delay(command)
+                return Response('ok')
 
         elif type_domain == "1":
             list_domain = request.data['listDomain']
