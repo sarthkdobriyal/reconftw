@@ -33,7 +33,7 @@ const Login = () => {
         <p className='m-2 tracking-wide text-base font-baloo font-semibold text-red-800'>{errors.username?.message}</p>
         <label htmlFor="username" className="label"> Password: 
         </label>
-        <input {...register('password')} type="password" placeholder="Enter Passowrd" id="password" className="input py-2 px-5 outline-none focus:border-green-600 rounded-xl w-full max-w-full" />
+        <input {...register('password')} type="password" placeholder="Enter Password" id="password" className="input py-2 px-5 outline-none focus:border-green-600 rounded-xl w-full max-w-full" />
         <p className='m-2 tracking-wide text-base font-baloo font-semibold text-red-800'>{errors.password?.message}</p>
         <button type='submit' className='btn mt-5 tracking-wider text-green-950 font-bold text-lg btn-success rounded-xl w-full'>
             Login

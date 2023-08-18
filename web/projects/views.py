@@ -182,7 +182,6 @@ def index(request):
         
 
         projectSerialized= ProjectSerializer(projects_output, many=True)
-        print('projects -> ',projectSerialized.data)
 
 
         return Response({'status': 200, 'message': 'Projects found'  , "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
