@@ -472,7 +472,7 @@ def index(request, number):
         if "endpoint" in smuggling: smuggling.pop("endpoint")
         if "cookies" in smuggling: smuggling.pop("cookies")
         context['smuggling'] = [2*"N/A"] if vulns == None else smuggling
-        context['brokenlinks'] = ["N/A"] if vulns == None else literal_eval(vulns.brokenlinks)
+        # context['brokenlinks'] = ["N/A"] if vulns == None else literal_eval(vulns.brokenlinks)
         context['software_infos_count'] = len(context['software_infos'].splitlines())
         context['metadata_results_count'] = 0 
         context['domain_info_general_count'] = 0
