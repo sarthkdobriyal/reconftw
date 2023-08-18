@@ -95,7 +95,7 @@ const ScansList = () => {
                         
                         data && data?.status === 404 ? (
                             <div className="w-full flex justify-center mt-20">
-                            <span className='text-orange-500 text-xl font-bold w-[25%] text-center'>
+                            <span className='text-orange-500 text-xl font-bold  text-center flex flex-col gap-2'>
                                 <span>
                                     Nothing to show
                                 </span>
