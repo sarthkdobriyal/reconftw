@@ -462,7 +462,13 @@ def index(request, number):
         context['lfi'] = ["N/A"] if vulns == None else vulns.lfi.splitlines()
         context['ssrf'] = ["N/A"] if vulns == None else vulns.ssrf_requested_url.splitlines()
         context['ssti'] = ["N/A"] if vulns == None else vulns.ssti.splitlines()
-        # context['cors'] = ["N/A"] if vulns == None else loads(vulns.cors)
+        if vulns is not None and vulns.cors:
+            try:
+                context['cors'] = ["N/A"] if vulns == None else loads(vulns.cors)
+            except (ValueError, SyntaxError):
+                context['cors'] = ["N/A"]
+        else:
+            context['cors'] = ["N/A"]
         context['command_injection'] = ["N/A"] if vulns == None else vulns.command_injection.splitlines()
         smuggling = {} if vulns == None else loads(vulns.smuggling)
         context['smuggling_Method'] = smuggling['method'] if "method" in smuggling else "N/A"
@@ -473,6 +479,13 @@ def index(request, number):
         if "cookies" in smuggling: smuggling.pop("cookies")
         context['smuggling'] = [2*"N/A"] if vulns == None else smuggling
         # context['brokenlinks'] = ["N/A"] if vulns == None else literal_eval(vulns.brokenlinks)
+        if vulns is not None and vulns.brokenlinks:
+            try:
+                context['brokenlinks'] = literal_eval(vulns.brokenlinks)
+            except (ValueError, SyntaxError):
+                context['brokenlinks'] = ["N/A"]
+        else:
+            context['brokenlinks'] = ["N/A"]
         context['software_infos_count'] = len(context['software_infos'].splitlines())
         context['metadata_results_count'] = 0 
         context['domain_info_general_count'] = 0
@@ -609,8 +622,8 @@ def index(request, number):
             'nuclei_outputs_critical': context['nuclei_outputs_critical'],
             },
         'vulnerabilities' : {
-            'cors' : context['cors'] or '',
-            'broken_links' : context['brokenlinks'] or '',
+            'cors' : context['cors'] ,
+            'broken_links' : context['brokenlinks'] ,
             'smuggling' : context['smuggling'],
             'crlf' : context['crlf'],
             'open_redirect': context['redirect'],
