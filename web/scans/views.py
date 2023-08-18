@@ -609,8 +609,8 @@ def index(request, number):
             'nuclei_outputs_critical': context['nuclei_outputs_critical'],
             },
         'vulnerabilities' : {
-            'cors' : context['cors'],
-            'broken_links' : context['brokenlinks'],
+            # 'cors' : context['cors'],
+            # 'broken_links' : context['brokenlinks'],
             'smuggling' : context['smuggling'],
             'crlf' : context['crlf'],
             'open_redirect': context['redirect'],
