@@ -85,7 +85,6 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -185,7 +184,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
     os.path.join(BASE_DIR, 'frontend', 'dist', 'assets'),
 ]
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # STATIC_ROOT = BASE_DIR / "static"
 
 LOGIN_URL = 'login'
