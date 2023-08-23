@@ -9,3 +9,4 @@ output/
 *.zip
 /web/db.sqlite3
 staticfiles
+nohup.out
