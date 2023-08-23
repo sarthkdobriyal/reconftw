@@ -68,12 +68,12 @@ def files_to_db(type_scan, project_id):
         cdnproviders_f2db(project_id)
         webwafs_f2db(project_id)
         nucleioutputs_f2db(project_id)
-        cms_f2db(project_id)
         fuzzingfull_f2db(project_id)
         urlextract_f2db(project_id)
         urlgf_f2db(project_id)
         jschecks_f2db(project_id)
         webdicts_f2db(project_id)
+        cms_f2db(project_id)
 
     elif type_scan == '-s': # SUBDOMAINS
         subdomains_dns_f2db(project_id)
@@ -116,13 +116,13 @@ def files_to_db(type_scan, project_id):
         subtakeover_f2db(project_id)
         webwafs_f2db(project_id)
         nucleioutputs_f2db(project_id)
-        cms_f2db(project_id)
         fuzzingfull_f2db(project_id)
         urlextract_f2db(project_id)
         urlgf_f2db(project_id)
         jschecks_f2db(project_id)
         webdicts_f2db(project_id)
         vulns_f2db(project_id)
+        cms_f2db(project_id)
 
     elif type_scan == '-n': # OSINT
         domaininfoemail_f2db(project_id)
@@ -165,13 +165,13 @@ def files_to_db(type_scan, project_id):
         cdnproviders_f2db(project_id)
         webwafs_f2db(project_id)
         nucleioutputs_f2db(project_id)
-        cms_f2db(project_id)
         fuzzingfull_f2db(project_id)
         urlextract_f2db(project_id)
         urlgf_f2db(project_id)
         jschecks_f2db(project_id)
         webdicts_f2db(project_id)
         vulns_f2db(project_id)
+        cms_f2db(project_id)
     
     print('[+] finished saving to db [+]')
 
@@ -1362,7 +1362,6 @@ def githubsecrets_f2db(project_id):
 
 
 def cms_f2db(project_id):
-
     cms_save = CMS.objects
     project_obj = Project.objects.filter(pk=project_id)
 
@@ -1371,17 +1370,24 @@ def cms_f2db(project_id):
 
     cms_path = f"{path[-1]}/{project_obj[0].domain}/cms"
     
-    if Path(cms_path).is_dir() and len(listdir(cms_path)) > 0:
-        cms_files = listdir(cms_path)
+    try:
+        if Path(cms_path).is_dir() and len(listdir(cms_path)) > 0:
+            cms_files = listdir(cms_path)
 
-        for s in cms_files:
-            with open(s) as f:
-                cms = f.read()
+            for s in cms_files:
+                try:
+                    with open(s) as f:
+                        cms = f.read()
 
-            cms_save.create(subdomain=s, cms=cms, project_id=project_id)
+                    cms_save.create(subdomain=s, cms=cms, project_id=project_id)
+                except FileNotFoundError as e:
+                    print(f"File Not Found Error: {e}")
         
-    else:
-        cms_save.create(subdomain='N/A', cms='N/A', project_id=project_id)
+        else:
+            cms_save.create(subdomain='N/A', cms='N/A', project_id=project_id)
+    
+    except FileNotFoundError as e:
+        print(f"Directory Not Found Error: {e}")
 
 
 

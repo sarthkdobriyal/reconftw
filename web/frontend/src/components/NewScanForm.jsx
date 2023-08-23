@@ -31,7 +31,7 @@ const NewScanForm = () => {
         },
 
         onError: (e) => {
-            alert("Something went wrong", e)
+            console.log(e);
         },
     })
     

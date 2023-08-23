@@ -53,7 +53,9 @@ const Report = () => {
           />
 
           {/* Screenshots */}
-          <Screenshots />
+          <Screenshots 
+            data={data.screenshots}
+          />
 
           {/* OSINT Resources */}
           {

@@ -41,3 +41,4 @@ django-celery-results
 django-cors-headers
 djangorestframework-simplejwt
 djangorestframework
+

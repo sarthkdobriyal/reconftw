@@ -186,6 +186,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 # STATIC_ROOT = BASE_DIR / "static"
 
+
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'projects:index'
 LOGOUT_REDIRECT_URL = 'login'
@@ -211,6 +212,7 @@ CELERY_ROUTES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://localhost:4173",
+    "http://localhost:9050",
     "http://127.0.0.1",
     "http://127.0.0.1:4173",
     "http://43.204.147.61"
