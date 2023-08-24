@@ -45,8 +45,10 @@ const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
                     <button data-tip='schedule' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
                         <BiSolidAlarm size={24} color='blue' />
                     </button>
-                    <button onClick={() => handleDownload(id)} data-tip='download backup' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
-                        <GoDownload size={24} color='green' />
+                    <button data-tip='download backup' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
+                        <Link to={`${import.meta.env.VITE_API_URL}/projects/${id}/backup/`} download>
+                        <GoDownload size={24} color={`${handleDelete.isLoading ? 'gray' : 'green'}`} />
+                        </Link>
                     </button>
                 </div>
                 <div className='  w-[10%] flex justify-center items-center gap-2'>

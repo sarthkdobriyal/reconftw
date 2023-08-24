@@ -28,18 +28,20 @@ const ScansList = () => {
                 })
             },
             onSuccess: () => {
-                console.log("success")
+                console.log("success",)
                 queryClient.invalidateQueries(['projects'])
                 refetch();
             },
 
             onError: (e) => {
-                alert("Something went wrong", e)
+                alert(e.response.data.message)
             },
         })
 
 
-    // const handleDownload = (id) => { }
+    const handleDownload = () => {
+        
+    }
     // const handleCancel = (id) => { }
 
 
@@ -110,7 +112,7 @@ const ScansList = () => {
 
                                 {
                                     scans?.map((scan) => (
-                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={() => {}} handleDownload={() => {}} />
+                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={() => {}} handleDownload={handleDownload} />
                                     ))
                                 }
                             </div>)}

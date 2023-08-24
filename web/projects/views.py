@@ -17,6 +17,7 @@ import shutil, os, time, requests, favicon
 from pathlib import Path
 from subprocess import Popen
 import zipfile
+from rest_framework import status
 
 
 from rest_framework.serializers import ModelSerializer
@@ -184,7 +185,7 @@ def index(request):
         projectSerialized= ProjectSerializer(projects_output, many=True)
 
 
-        return Response({'status': 200, 'message': 'Projects found'  , "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones})
+        return Response({ "projects_output": projectSerialized.data, "imagePath": imagePath, "timezones":timezones}, status=status.HTTP_200_OK)
         # return render(request, 'projects.html',context)
 
 
@@ -229,14 +230,17 @@ def delete_project(request, id):
         print("Project Deleted")
 
         # return redirect('projects:index')
-        return Response("Project Deleted", status=200)
+        return Response({'message':"Project Deleted"}, status=status.HTTP_200_OK)
     else :
-        return Response("Project Not Found", status=404)
+        return Response({'message':"Project Not Found"}, status=status.HTTP_404_NOT_FOUND)
 # @login_required(login_url='/login/')
+
+
+
 @api_view(['Get'])
 # @permission_classes([IsAuthenticated]) 
-def DownloadBackup(requests, id):
-
+def DownloadBackup(request, id):
+    print('id' + str(id))
     project = Project.objects.get(id=id)
     if project.status == "FINISHED":
         command = str(project.command).split("'")
@@ -265,11 +269,13 @@ def DownloadBackup(requests, id):
 
         file = open(tempFolder+"/"+backupFileName, "rb")
 
-        response = HttpResponse(file, content_type='application/force-download')
-        response['Content-Disposition'] = 'attachment; filename='+backupFileName
+        response = HttpResponse(file.read(), content_type='application/force-download')
+        response['Content-Disposition'] = f'attachment; filename={backupFileName}'
+        print('response -> ' ,response)
         return response
     else:
-        return HttpResponse('Scanning is not completed, please wait.')
+        # return HttpResponse('Scanning is not completed, please wait.')
+        return Response({'message': 'Scanning is not completed, please wait.'}, status=status.HTTP_400_BAD_REQUEST) 
 
 # TODO: Cancel Scan Function 
 # @login_required(login_url='/login/')

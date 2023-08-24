@@ -12,6 +12,7 @@ const Nuclei = ({
 }) => {
 
 
+
     const nucleiColumns = useMemo(
         () => [
             {
