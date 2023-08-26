@@ -10,3 +10,4 @@ output/
 /web/db.sqlite3
 staticfiles
 nohup.out
+.env

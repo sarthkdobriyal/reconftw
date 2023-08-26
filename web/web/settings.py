@@ -2,6 +2,7 @@ import os, secrets
 from pathlib import Path
 from datetime import timedelta
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = secrets.token_hex(32)
@@ -15,13 +16,56 @@ ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '*']
 # CSRF_COOKIE_SECURE = True
 # Application definition
 
-INSTALLED_APPS = [
-    'django_celery_beat',
+# INSTALLED_APPS = [
+#     'django_celery_beat',
+#     'django.contrib.admin',
+#     'django.contrib.auth',
+#     'django.contrib.contenttypes',
+#     'django.contrib.sessions',
+#     'django.contrib.messages',
+#     'django.contrib.staticfiles',
+#     'rest_framework_simplejwt.token_blacklist',
+#     'projects',
+#     'editprofile',
+#     'scans',
+#     'apikeys',
+#     'rest_framework',
+#     'corsheaders',
+#     'django_celery_results',
+# ]
+# Application definition
+"""
+    These app's data are stored on the public schema
+"""
+SHARED_APPS = [
+    'django_tenants',  # mandatory
+    'tenant',  # you must list the app where your tenant model resides in
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+
+    # we place blog here since we want 
+    # public schema to have the same structure like tenant apps
+    
+]
+"""
+    These app's data are stored on their specific schemas
+"""
+TENANT_APPS = [
+    # The following Django contrib apps must be in TENANT_APPS
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+
+    # tenant-specific apps
+    'django_celery_beat',
     'django.contrib.staticfiles',
     'rest_framework_simplejwt.token_blacklist',
     'projects',
@@ -32,6 +76,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_celery_results',
 ]
+
+INSTALLED_APPS = list(SHARED_APPS) + [
+    app for app in TENANT_APPS if app not in SHARED_APPS
+]
+
+
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -81,6 +131,9 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+        # django tenant middleware
+    'django_tenants.middleware.main.TenantMainMiddleware',
+    'web.middleware.TenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -127,11 +180,33 @@ CACHE_MIDDLEWARE_SECONDS = 3600
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # Tenant Engine
+        'ENGINE': 'django_tenants.postgresql_backend',
+        # set database name
+        'NAME': 'postgres',
+        # set your user details
+        'USER': 'postgres',
+        'PASSWORD': 'recon@123',
+        'HOST': 'localhost',
+        'POST': '5432'
     }
 }
+
+# DATABASE ROUTER
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
+
+
+TENANT_MODEL = "tenant.Client"
+
+TENANT_DOMAIN_MODEL = "tenant.Domain"
+
 
 #DATABASES = {
 #    'default': {
