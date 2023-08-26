@@ -39,10 +39,25 @@ const ScansList = () => {
         })
 
 
-    const handleDownload = () => {
-        
-    }
-    // const handleCancel = (id) => { }
+
+    const handleCancel = useMutation({
+        mutationFn: (id) => {
+            return axios.post(`${import.meta.env.VITE_API_URL}/projects/${id}/cancel/`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken.access}`
+                },
+            })
+        },
+        onSuccess: () => {
+            console.log("Canceled")
+            refetch();
+        },
+        OnError : (e) => {
+            alert(e.response.data.message)
+        }
+    })
+
+    console.log(handleCancel)
 
 
 
@@ -112,7 +127,7 @@ const ScansList = () => {
 
                                 {
                                     scans?.map((scan) => (
-                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={() => {}} handleDownload={handleDownload} />
+                                        <ScanListItem key={scan.id} scan={scan} handleDelete={handleDelete} handleCancel={handleCancel}/>
                                     ))
                                 }
                             </div>)}

@@ -10,6 +10,7 @@ from editprofile.imgUser import imgUser
 import base64
 from ast import literal_eval
 from json import loads
+from rest_framework import status
 
 
 from rest_framework.serializers import ModelSerializer
@@ -696,8 +697,8 @@ def new_scan(request):
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
                 celery_task = new_scan_single_domain.delay(command)
-                print(celery_task)
-                return Response('ok')
+                print("task->", celery_task)
+                return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
         elif type_domain == "1":
             list_domain = request.data['listDomain']
@@ -737,6 +738,6 @@ def new_scan(request):
                     print("perfect")
             else:
                 print("Wrong!!")
-                return Response({'error': 'Wrong domain'}, status=400)
+                return Response({'message': 'Wrong domain'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response('ok')
+    return Response({'message': 'ok'}, status=status.HTTP_200_OK)

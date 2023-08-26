@@ -10,7 +10,7 @@ const NewScanForm = () => {
     const { authToken } = useContext(AuthContext);
     
     const {
-        register, handleSubmit, reset,  formState: { errors }, setValue, refetch
+        register, handleSubmit, reset,  formState: { errors }, setValue,
     } = useForm()
     
     const [allMode, setAllMode] = useState(false)
@@ -26,12 +26,13 @@ const NewScanForm = () => {
             })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['projects'])
-            refetch()
+            // queryClient.invalidateQueries(['projects'])
+            queryClient.invalidateQueries({ queryKey: ['projects'] })
+            console.log("success")
         },
 
         onError: (e) => {
-            console.log(e);
+            console.log(e.response.data.message);
         },
     })
     

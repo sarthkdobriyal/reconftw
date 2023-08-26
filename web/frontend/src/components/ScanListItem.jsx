@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { BiSolidAlarm, BiSolidReport } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 
-const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
+const ScanListItem = ({scan, handleCancel, handleDelete}) => {
     const {id,icon, domain, number, scan_mode, last_change, status } = scan
 
     let date = new Date(last_change).toLocaleDateString()
@@ -36,8 +36,10 @@ const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
                     <BiSolidReport size={32} color='black' />
                 </Link>
                 <div className='  w-[20%] flex justify-center border-r border-gray-700 items-center gap-4'>
-                    <button onClick={() => handleCancel(id)} data-tip='cancel' className=' tooltip outline-none border-none bg-transparent  rounded-full flex justify-center items-center  active:translate-y-2 transition duration-150'>
+                    <button onClick={() => handleCancel.mutate(id)} disabled={handleCancel.isLoading}  data-tip='cancel' className=' tooltip outline-none border-none bg-transparent  rounded-full flex justify-center items-center  active:translate-y-2 transition duration-150'>
+                        
                         <GiCancel size={24} color='magenta' />
+
                     </button>
                     <button onClick={() => handleDelete.mutate(id)} disabled={handleDelete.isLoading}   data-tip='delete' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
                         <AiOutlineDelete size={24} color={`${handleDelete.isLoading ? 'gray' : 'red'}`} />

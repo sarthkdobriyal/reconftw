@@ -218,8 +218,7 @@ class SubTakeover(models.Model):
 class ScreenShots(models.Model):
     hostname = models.CharField(max_length=100, blank=True)
     port = models.CharField(max_length=10, blank=True)
-    # screenshot = models.BinaryField()
-    screenshot = models.ImageField();
+    screenshot = models.BinaryField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):

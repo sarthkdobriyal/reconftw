@@ -279,17 +279,17 @@ def DownloadBackup(request, id):
 
 # TODO: Cancel Scan Function 
 # @login_required(login_url='/login/')
-@api_view(['Get'])
+@api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 def cancel_scan(request, id):
-    if request.method == "POST":
-        project = Project.objects.get(id=id)
-        domain = project.domain
+    print("Canceling Scan", id)
+    project = Project.objects.get(id=id)
+    domain = project.domain
 
-        cancel_cmd = ['pkill', '-f']
+    cancel_cmd = ['pkill', '-f']
         
-        Popen(cancel_cmd+[str(domain)]).wait()
+    Popen(cancel_cmd+[str(domain)]).wait()
 
-        Popen(cancel_cmd+['/Tools/']).wait()
+    Popen(cancel_cmd+['/Tools/']).wait()
 
-        return redirect('projects:index')
+    return Response({'message': 'Scan Canceled'}, status=status.HTTP_200_OK)
