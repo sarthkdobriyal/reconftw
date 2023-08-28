@@ -42,7 +42,7 @@ def index(request):
     timezones = timezone()
 
     projects_output = Project.objects.all()
-    db_projects_count = Project.objects.values('domain').count()
+    db_projects_count = Project.objects.values('domain').count() or 0
     
     path = Path(__file__).resolve().parent.parent.parent / "Recon/"
 

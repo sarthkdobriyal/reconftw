@@ -1,7 +1,7 @@
 from django.db import models
 from django_tenants.models import TenantMixin, DomainMixin
 
-class Client(TenantMixin):
+class Tenant(TenantMixin):
     name = models.CharField(max_length=100)
     created_on = models.DateField(auto_now_add=True)
     is_active = models.BooleanField(default=True, blank=True)

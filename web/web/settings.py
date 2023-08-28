@@ -3,6 +3,7 @@ from pathlib import Path
 from datetime import timedelta
 
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = secrets.token_hex(32)
@@ -51,7 +52,7 @@ SHARED_APPS = [
 
     # we place blog here since we want 
     # public schema to have the same structure like tenant apps
-    
+    'accounts',
 ]
 """
     These app's data are stored on their specific schemas
@@ -67,7 +68,7 @@ TENANT_APPS = [
     # tenant-specific apps
     'django_celery_beat',
     'django.contrib.staticfiles',
-    'rest_framework_simplejwt.token_blacklist',
+    # 'rest_framework_simplejwt.token_blacklist',
     'projects',
     'editprofile',
     'scans',
@@ -84,18 +85,23 @@ INSTALLED_APPS = list(SHARED_APPS) + [
 
 REST_FRAMEWORK = {
 
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # )
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+
+        'auth.utils.DjangoReactJWTAuthentication',
+    ]
+    
 }
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
-    "UPDATE_LAST_LOGIN": False,
+    "UPDATE_LAST_LOGIN": True,
 
     "ALGORITHM": "HS256",
     "VERIFYING_KEY": "",
@@ -109,24 +115,24 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    # "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
 
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+    # "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
 
     "JTI_CLAIM": "jti",
 
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=15),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=10),
+    "SLIDING_TOKEN_LIFETIME": timedelta(hours=12),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+    # "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+    # "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
+    # "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
+    # "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
+    # "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
+    # "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
 
@@ -174,6 +180,7 @@ WSGI_APPLICATION = 'web.wsgi.application'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
 CACHE_MIDDLEWARE_SECONDS = 3600
 
+APPLICATION_DOMAIN = 'localhost:9000'
 
 
 # Database
@@ -193,7 +200,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'recon@123',
         'HOST': 'localhost',
-        'POST': '5432'
+        'PORT': '5432'
     }
 }
 
@@ -202,10 +209,13 @@ DATABASE_ROUTERS = (
     'django_tenants.routers.TenantSyncRouter',
 )
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
-TENANT_MODEL = "tenant.Client"
+TENANT_MODEL = "tenant.Tenant"
 
 TENANT_DOMAIN_MODEL = "tenant.Domain"
+
+AUTH_USER_MODEL = 'accounts.Account'
 
 
 #DATABASES = {
