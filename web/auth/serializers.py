@@ -2,6 +2,7 @@ from django.contrib.auth.models import update_last_login
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from accounts.models import Account
 
 
 class DjangoReactJWTSerializers(TokenObtainPairSerializer):
@@ -18,6 +19,7 @@ class DjangoReactJWTSerializers(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
         data['id'] = self.user.pk
         data['username'] = self.user.get_username()
+        data['is_superuser'] = self.user.is_superuser
 
         update_last_login(None, self.user)
 

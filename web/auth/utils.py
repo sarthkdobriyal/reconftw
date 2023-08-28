@@ -14,6 +14,7 @@ class DjangoReactJWTAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
         User = get_user_model()
+        print(User)
         authorization_heaader = request.headers.get('Authorization')
 
         if not authorization_heaader:

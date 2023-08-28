@@ -9,7 +9,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['name', 'username', 'password', 'confirm_password']
+        fields = ['name', 'username', 'password', 'confirm_password',]
         extra_kwargs = {
             'password': {'write_only': True},
             'confirm_password': {'write_only': True},

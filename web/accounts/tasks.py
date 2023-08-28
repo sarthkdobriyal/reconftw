@@ -10,8 +10,9 @@ from .serializers import AccountSerializer
 from web.settings import APPLICATION_DOMAIN
 
 
-
+@transaction.atomic
 def create_account(data):
+    print("creating account...")
     account = AccountSerializer(data=data)
     account.is_valid(raise_exception=True)
     connection.set_schema_to_public()
