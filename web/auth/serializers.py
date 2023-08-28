@@ -3,8 +3,8 @@ from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from accounts.models import Account
-
-
+from tenant.models import Tenant
+from rest_framework import serializers
 class DjangoReactJWTSerializers(TokenObtainPairSerializer):
 
     @classmethod
@@ -20,8 +20,15 @@ class DjangoReactJWTSerializers(TokenObtainPairSerializer):
         data['id'] = self.user.pk
         data['username'] = self.user.get_username()
         data['is_superuser'] = self.user.is_superuser
+        data['is_staff'] = self.user.is_staff
+        data['tenant'] = TenantSerializer(self.user.tenant).data
 
         update_last_login(None, self.user)
 
         return data
 
+
+class TenantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tenant
+        fields = ['id', 'schema_name']

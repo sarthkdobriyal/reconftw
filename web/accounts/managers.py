@@ -8,15 +8,27 @@ class AccountManager(BaseUserManager):
         user.is_active = True
         user.is_staff = True
         user.is_superuser = True
+
         user.save(using=self._db)
         return user
 
-    def create_user(self, name, username, password):
+    def create_staffuser(self, name, username, password,tenant):
+        user = self.model(name=name, username=username, password=password)
+        user.set_password(password)
+        user.is_active = True
+        user.is_staff = True
+        user.is_superuser = False
+        user.tenant = tenant
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, name, username, password, tenant):
         user = self.model(name=name, username=username, password=password)
         user.set_password(password)
         user.is_active = True
         user.is_staff = False
         user.is_superuser = False
+        user.tenant = tenant
         user.save(using=self._db)
         return user
 

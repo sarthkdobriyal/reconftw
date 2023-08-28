@@ -23,6 +23,7 @@ class Account(PermissionsMixin, AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
+    tenant = models.ForeignKey('tenant.Tenant', on_delete=models.CASCADE, null=True, blank=True)
 
     REQUIRED_FIELDS = ['name', 'password']
     USERNAME_FIELD = 'username'

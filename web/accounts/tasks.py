@@ -14,16 +14,27 @@ from web.settings import APPLICATION_DOMAIN
 def create_account(data):
     print("creating account...")
     account = AccountSerializer(data=data)
+ 
     account.is_valid(raise_exception=True)
-    connection.set_schema_to_public()
-    username = data['username']
-    tenant = Tenant.objects.create(schema_name=username)
-    connection.set_tenant(tenant)
-    domain = Domain()
-    domain.tenant = tenant
-    domain.domain = f"{username}.{APPLICATION_DOMAIN}"
+
+    is_staff = data.get('is_staff', None)
+    print('is staff --> ', is_staff)
+    if is_staff:
+        connection.set_schema_to_public()
+        username = data['username']
+        tenant = Tenant.objects.create(schema_name=username)
+        connection.set_tenant(tenant)
+        domain = Domain()
+        domain.tenant = tenant
+        domain.domain = f"{username}.{APPLICATION_DOMAIN}"
+        domain.save()
+    else: 
+        tenant = Tenant.objects.get(id=data['tenant'])
+        print(type(tenant))
+        connection.set_tenant(tenant)
+    print("account--> ", account)
+
     account.save()
-    domain.save()
 
 
 
