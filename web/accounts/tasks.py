@@ -13,27 +13,29 @@ from web.settings import APPLICATION_DOMAIN
 @transaction.atomic
 def create_account(data):
     print("creating account...")
-    account = AccountSerializer(data=data)
- 
-    account.is_valid(raise_exception=True)
+
+    
 
     is_staff = data.get('is_staff', None)
-    print('is staff --> ', is_staff)
     if is_staff:
         connection.set_schema_to_public()
         username = data['username']
-        tenant = Tenant.objects.create(schema_name=username)
+        tenant = Tenant.objects.create(schema_name=username, name=username) 
         connection.set_tenant(tenant)
+        data['tenant'] = tenant.id
+        account = AccountSerializer(data=data)
+       
         domain = Domain()
         domain.tenant = tenant
         domain.domain = f"{username}.{APPLICATION_DOMAIN}"
+        print("account--> ", account)
         domain.save()
     else: 
+        account = AccountSerializer(data=data)
         tenant = Tenant.objects.get(id=data['tenant'])
-        print(type(tenant))
         connection.set_tenant(tenant)
-    print("account--> ", account)
 
+    account.is_valid(raise_exception=True) 
     account.save()
 
 

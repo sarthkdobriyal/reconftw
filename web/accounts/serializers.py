@@ -20,8 +20,7 @@ class AccountSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(_("passwords don't match"))
         return super().validate(attrs)
  
-    def create(self, validated_data): # Remove tenant identifier from validated_data
-        print("tenant --> ",validated_data['tenant'] )
+    def create(self, validated_data): 
 
         is_staff = validated_data.get('is_staff', None)
         if is_staff:
@@ -29,13 +28,12 @@ class AccountSerializer(serializers.ModelSerializer):
                 name=validated_data['name'],
                 username=validated_data['username'],
                 password=validated_data['password'],
-                tenant=validated_data['tenant'],
- 
+                tenant=validated_data['tenant'] if validated_data['tenant'] else None,
             )
 
         return Account.objects.create_user(
             name=validated_data['name'],
             username=validated_data['username'],
             password=validated_data['password'],
-            tenant=validated_data['tenant'],
+            tenant=validated_data['tenant'] if validated_data['tenant'] else None,
         )
