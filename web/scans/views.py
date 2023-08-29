@@ -696,8 +696,9 @@ def new_scan(request):
                 print('Command -> ', command)
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
-                celery_task = new_scan_single_domain.delay(command)
-                print("task->", celery_task)
+                print( "user id --->  ", request.data.user_id)
+                # celery_task = new_scan_single_domain.delay(command, request.user_id)
+
                 return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
         elif type_domain == "1":

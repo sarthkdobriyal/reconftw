@@ -15,13 +15,21 @@ export const AuthProvider = ({children}) => {
 
     const loginUser = async (formData) => {
         try{
-            const res = await  axios.post(`${import.meta.env.VITE_API_URL}/token/`, {
+            const res = await  axios.post(`${import.meta.env.VITE_AUTH_URL}/token/`, {
                 ...formData
             })
 
             if(res.status === 200) {
                 setAuthToken(res.data)
-                setUser(jwt_decode(res.data.access))
+                const user = {
+                  id: res.data.id,
+                  username: res.data.username,
+                  is_staff: res.data.is_staff,
+                  is_superuser: res.data.is_superuser,
+                  tenant: res.data.tenant,
+                }
+                
+                setUser(user)
                 localStorage.setItem('access_token', JSON.stringify(res.data))
             }
             
@@ -41,15 +49,15 @@ export const AuthProvider = ({children}) => {
 
     const updateToken = useCallback(async () => {
         try {
-          const res = await axios.post(`${import.meta.env.VITE_API_URL}/token/refresh/`, {
+          const res = await axios.post(`${import.meta.env.VITE_AUTH_URL}/token/refresh/`, {
             refresh: authToken?.refresh
           }, {
             headers: {
               'Content-Type': 'application/json'
             }
           });
-    
           if (res.status === 200) {
+            console.log('res-data --> ' ,res.data)
             setAuthToken(res.data);
             localStorage.setItem('access_token', JSON.stringify(res.data));
           } else {

@@ -51,6 +51,7 @@ distlib==0.3.7
 distro==1.4.0
 distro-info==0.23+ubuntu1.1
 Django==4.2.4
+django-admin-view-permission==1.9
 django-celery-beat==2.5.0
 django-celery-results==2.5.1
 django-cors-headers==4.2.0

@@ -7,7 +7,7 @@ import AuthContext from '../context/AuthContext'
 const NewScanForm = () => {
 
     const queryClient = useQueryClient();
-    const { authToken } = useContext(AuthContext);
+    const { user, authToken } = useContext(AuthContext);
     
     const {
         register, handleSubmit, reset,  formState: { errors }, setValue,
@@ -38,7 +38,12 @@ const NewScanForm = () => {
     
       const onSubmit = handleSubmit((formData) => {
         console.log(formData);
-        performScan.mutate(formData);
+        const newFormData = {
+            ...formData,
+            user_id: user.id
+        }
+        console.log(newFormData)
+        // performScan.mutate(formData);
         reset();
       })
 

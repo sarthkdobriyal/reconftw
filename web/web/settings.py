@@ -41,13 +41,13 @@ ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '*']
 SHARED_APPS = [
     'django_tenants',  # mandatory
     'tenant',  # you must list the app where your tenant model resides in
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 
 
     # we place blog here since we want 
@@ -294,13 +294,14 @@ CELERY_ROUTES = {
  'scans.tasks.new_scan_single_domain': {'queue': 'new_scan'}
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://localhost:4173",
     "http://localhost:9050",
     "http://127.0.0.1",
     "http://127.0.0.1:4173",
-    "http://43.204.147.61"
+    "http://43.204.147.61",
 ]
 
 

@@ -29,6 +29,7 @@ class AccountSerializer(serializers.ModelSerializer):
                 username=validated_data['username'],
                 password=validated_data['password'],
                 tenant=validated_data['tenant'] if validated_data['tenant'] else None,
+                is_staff= True,
             )
 
         return Account.objects.create_user(

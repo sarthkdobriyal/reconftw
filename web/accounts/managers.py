@@ -12,7 +12,7 @@ class AccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, name, username, password):
+    def create_staffuser(self, name, username, password, is_staff=True):
         user = self.model(name=name, username=username, password=password)
         user.set_password(password)
         user.is_active = True

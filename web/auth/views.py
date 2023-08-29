@@ -25,7 +25,7 @@ class DjangoReactObtainToken(TokenObtainPairView):
 def sign_up(request):
 
 
-
+    print(request.data)
 
     serializer = AccountSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)

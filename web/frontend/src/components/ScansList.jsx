@@ -3,25 +3,34 @@ import ScanListItem from './ScanListItem'
 import axios from 'axios'
 import AuthContext from '../context/AuthContext'
 import {  useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-
+import createBaseUrl from '../utils/createUrl'
+import createUrl from '../utils/createUrl'
 
 const ScansList = () => {
     const [scans, setScans] = useState(null)
 
 
-    const { authToken } = useContext(AuthContext);
+    const { user, authToken } = useContext(AuthContext);
 
     const queryClient = useQueryClient()
-    const { isLoading, isError, data, refetch } = useQuery(['projects/'])
+    const projectsUrl = createUrl(user.tenant.schema_name, '/projects/')
+    const { isLoading, isError, data, refetch } = useQuery(['projects/'], () => axios.get(`${projectsUrl}`, {
+        headers: {
+            'Authorization': `Bearer ${authToken.access}`
+        }
+    }))
 
 
     useEffect(() => {
         setScans(data?.projects_output)
     }, [data])
+    
+    console.log('scans ---> ', data);
 
     const handleDelete = useMutation({
-            mutationFn: (id) => {
-                return axios.delete(`${import.meta.env.VITE_API_URL}/projects/${id}/delete/`, {
+        mutationFn: (id) => {
+                const url = createUrl(user.tenant.schema_name, `/projects/${id}/delete/`)
+                return axios.delete(url, {
                     headers: {
                         'Authorization': `Bearer ${authToken.access}`
                     }
@@ -42,7 +51,8 @@ const ScansList = () => {
 
     const handleCancel = useMutation({
         mutationFn: (id) => {
-            return axios.post(`${import.meta.env.VITE_API_URL}/projects/${id}/cancel/`, {
+            const url = createUrl(user.tenant.schema_name, `/projects/${id}/cancel/`)
+            return axios.post(url , {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`
                 },
@@ -110,7 +120,7 @@ const ScansList = () => {
                         ): 
                         
                         
-                        data && data?.status === 404 ? (
+                        data && data?.status === 404 || data?.data.projects_output.length === 0 ? (
                             <div className="w-full flex justify-center mt-20">
                             <span className='text-orange-500 text-xl font-bold  text-center flex flex-col gap-2'>
                                 <span>
@@ -121,7 +131,7 @@ const ScansList = () => {
                                 </span>
                             </span>
                             </div>
-                        ):
+                        ):  
 
                             (<div className='w-full h-screen overflow-y-scroll mb-20 scrollbar scrollbar-w-3   scrollbar-thumb-rounded-xl scrollbar-track-black scrollbar-thumb-stone-700 '>
 

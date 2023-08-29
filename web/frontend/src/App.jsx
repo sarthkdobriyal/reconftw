@@ -17,6 +17,8 @@ import Login from './components/Login';
 import  { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './utils/PrivateRoute';
 import ApiKeysSetting from './pages/ApiKeysSetting';
+import Dashboard from './pages/Dashboard';
+import CreateUser from './components/CreateUser';
 
 
 
@@ -44,7 +46,9 @@ function App() {
           <Route  path='/' element={
             <Layout />
           } >
-            <Route path='' element={<ScansList />} />
+            <Route path='' element={<Dashboard />} />
+            <Route path='/scanslist' element={<ScansList />} />
+            <Route path='/createuser' element={<CreateUser />} />
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/report/:id' element={<Report />} />
             <Route path='/apikeys' element={<ApiKeysSetting  />} />

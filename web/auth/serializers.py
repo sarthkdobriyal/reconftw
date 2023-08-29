@@ -9,7 +9,13 @@ class DjangoReactJWTSerializers(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
-        return RefreshToken.for_user(user)
+        token = RefreshToken.for_user(user)
+        token['id'] =user.pk
+        token['username'] =user.get_username()
+        token['is_superuser'] =user.is_superuser
+        token['is_staff'] =user.is_staff
+        token['tenant'] = TenantSerializer(user.tenant).data
+        return token
 
     def validate(self, attrs):
         data = super().validate(attrs)

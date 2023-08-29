@@ -17,7 +17,7 @@ def create_account(data):
     
 
     is_staff = data.get('is_staff', None)
-    if is_staff:
+    if is_staff == True:
         connection.set_schema_to_public()
         username = data['username']
         tenant = Tenant.objects.create(schema_name=username, name=username) 
@@ -28,7 +28,6 @@ def create_account(data):
         domain = Domain()
         domain.tenant = tenant
         domain.domain = f"{username}.{APPLICATION_DOMAIN}"
-        print("account--> ", account)
         domain.save()
     else: 
         account = AccountSerializer(data=data)
@@ -37,6 +36,7 @@ def create_account(data):
 
     account.is_valid(raise_exception=True) 
     account.save()
+    print("account--> ", account)
 
 
 

@@ -7,19 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import axios from 'axios'
 
 
-const queryClient = new QueryClient(
-  {
-  defaultOptions: {
-    queries: {
-      queryFn:  ({queryKey}) =>  axios.get(`${import.meta.env.VITE_API_URL}/${queryKey}`, {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))?.access}`
-        }
-      }).then(res => res.data)
-    }
-  }
-}
-)
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import Account
 
 class Project(models.Model):
     number = models.PositiveSmallIntegerField(default=1)
@@ -9,6 +10,7 @@ class Project(models.Model):
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='WAITING')
     command = models.CharField(max_length=400, unique=False, blank=True, null=True)
     scan_mode = models.CharField(max_length=400, unique=False, blank=True, null=True)
+    user = models.ForeignKey(Account , on_delete=models.CASCADE, null=True)
 
     def get_last_change(self):
         if self.last_change:
