@@ -69,7 +69,6 @@ TENANT_APPS = [
     'django_celery_beat',
     'django.contrib.staticfiles',
     # 'rest_framework_simplejwt.token_blacklist',
-    'accounts',
     'projects',
     'editprofile',
     'scans',

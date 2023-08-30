@@ -22,10 +22,10 @@ const ScansList = () => {
 
 
     useEffect(() => {
-        setScans(data?.projects_output)
+        setScans(data?.data.projects_output)
     }, [data])
     
-    console.log('scans ---> ', data);
+    console.log('scans ---> ', data?.data.projects_output);
 
     const handleDelete = useMutation({
         mutationFn: (id) => {
@@ -67,7 +67,6 @@ const ScansList = () => {
         }
     })
 
-    console.log(handleCancel)
 
 
 

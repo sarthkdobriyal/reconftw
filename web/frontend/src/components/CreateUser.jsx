@@ -60,7 +60,9 @@ const CreateUser = () => {
         <div className='px-10 h-full w-screen'>
             <h1 className='text-8xl text-gray-500 text-center font-mono font-bold tracking-tighter opacity-30 mr-5'>Create A User</h1>
 
-            <p className='tracking-widest text-lime-600 text-2xl font-semibold text-center'>{`${createuser.isSuccess && 'Account Created!'}`}</p>
+            {
+                createuser.isSuccess  &&
+                <p className='tracking-widest text-lime-600 text-2xl font-semibold text-center'>Account Created!</p>}
             {/* Enter User Details */}
             <div className=' px-10  py-4 h-full  flex justify-center items-center rounded-xl '>
                 <div className='w-[60%] h-full   rounded-xl '>

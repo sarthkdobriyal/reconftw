@@ -24,18 +24,19 @@ def create_account(data):
         connection.set_tenant(tenant)
         data['tenant'] = tenant.id
         account = AccountSerializer(data=data)
-       
         domain = Domain()
         domain.tenant = tenant
         domain.domain = f"{username}.{APPLICATION_DOMAIN}"
+        account.is_valid(raise_exception=True) 
+        account.save()
         domain.save()
     else: 
         account = AccountSerializer(data=data)
         tenant = Tenant.objects.get(id=data['tenant'])
         connection.set_tenant(tenant)
+        account.is_valid(raise_exception=True) 
+        account.save()
 
-    account.is_valid(raise_exception=True) 
-    account.save()
     print("account--> ", account)
 
 
