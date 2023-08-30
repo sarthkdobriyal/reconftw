@@ -691,15 +691,20 @@ def new_scan(request):
                         command.append('--deep')
                 if req_params['switch-vps'] == True:
                         command.append('-v')
+                # command.append( request.data['user_id'])
 
 
                 print('Command -> ', command)
+                
+
+
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
-                print( "user id --->  ", request.data.user_id)
-                # celery_task = new_scan_single_domain.delay(command, request.user_id)
+                celery_task = new_scan_single_domain.delay(command, request.data['user_id'])
 
                 return Response({'message': 'ok'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': "Domain Invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
         elif type_domain == "1":
             list_domain = request.data['listDomain']

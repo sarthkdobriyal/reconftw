@@ -6,24 +6,28 @@ from web.settings import BASE_DIR
 from .models import *
 from scans.utils import *
 import favicon, requests, subprocess
+from projects.models import Project
 
 
 
 @app.task(name='new_scan_single_domain')
 def new_scan_single_domain(*command):
     """task that creates scan project"""
-    command = str(command).split("'")
     print('Scan Command --> ', command)
+    id = command[1]
+    print('user id ==> ', id)
+    command = str(command).split("'")
     del command[0::2]
+    print('Scan Command --> ', command)
     single_domain = command[2]
-
+    print('single Domain --> ', single_domain)
     # COUNTING PROJECTS OF SAME DOMAIN TO CALCULATE THE NEXT NUMBER
     if Project.objects.filter(domain=single_domain).exists():
-        next = str(Project.objects.filter(domain=single_domain).count() + 1)
+        nextNum = str(Project.objects.filter(domain=single_domain).count() + 1)
     else:
-        next = "1"
-
-    path = BASE_DIR.parent / f"Recon/{single_domain}_v{next}"
+        nextNum = "1"
+    print('chck')
+    path = BASE_DIR.parent / f"Recon/{single_domain}_v{nextNum}"
 
     print("Path --> ", path)
     command.append('-o') 
@@ -66,18 +70,19 @@ def new_scan_single_domain(*command):
     
     print('pure domain', puredomain)
     # SAVING PROJECT IN DB
-    Project.objects.create(number=next,
-                             domain=single_domain,
-                             last_change=timezone.now(),
-                             command=str(command),
-                             scan_mode=scan_mode
-                             )
+    Project.objects.create(number=nextNum,
+                            domain=single_domain,
+                            last_change=timezone.now(),
+                            command=str(command),
+                            scan_mode=scan_mode,
+                            user=id,
+                            )
 
 
     # GETTING THE ICON
     if not Project.objects.filter(icon = "static/img/target_icon/{}.ico".format(puredomain)).exists():
          try:
-             target_icon = Project.objects.get(domain=single_domain, number=next)
+             target_icon = Project.objects.get(domain=single_domain, number=nextNum)
              name_icon = "{}.ico".format(puredomain)
              icon_url = favicon.get('http://{}'.format(single_domain))
             
@@ -95,7 +100,8 @@ def new_scan_single_domain(*command):
     
     # STARTING RUN_SCAN TASK
     print("starting run scan")
-    r = run_scan.delay(command, next)
+    r = run_scan.delay(command, nextNum)
+
 
 
  

@@ -3,6 +3,7 @@ import axios from 'axios'
 import  { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AuthContext from '../context/AuthContext'
+import createUrl from '../utils/createUrl'
 
 const NewScanForm = () => {
 
@@ -15,9 +16,11 @@ const NewScanForm = () => {
     
     const [allMode, setAllMode] = useState(false)
 
+
       const performScan = useMutation({
         mutationFn: (formData) => {
-            return axios.post(`${import.meta.env.VITE_API_URL}/scans/new/`, formData, {
+            const url = createUrl(user.tenant.schema_name, '/scans/new/' )
+            return axios.post(url, formData, {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`
                 }
@@ -43,7 +46,7 @@ const NewScanForm = () => {
             user_id: user.id
         }
         console.log(newFormData)
-        // performScan.mutate(formData);
+        performScan.mutate(newFormData);
         reset();
       })
 

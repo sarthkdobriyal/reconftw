@@ -69,6 +69,7 @@ TENANT_APPS = [
     'django_celery_beat',
     'django.contrib.staticfiles',
     # 'rest_framework_simplejwt.token_blacklist',
+    'accounts',
     'projects',
     'editprofile',
     'scans',
@@ -198,7 +199,7 @@ DATABASES = {
         'NAME': 'postgres',
         # set your user details
         'USER': 'postgres',
-        'PASSWORD': 'recon@123',
+        'PASSWORD': 'recon123',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -279,7 +280,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # Celery Settings
 CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = 'db+postgresql://postgres:recon123@localhost:5432/postgres'
 CELERY_ACCEPT_CONTENT=['application/json']
 CELERY_TASK_SERIALIZER='json'
 CELERY_RESULT_SERIALIZER='json'
