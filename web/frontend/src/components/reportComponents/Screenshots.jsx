@@ -33,7 +33,7 @@ const Screenshots = ({ data }) => {
 
       <div className="w-full carousel pt-5 ">
         {
-          data.map((subdomain, i) => (
+          data?.map((subdomain, i) => (
             <div id={`screenshot-${i}`} className="carousel-item relative w-full flex flex-col gap-3 items-center">
               <h1 className="text-2xl font-bold text-left w-[90%]">{subdomain[0]}</h1>
               <img src={`data:image/jpeg;base64,${subdomain[2]}`} className="h-[70%] object-contain" />

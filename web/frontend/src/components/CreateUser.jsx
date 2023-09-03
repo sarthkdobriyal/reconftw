@@ -12,6 +12,15 @@ const CreateUser = () => {
     const queryClient = useQueryClient();
 
     const { user, authToken } = useContext(AuthContext);
+    if (!user.is_superuser && !user.is_staff) {
+        return (
+            <div className='w-full flex justify-center'>
+                <p className='text-center text-2xl text-error my-10 '>
+                    You are not authorized to access this page.
+                </p>
+            </div>
+        )
+    }
 
     const {
         register, isLoading, handleSubmit, reset, formState: { errors }, getValues
@@ -34,7 +43,7 @@ const CreateUser = () => {
         reset();
     })
 
-    const createUserUrl =  createUrl(`${ user.is_superuser  ? '' : `${user.tenant.schema_name}`}`, '/signup/')
+    const createUserUrl = createUrl(`${user.is_superuser ? '' : `${user.tenant.schema_name}`}`, '/signup/')
 
     const createuser = useMutation({
         mutationFn: (formData) => {
@@ -46,8 +55,8 @@ const CreateUser = () => {
             })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['projects'])
-            // navigate('/')
+            queryClient.invalidateQueries(['employees'])
+            navigate('/manageusers')
         },
 
         onError: (e) => {
@@ -61,7 +70,7 @@ const CreateUser = () => {
             <h1 className='text-8xl text-gray-500 text-center font-mono font-bold tracking-tighter opacity-30 mr-5'>Create A User</h1>
 
             {
-                createuser.isSuccess  &&
+                createuser.isSuccess &&
                 <p className='tracking-widest text-lime-600 text-2xl font-semibold text-center'>Account Created!</p>}
             {/* Enter User Details */}
             <div className=' px-10  py-4 h-full  flex justify-center items-center rounded-xl '>
@@ -69,7 +78,7 @@ const CreateUser = () => {
                     <form onSubmit={onSubmit} className='flex flex-col gap-1 items-center text-base  py-1 px-9' action="">
                         <input {...register('name', {
                             required: "required",
-                            
+
                         })} type="text" placeholder="Enter Name" className="focus:border-opacity-80 focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
                         <p className='my-1 tracking-wide text-xs   font-medium text-red-500'>{errors.name?.message}</p>
                         <input {...register('username', {
@@ -79,7 +88,7 @@ const CreateUser = () => {
                                 message: "minimum number of character for username is 3"
                             },
                             pattern: {
-                                value: /^\S*$/ ,
+                                value: /^\S*$/,
                                 message: "Entered value cant start/end or contain  white spacing"
                             },
                         })} type="text" placeholder="Enter Username (unique and no spaces) " className="focus:border-opacity-80 focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
@@ -103,11 +112,13 @@ const CreateUser = () => {
                                 {
                                     isLoading && <span className="loading loading-spinner loading-xs"></span>
                                 }
-                                <span className='texl-xl tracking-wide text-gray-300 ' >
+                                <span className='texl-3xl tracking-wide text-gray-300 ' >
                                     {
                                         createuser.isLoading ? (
                                             <span className="loading loading-infinity loading-lg"></span>
-                                        ) : 'Create'
+                                        ) : <span className='text-xl'>
+                                            CREATE
+                                        </span>
                                     }
                                 </span>
 

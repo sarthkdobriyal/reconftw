@@ -19,6 +19,7 @@ import PrivateRoute from './utils/PrivateRoute';
 import ApiKeysSetting from './pages/ApiKeysSetting';
 import Dashboard from './pages/Dashboard';
 import CreateUser from './components/CreateUser';
+import ManageUsers from './pages/ManageUsers';
 
 
 
@@ -48,6 +49,7 @@ function App() {
           } >
             <Route path='' element={<Dashboard />} />
             <Route path='/scanslist' element={<ScansList />} />
+            <Route path='/manageusers' element={<ManageUsers />} />
             <Route path='/createuser' element={<CreateUser />} />
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/report/:id' element={<Report />} />

@@ -20,6 +20,7 @@ const NewScanForm = () => {
       const performScan = useMutation({
         mutationFn: (formData) => {
             const url = createUrl(user.tenant.schema_name, '/scans/new/' )
+            console.log(url)
             return axios.post(url, formData, {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`
@@ -43,7 +44,7 @@ const NewScanForm = () => {
         console.log(formData);
         const newFormData = {
             ...formData,
-            user_id: user.id
+            user: user.id
         }
         console.log(newFormData)
         performScan.mutate(newFormData);

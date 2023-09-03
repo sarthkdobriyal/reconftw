@@ -4,7 +4,7 @@ from celery import shared_task
 from django.db import transaction
 from django_tenants.utils import connection
 
-from tenant.models import Tenant, Domain
+from tenant.models import Tenant
 from .serializers import AccountSerializer
 
 from web.settings import APPLICATION_DOMAIN
@@ -20,16 +20,16 @@ def create_account(data):
     if is_staff == True:
         connection.set_schema_to_public()
         username = data['username']
-        tenant = Tenant.objects.create(schema_name=username, name=username) 
+        domain = f"{username}.{APPLICATION_DOMAIN}"
+        tenant = Tenant(schema_name=username, name=username, domain_url=domain)
         connection.set_tenant(tenant)
+        tenant.save() 
         data['tenant'] = tenant.id
         account = AccountSerializer(data=data)
-        domain = Domain()
-        domain.tenant = tenant
-        domain.domain = f"{username}.{APPLICATION_DOMAIN}"
+        account.is_staff = True
+        account.tenant = tenant
         account.is_valid(raise_exception=True) 
         account.save()
-        domain.save()
     else: 
         account = AccountSerializer(data=data)
         tenant = Tenant.objects.get(id=data['tenant'])

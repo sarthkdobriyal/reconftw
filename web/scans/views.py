@@ -700,7 +700,7 @@ def new_scan(request):
 
                 # RUN new_scan_single_domain TASK
                 print("=====>>>> about to run new_scan_single_domain")
-                celery_task = new_scan_single_domain.delay(command, request.data['user_id'])
+                celery_task = new_scan_single_domain.delay(command, request.data['user'])
 
                 return Response({'message': 'ok'}, status=status.HTTP_200_OK)
             else:

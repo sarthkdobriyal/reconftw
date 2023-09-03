@@ -8,16 +8,16 @@ class AccountManager(BaseUserManager):
         user.is_active = True
         user.is_staff = True
         user.is_superuser = True
-
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, name, username, password, is_staff=True):
+    def create_staffuser(self, name, username, password,tenant, is_staff=True):
         user = self.model(name=name, username=username, password=password)
         user.set_password(password)
         user.is_active = True
-        user.is_staff = True
+        user.is_staff = is_staff
         user.is_superuser = False
+        user.tenant = tenant
         user.save(using=self._db)
         return user
 

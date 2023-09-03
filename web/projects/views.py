@@ -21,7 +21,6 @@ from rest_framework import status
 
 
 from rest_framework.serializers import ModelSerializer
-from projects.models import Project
 
 class ProjectSerializer(ModelSerializer):
     class Meta:
@@ -41,7 +40,7 @@ def index(request):
 
     timezones = timezone()
 
-    projects_output = Project.objects.all()
+    projects_output = Project.objects.filter(user=request.user.id)
     db_projects_count = Project.objects.values('domain').count() or 0
     
     path = Path(__file__).resolve().parent.parent.parent / "Recon/"

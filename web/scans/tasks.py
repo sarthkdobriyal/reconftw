@@ -7,7 +7,7 @@ from .models import *
 from scans.utils import *
 import favicon, requests, subprocess
 from projects.models import Project
-
+from accounts.models import Account
 
 
 @app.task(name='new_scan_single_domain')
@@ -22,6 +22,8 @@ def new_scan_single_domain(*command):
     single_domain = command[2]
     print('single Domain --> ', single_domain)
     # COUNTING PROJECTS OF SAME DOMAIN TO CALCULATE THE NEXT NUMBER
+    print('wow')
+    print(Project.objects.filter(domain=single_domain).exists())
     if Project.objects.filter(domain=single_domain).exists():
         nextNum = str(Project.objects.filter(domain=single_domain).count() + 1)
     else:
@@ -67,6 +69,10 @@ def new_scan_single_domain(*command):
 
     # ADDING DOMAIN
     puredomain = str(single_domain).split('.')[0]
+
+
+    #getting account
+    performerAccount = Account.objects.get(id=id)
     
     print('pure domain', puredomain)
     # SAVING PROJECT IN DB
@@ -75,7 +81,7 @@ def new_scan_single_domain(*command):
                             last_change=timezone.now(),
                             command=str(command),
                             scan_mode=scan_mode,
-                            user=id,
+                            user=performerAccount,
                             )
 
 

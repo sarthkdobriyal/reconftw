@@ -22,7 +22,7 @@ from auth.views import sign_up
 
 urlpatterns = [
     # path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('admin/', admin.site.urls),
+    path('/admin/', admin.site.urls),
     path('',TemplateView.as_view(template_name='index.html')),
     path('api/token/', DjangoReactObtainToken.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -34,5 +34,6 @@ urlpatterns = [
     path('api/schedules/', include('schedules.urls')),
     path('api/apikeys_settings/', include('apikeys.urls')),
     path('api/edit_profile/', include('editprofile.urls')),
+    path('api/accounts/', include('accounts.urls')),
 
 ] 

@@ -1,3 +1,5 @@
 app_name = 'accounts'
 
-urlpatterns = []
+urlpatterns = [
+    
+]

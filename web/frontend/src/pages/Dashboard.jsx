@@ -24,8 +24,8 @@ const Dashboard = () => {
 
             {
                 user.is_staff && (
-                    <Link to='/createuser'>
-                        <DashboardButtons heading={`Add User` } icon='create' />
+                    <Link to='/manageusers'>
+                        <DashboardButtons heading={`Manage Users` } icon='create' />
                     </Link>
                 ) 
                 

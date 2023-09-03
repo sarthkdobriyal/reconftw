@@ -39,7 +39,7 @@ ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '*']
     These app's data are stored on the public schema
 """
 SHARED_APPS = [
-    'django_tenants',  # mandatory
+    'tenant_schemas',  # mandatory
     'tenant',  # you must list the app where your tenant model resides in
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,9 +78,34 @@ TENANT_APPS = [
     'django_celery_results',
 ]
 
-INSTALLED_APPS = list(SHARED_APPS) + [
-    app for app in TENANT_APPS if app not in SHARED_APPS
+INSTALLED_APPS =  [
+    'tenant_schemas',
+    'tenant',
+
+    # The following Django contrib apps must be in TENANT_APPS
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+
+    # tenant-specific apps
+    'django_celery_beat',
+    'django.contrib.staticfiles',
+    # 'rest_framework_simplejwt.token_blacklist',
+    'projects',
+    'editprofile',
+    'scans',
+    'apikeys',
+    'rest_framework',
+    'corsheaders',
+    'django_celery_results',
+    'accounts',
+
 ]
+
+
+
 
 
 REST_FRAMEWORK = {
@@ -138,8 +163,8 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
         # django tenant middleware
-    'django_tenants.middleware.main.TenantMainMiddleware',
-    'web.middleware.TenantMiddleware',
+    # 'tenant_schemas.middleware.TenantMiddleware',
+    'tenant.middleware.RequestIDTenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -151,6 +176,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'web.urls'
+PUBLIC_SCHEMA_URLCONF = 'web.urls'
+
+DEFAULT_FILE_STORAGE='tenant_schemas.storage.TenantFileSystemStorage'
 
 TEMPLATES = [
     {
@@ -193,7 +221,7 @@ DATABASES = {
     # }
     'default': {
         # Tenant Engine
-        'ENGINE': 'django_tenants.postgresql_backend',
+        'ENGINE': 'tenant_schemas.postgresql_backend',
         # set database name
         'NAME': 'postgres',
         # set your user details
@@ -206,14 +234,14 @@ DATABASES = {
 
 # DATABASE ROUTER
 DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
+    'tenant_schemas.routers.TenantSyncRouter',
 )
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 TENANT_MODEL = "tenant.Tenant"
 
-TENANT_DOMAIN_MODEL = "tenant.Domain"
+# TENANT_DOMAIN_MODEL = "tenant.Domain"
 
 AUTH_USER_MODEL = 'accounts.Account'
 
@@ -265,7 +293,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles',
+    BASE_DIR / 'static',
     os.path.join(BASE_DIR, 'frontend', 'dist', 'assets'),
 ]
 # STATIC_ROOT = BASE_DIR / "staticfiles"

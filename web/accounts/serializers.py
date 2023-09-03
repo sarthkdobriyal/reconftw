@@ -3,13 +3,14 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Account
 from tenant.models import Tenant
+from rest_framework.serializers import ModelSerializer
 
 
 class AccountSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(required=True)
     class Meta:
         model = Account
-        fields = ['name', 'username', 'password', 'confirm_password', 'tenant']
+        fields = ['name', 'username', 'password', 'confirm_password', 'tenant', 'is_staff']
         extra_kwargs = {
             'password': {'write_only': True},
             'confirm_password': {'write_only': True},
@@ -29,7 +30,7 @@ class AccountSerializer(serializers.ModelSerializer):
                 username=validated_data['username'],
                 password=validated_data['password'],
                 tenant=validated_data['tenant'] if validated_data['tenant'] else None,
-                is_staff= True,
+                is_staff=True,
             )
 
         return Account.objects.create_user(
@@ -38,3 +39,8 @@ class AccountSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             tenant=validated_data['tenant'] if validated_data['tenant'] else None,
         )
+
+class AccountRestSerializer(ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['id', 'name', 'username', 'created_date', 'tenant','is_staff']
