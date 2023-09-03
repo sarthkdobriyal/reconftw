@@ -62,9 +62,9 @@ const ManageUsers = () => {
 
     const handleToggleIsActive = useMutation( {
       mutationFn: (id) => {   
-        let deleteUrl = createUrl(`${user.tenant.schema_name === 'public' || user.tenant.schema_name === ''  ? '' : user.tenant.schema_name }`, `/accounts/employee/${id}/toggle_is_active`)
-        console.log(deleteUrl)    
-            return axios.delete(deleteUrl, {
+        let toggelActiveUrl = createUrl(`${user.tenant.schema_name === 'public' || user.tenant.schema_name === ''  ? '' : user.tenant.schema_name }`, `/accounts/employee/${id}/toggle_is_active`)
+        console.log(toggelActiveUrl)    
+            return axios.patch(toggelActiveUrl , {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`
                 },
@@ -74,7 +74,7 @@ const ManageUsers = () => {
             })
         },
         onSuccess: () => {
-            console.log("success",)
+            console.log("success")
             queryClient.invalidateQueries(['employees'])
             refetch();
         },
@@ -83,7 +83,6 @@ const ManageUsers = () => {
             alert(e.response.data.message)
         },
     })
-
 
 
   return (

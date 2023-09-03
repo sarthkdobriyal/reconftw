@@ -21,8 +21,8 @@ def create_account(data):
         connection.set_schema_to_public()
         username = data['username']
         domain = f"{username}.{APPLICATION_DOMAIN}"
-        tenant = Tenant(schema_name=username, name=username, domain_url=domain)
-        connection.set_tenant(tenant)
+        tenant = Tenant(schema_name=username, tenant_name=username, domain_url=domain, )
+        # connection.set_tenant(tenant)
         tenant.save() 
         data['tenant'] = tenant.id
         account = AccountSerializer(data=data)

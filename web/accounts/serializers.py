@@ -43,4 +43,4 @@ class AccountSerializer(serializers.ModelSerializer):
 class AccountRestSerializer(ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'name', 'username', 'created_date', 'tenant','is_staff']
+        fields = ['id', 'name', 'username', 'created_date', 'tenant','is_staff', 'is_active']

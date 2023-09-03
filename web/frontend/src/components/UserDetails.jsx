@@ -27,7 +27,7 @@ const UserDetails = ({ user, i, handleDelete, admin, handleToggleIsActive }) => 
                 <button onClick={() => handleDelete.mutate(user.id, admin)} disabled={handleDelete.isLoading} data-tip='delete' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150 z-10'>
                     <AiOutlineDelete size={24} color={`${handleDelete.isLoading ? 'gray' : 'red'}`} />
                 </button>
-                <input type="checkbox" className="toggle toggle-success rounded-full " onChange={handleToggleIsActive} checked  value={user.is_active}/>
+                <input type="checkbox" className="z-10 toggle toggle-success rounded-full " onChange={() => handleToggleIsActive.mutate(user.id)}  value={user.is_active} disabled={handleToggleIsActive.isLoading}/>
 
             </div>
 

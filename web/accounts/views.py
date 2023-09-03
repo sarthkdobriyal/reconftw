@@ -9,6 +9,7 @@ from .models import Account
 from rest_framework import status
 from .serializers import AccountRestSerializer
 from tenant.models import Tenant
+from django.db import connection
 
 from django_tenants.management.commands.delete_tenant import Command as delCommand
 
@@ -57,18 +58,10 @@ def deleteEmployee(request, id):
 
 def deleteClient(request, id):
     print('req user', request.user, id)
-    is_Tenant_Admin = Account.objects.filter(id=id).values('is_staff')[0]['is_staff']
-    if(is_Tenant_Admin):
-        tenant_id = Account.objects.filter(id=id).values('tenant_id')[0]['tenant_id']
-        # print(tenant_id)
-        # tenant = Tenant.objects.filter(id=tenant_id)
-        # print(tenant[0])
-        # Account.objects.filter(id=id).delete()
-        # Tenant.objects.filter(schema_name=tenant[0]).delete()
-        return Response({'message': 'Account Deleted'}, status=status.HTTP_200_OK)
-    else:
-        Account.objects.filter(id=id).delete()
-        return Response({'message': 'Account Deleted'}, status=status.HTTP_200_OK)
+    tenant_id = Account.objects.filter(id=id).values('tenant_id')[0]['tenant_id']
+    Account.objects.filter(id=id).delete()
+    Tenant.objects.filter(id=tenant_id).delete()
+    return Response({'message': 'Account Deleted'}, status=status.HTTP_200_OK)
     
 
 
@@ -77,8 +70,10 @@ def toggle_is_active(request, account_id):
     # Get the account instance by ID
     account = get_object_or_404(Account, id=account_id)
 
+    print( account_id , " " ,  account.is_active)
     # Toggle the is_active attribute
     account.is_active = not account.is_active
+    print(account.is_active)
     account.save()
 
     return Response({'message': 'Successfully toggled is_active.'}, status=status.HTTP_200_OK)
