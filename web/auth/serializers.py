@@ -37,4 +37,4 @@ class DjangoReactJWTSerializers(TokenObtainPairSerializer):
 class TenantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tenant
-        fields = ['id', 'schema_name']
+        fields = ['id', 'schema_name', 'tenant_uuid']

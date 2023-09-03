@@ -19,5 +19,5 @@ class RequestIDTenantMiddleware(BaseTenantMiddleware):
         public_schema.save()
         x_request_id = request.META.get('HTTP_X_REQUEST_ID', public_schema.tenant_uuid)
         tenant_model = model.objects.get(tenant_uuid=x_request_id)
-        print(tenant_model, public_schema)
+        print(tenant_model, public_schema,  request)
         return tenant_model if not None else public_schema

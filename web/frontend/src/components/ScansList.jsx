@@ -10,12 +10,16 @@ const ScansList = () => {
 
 
     const { user, authToken } = useContext(AuthContext);
+    console.log(user.tenant.tenant_uuid)
     const queryClient = useQueryClient()
-    const projectsUrl = createUrl(user.tenant.schema_name, `/projects/`)
+    const projectsUrl = createUrl('', `/projects/`)
     const { isLoading, isError, data, refetch } = useQuery(['projects/'], () => axios.get(`${projectsUrl}`, {
         headers: {
-            'Authorization': `Bearer ${authToken.access}`
-        }
+            'Authorization': `Bearer ${authToken.access}`,
+            'x-request-id': user.tenant.tenant_uuid
+        },
+        'X-REQUEST-ID': user.tenant.tenant_uuid
+
     }))
 
 

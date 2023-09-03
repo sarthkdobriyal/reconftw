@@ -331,6 +331,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:4173",
     "http://43.204.147.61",
 ]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-requested-with',
+    'x-request-id',  # Add 'x-request-id' to the list of allowed headers
+]
 
 
 # LOGGING = {

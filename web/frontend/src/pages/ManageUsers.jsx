@@ -118,7 +118,7 @@ const ManageUsers = () => {
                 {
                     user?.is_superuser ? 
                     <AdminUserManagement users={data.data} handleDelete={handleDelete} handleToggleIsActive={handleToggleIsActive} /> :
-                    <ClientUserManagement users={data.data} handleDelete={handleDelete} handleToggleIsActive={handleToggleIsActive}/> 
+                    <ClientUserManagement users={data.data} handleDelete={handleDelete} /> 
                 }
 
               </div>

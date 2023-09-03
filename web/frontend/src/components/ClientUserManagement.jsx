@@ -28,7 +28,7 @@ const ClientUserManagement = ({ users, handleDelete }) => {
             <div className='my-1' >
                 {
                     users.map((user, i) => (
-                        <UserDetails key={user.id} user={user} i={i} handleDelete={handleDelete}/>
+                        <UserDetails key={user.id} user={user} i={i} handleDelete={handleDelete} handleToggleIsActive={null}/>
                     ))
                 }
             </div>

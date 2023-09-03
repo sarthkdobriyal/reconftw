@@ -14,6 +14,7 @@ const Header = () => {
 
     if (!user) return <Navigate to='/login' replace />
 
+    console.log(user)
 
     const isReport = location.pathname.includes('report')
 
