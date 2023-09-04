@@ -25,8 +25,9 @@ const Report = () => {
   const reportUrl = createUrl(user.tenant.schema_name, `/scans/results/${id}`)
   const { isLoading, isError, data } =useQuery(['report'], () => axios.get(`${reportUrl}`, {
     headers: {
-        'Authorization': `Bearer ${authToken.access}`
-    }
+      'Authorization': `Bearer ${authToken.access}`,
+      'x-request-id': user.tenant.tenant_uuid
+  },
 }))
 
 

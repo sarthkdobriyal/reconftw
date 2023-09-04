@@ -24,13 +24,13 @@ const ManageUsers = () => {
   }
 
 
-  const employeesUrl = createUrl(user.tenant.schema_name, `/accounts/employees`)
+  const employeesUrl = createUrl('', `/accounts/employees`)
   const clientsUrl = createUrl('', `/accounts/clients`)
 
   const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${user.is_superuser ? clientsUrl : employeesUrl}`, {
     headers: {
-      'Authorization': `Bearer ${authToken.access}`
-    }
+      'Authorization': `Bearer ${authToken.access}`,
+  },
   }))
 
   
@@ -41,8 +41,9 @@ const ManageUsers = () => {
         console.log(deleteUrl)    
             return axios.delete(deleteUrl, {
                 headers: {
-                    'Authorization': `Bearer ${authToken.access}`
-                },
+            'Authorization': `Bearer ${authToken.access}`,
+            'x-request-id': user.tenant.tenant_uuid
+        },
                 user: {
                   'id': user.id,
                 }
@@ -65,9 +66,10 @@ const ManageUsers = () => {
         let toggelActiveUrl = createUrl(`${user.tenant.schema_name === 'public' || user.tenant.schema_name === ''  ? '' : user.tenant.schema_name }`, `/accounts/employee/${id}/toggle_is_active`)
         console.log(toggelActiveUrl)    
             return axios.patch(toggelActiveUrl , {
-                headers: {
-                    'Authorization': `Bearer ${authToken.access}`
-                },
+              headers: {
+                'Authorization': `Bearer ${authToken.access}`,
+                
+            },
                 user: {
                   'id': user.id,
                 }

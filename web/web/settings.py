@@ -47,12 +47,13 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
+    # 'corsheaders',
 
 
     # we place blog here since we want 
     # public schema to have the same structure like tenant apps
     'accounts',
+
 ]
 """
     These app's data are stored on their specific schemas
@@ -69,6 +70,7 @@ TENANT_APPS = [
     'django_celery_beat',
     'django.contrib.staticfiles',
     # 'rest_framework_simplejwt.token_blacklist',
+    
     'projects',
     'editprofile',
     'scans',
@@ -93,14 +95,15 @@ INSTALLED_APPS =  [
     'django_celery_beat',
     'django.contrib.staticfiles',
     # 'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
     'projects',
     'editprofile',
     'scans',
     'apikeys',
     'rest_framework',
-    'corsheaders',
     'django_celery_results',
     'accounts',
+    
 
 ]
 
@@ -164,9 +167,9 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
         # django tenant middleware
     # 'tenant_schemas.middleware.TenantMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'tenant.middleware.RequestIDTenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -323,14 +326,14 @@ CELERY_ROUTES = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
-    "http://localhost:4173",
-    "http://localhost:9050",
-    "http://127.0.0.1",
-    "http://127.0.0.1:4173",
-    "http://43.204.147.61",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost",
+#     "http://localhost:4173",
+#     "http://localhost:9050",
+#     "http://127.0.0.1",
+#     "http://127.0.0.1:4173",
+#     "http://43.204.147.61",
+# ]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -340,7 +343,8 @@ CORS_ALLOW_HEADERS = [
     'origin',
     'user-agent',
     'x-requested-with',
-    'x-request-id',  # Add 'x-request-id' to the list of allowed headers
+    'x-request-id', 
+     'access-control-allow-origin' # Add 'x-request-id' to the list of allowed headers
 ]
 
 

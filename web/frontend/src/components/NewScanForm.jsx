@@ -23,8 +23,9 @@ const NewScanForm = () => {
             console.log(url)
             return axios.post(url, formData, {
                 headers: {
-                    'Authorization': `Bearer ${authToken.access}`
-                }
+                    'Authorization': `Bearer ${authToken.access}`,
+                    'x-request-id': user.tenant.tenant_uuid
+                },
 
                 
             })

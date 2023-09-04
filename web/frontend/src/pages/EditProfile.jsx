@@ -25,9 +25,10 @@ const EditProfile = () => {
   const editProfile = useMutation({
     mutationFn: (formData) => {
         return axios.post(`${import.meta.env.VITE_API_URL}/edit_profile/`, formData, {
-            headers: {
-                'Authorization': `Bearer ${authToken.access}`
-            }
+          headers: {
+            'Authorization': `Bearer ${authToken.access}`,
+            'x-request-id': user.tenant.tenant_uuid
+        },
 
             
         })

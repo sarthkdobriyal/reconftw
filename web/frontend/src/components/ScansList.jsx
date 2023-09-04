@@ -12,13 +12,12 @@ const ScansList = () => {
     const { user, authToken } = useContext(AuthContext);
     console.log(user.tenant.tenant_uuid)
     const queryClient = useQueryClient()
-    const projectsUrl = createUrl('', `/projects/`)
+    const projectsUrl = createUrl(user.tenant.schema_name , `/projects/`)
     const { isLoading, isError, data, refetch } = useQuery(['projects/'], () => axios.get(`${projectsUrl}`, {
         headers: {
             'Authorization': `Bearer ${authToken.access}`,
             'x-request-id': user.tenant.tenant_uuid
         },
-        'X-REQUEST-ID': user.tenant.tenant_uuid
 
     }))
 
@@ -34,8 +33,9 @@ const ScansList = () => {
                 const url = createUrl(user.tenant.schema_name, `/projects/${id}/delete/`)
                 return axios.delete(url, {
                     headers: {
-                        'Authorization': `Bearer ${authToken.access}`
-                    }
+                        'Authorization': `Bearer ${authToken.access}`,
+                        'x-request-id': user.tenant.tenant_uuid
+                    },
                 })
             },
             onSuccess: () => {
@@ -56,7 +56,8 @@ const ScansList = () => {
             const url = createUrl(user.tenant.schema_name, `/projects/${id}/cancel/`)
             return axios.post(url , {
                 headers: {
-                    'Authorization': `Bearer ${authToken.access}`
+                    'Authorization': `Bearer ${authToken.access}`,
+                    'x-request-id': user.tenant.tenant_uuid
                 },
             })
         },
