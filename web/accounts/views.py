@@ -58,8 +58,11 @@ def deleteEmployee(request, id):
 
 def deleteClient(request, id):
     print('req user', request.user, id)
+    if(not Account.objects.filter(id=id).values('is_staff')[0]['is_staff']):
+        Account.objects.filter(id=id).delete()
+        return Response({'message': 'Account Deleted'}, status=status.HTTP_200_OK)
     tenant_id = Account.objects.filter(id=id).values('tenant_id')[0]['tenant_id']
-    Account.objects.filter(id=id).delete()
+    print('deleting Tenant')
     Tenant.objects.filter(id=tenant_id).delete()
     return Response({'message': 'Account Deleted'}, status=status.HTTP_200_OK)
     

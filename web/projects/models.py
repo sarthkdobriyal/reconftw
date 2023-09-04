@@ -10,7 +10,7 @@ class Project(models.Model):
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='WAITING')
     command = models.CharField(max_length=400, unique=False, blank=True, null=True)
     scan_mode = models.CharField(max_length=400, unique=False, blank=True, null=True)
-    user = models.ForeignKey(Account , on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(Account , on_delete=models.DO_NOTHING , null=True)
     # user = models.PositiveSmallIntegerField(null=True)
 
     def get_last_change(self):

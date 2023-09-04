@@ -50,7 +50,9 @@ const CreateUser = () => {
             console.log('muattion', formData)
             return axios.post(createUserUrl, formData, {
                 headers: {
-                    'Authorization': `Bearer ${authToken.access}`
+                    'Authorization': `Bearer ${authToken.access}`,
+                    'x-request-id': user.tenant.tenant_uuid
+                    
                 }
             })
         },
