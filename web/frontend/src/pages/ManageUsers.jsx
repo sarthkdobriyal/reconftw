@@ -1,16 +1,13 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import AuthContext from '../context/AuthContext'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
 import AdminUserManagement from '../components/AdminUserManagement'
 import ClientUserManagement from '../components/ClientUserManagement'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import createUrl from '../utils/createUrl'
+
 const ManageUsers = () => {
 
 
 
-  const { user, authToken } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   if (!user.is_superuser && !user.is_staff) {
     return (
@@ -24,58 +21,20 @@ const ManageUsers = () => {
 
   else if (user.is_superuser) {
 
-
-    const clientsUrl = createUrl(null, `/accounts/clients`)
-    const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${clientsUrl}`, {
-      headers: {
-        'Authorization': `Bearer ${authToken.access}`,
-        // 'x-request-id': user.tenant.tenant_uuid
-
-      },
-    }))
-    console.log(  data)
     return (
       <div>
-        {
-          isLoading ? (
-            <div className='w-full  flex justify-center mt-20 '>
-              <span className="loading loading-bars  loading-lg"></span>
-            </div>
-          ) :
-            isError ? (
-              <div className="w-full flex justify-center mt-20">
-                <span className='text-error text-xl font-bold'>Something Went Wrong...</span>
-              </div>
-            ) : data.data.length === 0 ? (
-              <div className='w-full my-10 flex flex-col gap-5 items-center'>
-                <span className='text-center text-xl text-warning block'>Seems like there are no users.</span>
-                <Link to='/createuser'>
-                  <button className='btn btn-wide rounded-xl shadow-inner shadow-gray-600'>Add a User</button>
-                </Link>
-              </div>
-            ) : (
-              <div className='px-5 py-2 w-full'>
-                <div className='flex justify-between items-center mb-5'>
-
-                  <span className='text-8xl text-gray-600 font-mono font-bold tracking-tighter opacity-30 mr-5'>Manage Users</span>
-                  <Link to='/createuser' className='btn btn-wide shadow-inner shadow-gray-600 rounded-xl font-bold text-lg'>
-                    + Add user
-                  </Link>
-                </div>
+        
                 <div>
 
                   {
-                    <AdminUserManagement users={data.data} refetch={refetch}/>
+                    <AdminUserManagement />
 
                   }
 
                 </div>
 
 
-              </div>
-            )
-        }
-
+             
       </div>
     )
 
@@ -86,16 +45,6 @@ const ManageUsers = () => {
   else {
 
 
-    const { user, authToken } = useContext(AuthContext)
-
-    const employeesUrl = createUrl(user.tenant.schema_name, `/accounts/employees`)
-    const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${employeesUrl}`, {
-      headers: {
-        'Authorization': `Bearer ${authToken.access}`,
-        'x-request-id': user.tenant.tenant_uuid
-
-      },
-    }))
   
 
 
@@ -103,45 +52,9 @@ const ManageUsers = () => {
 
   return (
     <div>
-      {
-        isLoading ? (
-          <div className='w-full  flex justify-center mt-20 '>
-            <span className="loading loading-bars  loading-lg"></span>
-          </div>
-        ) :
-          isError ? (
-            <div className="w-full flex justify-center mt-20">
-              <span className='text-error text-xl font-bold'>Something Went Wrong...</span>
-            </div>
-          ) : data.data.length === 0 ? (
-            <div className='w-full my-10 flex flex-col gap-5 items-center'>
-              <span className='text-center text-xl text-warning block'>Seems like there are no users.</span>
-              <Link to='/createuser'>
-                <button className='btn btn-wide rounded-xl shadow-inner shadow-gray-600'>Add a User</button>
-              </Link>
-            </div>
-          ) : (
-            <div className='px-5 py-2 w-full'>
-              <div className='flex justify-between items-center mb-5'>
 
-                <span className='text-8xl text-gray-600 font-mono font-bold tracking-tighter opacity-30 mr-5'>Manage Users</span>
-                <Link to='/createuser' className='btn btn-wide shadow-inner shadow-gray-600 rounded-xl font-bold text-lg'>
-                  + Add user
-                </Link>
-              </div>
-              <div>
-
-                {
-                    <ClientUserManagement users={data.data} refetch={refetch}/>
-                }
-
-              </div>
-
-
-            </div>
-          )
-      }
-
+                    <ClientUserManagement />
+                
     </div>
   )
 

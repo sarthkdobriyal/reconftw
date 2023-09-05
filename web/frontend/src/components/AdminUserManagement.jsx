@@ -1,23 +1,24 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import UserDetails from './UserDetails'
 import axios from 'axios'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation,  useQuery,  useQueryClient } from '@tanstack/react-query'
 import createUrl from '../utils/createUrl'
 import AuthContext from '../context/AuthContext'
-const AdminUserManagement = ({users, refetch}) => {
+import { Link } from 'react-router-dom'
+const AdminUserManagement = ( ) => {
 
   const { user, authToken } = useContext(AuthContext)
   const queryClient = useQueryClient()
-  // const clientsUrl = createUrl(null, `/accounts/clients`)
-  // const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${clientsUrl }`, {
-  //   headers: {
-  //     'Authorization': `Bearer ${authToken.access}`,
-  //     // 'x-request-id': user.tenant.tenant_uuid
+  const clientsUrl = createUrl(null, `/accounts/clients`)
+  const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${clientsUrl }`, {
+    headers: {
+      'Authorization': `Bearer ${authToken.access}`,
+      // 'x-request-id': user.tenant.tenant_uuid
 
-  // },
-  // }))
+  },
+  }))
 
-  console.log(users)
+  console.log(data)
 
   const handleDelete = useMutation({
    
@@ -77,7 +78,35 @@ const AdminUserManagement = ({users, refetch}) => {
 
   return (
     <div>
-      <div className='flex pl-4 pr-12 bg-base-300 w-full text-lime-500 text-lg font-bold py-4 rounded-md sticky '>
+      {
+          isLoading ? (
+            <div className='w-full  flex justify-center mt-20 '>
+              <span className="loading loading-bars  loading-lg"></span>
+            </div>
+          ) :
+            isError ? (
+              <div className="w-full flex justify-center mt-20">
+                <span className='text-error text-xl font-bold'>Something Went Wrong...</span>
+              </div>
+            ) : data.data.length === 0 ? (
+              <div className='w-full my-10 flex flex-col gap-5 items-center'>
+                <span className='text-center text-xl text-warning block'>Seems like there are no users.</span>
+                <Link to='/createuser'>
+                  <button className='btn btn-wide rounded-xl shadow-inner shadow-gray-600'>Add a User</button>
+                </Link>
+              </div>
+            ) : (
+              <div className='px-5 py-2 w-full'>
+                <div className='flex justify-between items-center mb-5'>
+
+                  <span className='text-8xl text-gray-600 font-mono font-bold tracking-tighter opacity-30 mr-5'>Manage Users</span>
+                  <Link to='/createuser' className='btn btn-wide shadow-inner shadow-gray-600 rounded-xl font-bold text-lg'>
+                    + Add user
+                  </Link>
+                </div>
+                <div>
+
+                <div className='flex pl-4 pr-12 bg-base-300 w-full text-lime-500 text-lg font-bold py-4 rounded-md sticky '>
         <div className='  w-[10%] flex justify-center border-r border-gray-700'>
           S.no
         </div>
@@ -96,8 +125,7 @@ const AdminUserManagement = ({users, refetch}) => {
       </div>
       <div className='flex flex-col '>
         {
-          
-          users?.map((client, i) => {
+          (data?.data.map((client, i) => {
 
             return (
               <div key={client.id}  className="collapse collapse-arrow bg-base-100 my-2  w-full text-gray-200 font-semibold  shadow-inner shadow-gray-500 rounded-xl">
@@ -117,10 +145,25 @@ const AdminUserManagement = ({users, refetch}) => {
                 </div>
               </div>
             )
-          })
+          }))
         }
 
       </div>
+
+                </div>
+
+
+              </div>
+            )
+        }
+
+
+
+
+
+
+
+      
 
 
     </div>

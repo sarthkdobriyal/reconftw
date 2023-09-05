@@ -10,7 +10,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { authToken } = useContext(AuthContext);
+  const {user,  authToken } = useContext(AuthContext);
 
   const {
     register, isLoading , handleSubmit, reset, formState: { errors }, getValues

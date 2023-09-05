@@ -1,6 +1,6 @@
-import React from 'react'
+
 import { GoProjectRoadmap } from 'react-icons/go'
-import { FaPowerOff, FaPlus } from 'react-icons/fa'
+import { FaPowerOff } from 'react-icons/fa'
 import { BiSolidUser } from 'react-icons/bi'
 
 const DashboardButtons = ({heading, icon}) => {

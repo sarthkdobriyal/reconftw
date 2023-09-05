@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import { useNavigate } from 'react-router';
 import AuthContext from '../context/AuthContext';
 import createUrl from '../utils/createUrl';
@@ -11,39 +11,9 @@ const CreateUser = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const { user, authToken } = useContext(AuthContext);
-    if (!user.is_superuser && !user.is_staff) {
-        return (
-            <div className='w-full flex justify-center'>
-                <p className='text-center text-2xl text-error my-10 '>
-                    You are not authorized to access this page.
-                </p>
-            </div>
-        )
-    }
-
     const {
         register, isLoading, handleSubmit, reset, formState: { errors }, getValues
     } = useForm()
-
-    // console.log("user --> ", user)
-    const onSubmit = handleSubmit((formData) => {
-        const newFormData = {
-            ...formData,
-            'is_active': true,
-            'is_staff': user.is_superuser ? true : false,
-            'is_superuser': false,
-            'tenant': user.is_staff ? user.tenant.id : null,
-            'created_date': Date.now()
-        }
-        console.log(newFormData)
-
-        createuser.mutate(newFormData)
-        // editProfile.mutate(formData);
-        reset();
-    })
-
-    const createUserUrl = createUrl(`${user.is_superuser ? '' : `${user.tenant.schema_name}`}`, '/signup/')
 
     const createuser = useMutation({
         mutationFn: (formData) => {
@@ -66,6 +36,40 @@ const CreateUser = () => {
             reset();
         },
     })
+
+    const { user, authToken } = useContext(AuthContext);
+    if (!user.is_superuser && !user.is_staff) {
+        return (
+            <div className='w-full flex justify-center'>
+                <p className='text-center text-2xl text-error my-10 '>
+                    You are not authorized to access this page.
+                </p>
+            </div>
+        )
+    }
+
+   
+
+    // console.log("user --> ", user)
+    const onSubmit = handleSubmit((formData) => {
+        const newFormData = {
+            ...formData,
+            'is_active': true,
+            'is_staff': user.is_superuser ? true : false,
+            'is_superuser': false,
+            'tenant': user.is_staff ? user.tenant.id : null,
+            'created_date': Date.now()
+        }
+        console.log(newFormData)
+
+        createuser.mutate(newFormData)
+        // editProfile.mutate(formData);
+        reset();
+    })
+
+    const createUserUrl = createUrl(`${user.is_superuser ? '' : `${user.tenant.schema_name}`}`, '/signup/')
+
+   
 
     return (
         <div className='px-10 h-full w-screen'>
