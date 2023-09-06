@@ -51,7 +51,7 @@ const EditProfile = () => {
       <div className=' w-full h-full px-2 py-2 flex '>
         {/* Upload image */}
         <div className='w-[40%] pb-20 rounded-xl bg-base-200  h-full  bg-base flex flex-col items-center'>
-          <h1 className='text-xl font-bold text-lime-600 tracking-widest text-center mt-16 mb-5'>Profile Image</h1>
+          <h1 className='text-xl font-bold text-sky-600 tracking-widest text-center mt-16 mb-5'>Profile Image</h1>
 
           <img src="/images/Defult.png" alt="user image" className='h-48 w-48 rounded-xl my-5' />
 
@@ -62,7 +62,7 @@ const EditProfile = () => {
         {/* Enter User Details */}
         <div className='w-[60%] px-10  py-4 h-full bg-base-200 flex justify-center items-center rounded-xl'>
           <div className='h-full w-full bg-base-300 rounded-xl shadow-inner shadow-gray-600'>
-            <h1 className='text-2xl font-bold text-lime-600 tracking-widest text-center my-8'>Enter Your Credentials</h1>
+            <h1 className='text-2xl font-bold text-sky-600 tracking-widest text-center my-8'>Enter Your Credentials</h1>
             <form onSubmit={onSubmit} className='flex flex-col gap-1 items-center text-base  py-1 px-9' action="">
               <input {...register('username')}  type="text" placeholder="Enter Username" className="input input-bordered w-full rounded-xl placeholder:tracking-widest " />
               <p className='my-1 tracking-wide text-xs   font-medium text-red-500'>{errors.username?.message}</p>
@@ -86,7 +86,7 @@ const EditProfile = () => {
                   {
                     isLoading && <span className="loading loading-spinner loading-xs"></span>
                   }
-                  <span>
+                  <span className='text-xl font-bold text-white'>
                   Submit
                   </span>
                   

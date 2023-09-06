@@ -2,15 +2,15 @@ from django.db import models
 from projects.models import Project
 
 class SubdomainsDNS(models.Model):
-    host = models.CharField(max_length=100, blank=True)
-    resolver = models.CharField(max_length=200)
-    cname = models.CharField(max_length=200, blank=True, default="N/A")
-    a_record = models.CharField(max_length=200, blank=True, default="N/A")
-    aaaa_record = models.CharField(max_length=200, blank=True, default="N/A")
-    mx_record = models.CharField(max_length=200, blank=True, default="N/A")
-    soa_record = models.CharField(max_length=200, blank=True, default="N/A")
-    ns_record = models.CharField(max_length=200, blank=True, default="N/A")
-    internal_ips_record = models.CharField(max_length=200, blank=True, default="N/A")
+    host = models.CharField(max_length=500, blank=True)
+    resolver = models.CharField(max_length=500)
+    cname = models.CharField(max_length=500, blank=True, default="N/A")
+    a_record = models.CharField(max_length=500, blank=True, default="N/A")
+    aaaa_record = models.CharField(max_length=500, blank=True, default="N/A")
+    mx_record = models.CharField(max_length=500, blank=True, default="N/A")
+    soa_record = models.CharField(max_length=500, blank=True, default="N/A")
+    ns_record = models.CharField(max_length=500, blank=True, default="N/A")
+    internal_ips_record = models.CharField(max_length=500, blank=True, default="N/A")
     project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:

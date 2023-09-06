@@ -20,6 +20,10 @@ export const AuthProvider = ({children}) => {
             })
 
             if(res.status === 200) {
+              
+
+
+
                 setAuthToken(res.data)
                 const user = {
                   id: res.data.id,

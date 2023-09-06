@@ -22,6 +22,7 @@ from .serializers import *
 
 # @login_required(login_url='/login/')
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def index(request, number):
 
 
@@ -655,6 +656,7 @@ def index(request, number):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def new_scan(request):
     '''
     type_domain = 0 -> single domain scan

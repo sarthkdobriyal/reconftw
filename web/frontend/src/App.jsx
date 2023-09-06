@@ -20,6 +20,7 @@ import ApiKeysSetting from './pages/ApiKeysSetting';
 import Dashboard from './pages/Dashboard';
 import CreateUser from './components/CreateUser';
 import ManageUsers from './pages/ManageUsers';
+import Checkout from './pages/Checkout';
 
 
 
@@ -57,6 +58,7 @@ function App() {
             <Route path='/apikeys' element={<ApiKeysSetting  />} />
           </Route>
           <Route path='/login' element={<Login />} />
+          <Route path='/checkout' element={<Checkout />} />
         </Routes>
       </AuthProvider>
       </BrowserRouter>

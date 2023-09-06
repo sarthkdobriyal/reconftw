@@ -15,6 +15,7 @@ from django_tenants.management.commands.delete_tenant import Command as delComma
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getEmployees(request):
     if(request.user.is_staff):
         employees = Account.objects.filter(tenant=request.user.tenant.id, is_staff=False)
@@ -24,6 +25,7 @@ def getEmployees(request):
         return Response({'message': 'You need to be a superuser to access these'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getClients(request):
     if(request.user.is_superuser):
         clients = Account.objects.filter(is_staff=True,  is_superuser=False)
@@ -41,6 +43,7 @@ def getClients(request):
         return Response({'message': 'You need to be a superuser to access these'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def deleteEmployee(request, id):
     if(request.user.is_superuser):
         return deleteClient(request, id)
@@ -56,6 +59,7 @@ def deleteEmployee(request, id):
         return Response({'message': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED) 
     
 
+@permission_classes([IsAuthenticated])
 def deleteClient(request, id):
     print('req user', request.user, id)
     if(not Account.objects.filter(id=id).values('is_staff')[0]['is_staff']):
@@ -69,6 +73,7 @@ def deleteClient(request, id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def toggle_is_active(request, account_id):
     # Get the account instance by ID
     account = get_object_or_404(Account, id=account_id)
@@ -80,3 +85,7 @@ def toggle_is_active(request, account_id):
     account.save()
 
     return Response({'message': 'Successfully toggled is_active.'}, status=status.HTTP_200_OK)
+
+
+# PAYMENTS
+

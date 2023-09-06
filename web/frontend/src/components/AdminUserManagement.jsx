@@ -106,7 +106,7 @@ const AdminUserManagement = ( ) => {
                 </div>
                 <div>
 
-                <div className='flex pl-4 pr-12 bg-base-300 w-full text-lime-500 text-lg font-bold py-4 rounded-md sticky '>
+                <div className='flex pl-4 pr-12 bg-base-300 w-full text-sky-500 text-lg font-bold py-4 rounded-md sticky '>
         <div className='  w-[10%] flex justify-center border-r border-gray-700'>
           S.no
         </div>
@@ -137,7 +137,8 @@ const AdminUserManagement = ( ) => {
                 <span className='text-3xl text-gray-600 font-mono font-bold tracking-tighter opacity-90 mr-5'>EMPLOYEES</span>
                   <div className=' w-[90%] ml-auto'>
                       {
-                        client?.employees.map((emp, i) => (
+                        client &&
+                        client.employees.map((emp, i) => (
                           <UserDetails key={emp.id} user={emp} i={i} handleDelete={handleDelete} admin={false} handleToggleIsActive={handleToggleIsActive} />
                         ))
                       }

@@ -111,34 +111,63 @@ def new_scan_single_domain(*command):
 
 
  
-@app.task(name='run_scan')
-def run_scan(command, num):
-    """task to run scan"""
-    print("run scan has")
-    proj = Project.objects.filter(number=num, domain=command[2])[0]
-    print('project', proj)
-    proj_id = proj.pk
+# @app.task(name='run_scan')
+# def run_scan(command, num):
+#     """task to run scan"""
+#     print("run scan has")
+#     proj = Project.objects.filter(number=num, domain=command[2])[0]
+#     print('project', proj)
+#     proj_id = proj.pk
 
-    single_domain = command[2]
-    monitor(single_domain)
+#     single_domain = command[2]
+#     monitor(single_domain)
 
-    proj.status = 'SCANNING'
-    proj.save()
-    print('project saved')
-    print('Starting scan')
-    # RUNNING RECONFTW.SH
-    p = subprocess.Popen(command).wait()
+#     proj.status = 'SCANNING'
+#     proj.save()
+#     print('project saved')
+#     print('Starting scan')
+#     # RUNNING RECONFTW.SH
+#     p = subprocess.Popen(command).wait()
 
-    print('scan:', p)
+#     print('scan:', p)
 
-    print('Saving files to db')
-    f2db = files_to_db(command[3], proj_id)
-    proj.status = 'FINISHED'
-    print('Finished daving to db')
-    proj.save()
+#     print('Saving files to db')
+#     f2db = files_to_db(command[3], proj_id)
+#     proj.status = 'FINISHED'
+#     print('Finished daving to db')
+#     proj.save()
    
 
+@app.task(bind=True, max_retries=3, default_retry_delay=60000)  # Maximum of 3 retries
+def run_scan(self, command, num):
+    try:
+        print("run_scan has started")
+        proj = Project.objects.filter(number=num, domain=command[2])[0]
+        print('project', proj)
+        proj_id = proj.pk
 
+        single_domain = command[2]
+        monitor(single_domain)
+
+        proj.status = 'SCANNING'
+        proj.save()
+        print('project saved')
+        print('Starting scan')
+        # RUNNING RECONFTW.SH
+        p = subprocess.Popen(command).wait()
+
+        print('scan:', p)
+
+        print('Saving files to db')
+        f2db = files_to_db(command[3], proj_id)
+        proj.status = 'FINISHED'
+        print('Finished saving to db')
+        proj.save()
+    except Exception as exc:
+        # Handle the exception and log it
+        print(f"An error occurred: {exc}")
+        # Retry the task with a delay
+        raise self.retry(exc=exc)
 
 
 

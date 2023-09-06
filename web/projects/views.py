@@ -33,7 +33,7 @@ class ProjectSerializer(ModelSerializer):
 # Main Projects Page
 # @login_required(login_url='/login/')
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def index(request):
 
     imagePath = imgUser(request.user.id)
@@ -193,7 +193,7 @@ def index(request):
 # Delete Projects Function
 # @login_required(login_url='/login/')
 @api_view(['DELETE', 'GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def delete_project(request, id):
 
     target = Project.objects.get(id=id)
@@ -237,7 +237,7 @@ def delete_project(request, id):
 
 
 @api_view(['Get'])
-# @permission_classes([IsAuthenticated]) 
+@permission_classes([IsAuthenticated]) 
 def DownloadBackup(request, id):
     print('id' + str(id))
     project = Project.objects.get(id=id)
@@ -279,7 +279,7 @@ def DownloadBackup(request, id):
 # TODO: Cancel Scan Function 
 # @login_required(login_url='/login/')
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def cancel_scan(request, id):
     print("Canceling Scan", id)
     project = Project.objects.get(id=id)

@@ -77,7 +77,7 @@ const CreateUser = () => {
 
             {
                 createuser.isSuccess &&
-                <p className='tracking-widest text-lime-600 text-2xl font-semibold text-center'>Account Created!</p>}
+                <p className='tracking-widest text-sky-600 text-2xl font-semibold text-center'>Account Created!</p>}
             {/* Enter User Details */}
             <div className=' px-10  py-4 h-full  flex justify-center items-center rounded-xl '>
                 <div className='w-[60%] h-full   rounded-xl '>
@@ -85,7 +85,7 @@ const CreateUser = () => {
                         <input {...register('name', {
                             required: "required",
 
-                        })} type="text" placeholder="Enter Name" className="focus:border-opacity-80 focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
+                        })} type="text" placeholder="Enter Name" className="focus:border-opacity-80 focus:border-sky-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
                         <p className='my-1 tracking-wide text-xs   font-medium text-red-500'>{errors.name?.message}</p>
                         <input {...register('username', {
                             required: "required",
@@ -97,12 +97,12 @@ const CreateUser = () => {
                                 value: /^\S*$/,
                                 message: "Entered value cant start/end or contain  white spacing"
                             },
-                        })} type="text" placeholder="Enter Username (unique and no spaces) " className="focus:border-opacity-80 focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
+                        })} type="text" placeholder="Enter Username (unique and no spaces) " className="focus:border-opacity-80 focus:border-sky-600 input input-bordered w-full rounded-xl placeholder:tracking-widest " />
                         <p className='my-1 tracking-wide text-xs   font-medium text-red-500'>{errors.username?.message}</p>
 
                         <input {...register('password', {
                             required: "required"
-                        })} type="password" placeholder="New Password" className="focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest" />
+                        })} type="password" placeholder="New Password" className="focus:border-sky-600 input input-bordered w-full rounded-xl placeholder:tracking-widest" />
                         <p className='my-1 tracking-wide text-xs  font-medium text-red-500'>{errors.password?.message}</p>
                         <input {...register('confirm_password', {
                             validate: {
@@ -110,11 +110,11 @@ const CreateUser = () => {
                                 validatePassword: value => getValues().password === value || "Passwords do not match",
 
                             }
-                        })} type="confirm_password" placeholder="Confirm Password" className="focus:border-opacity-80 focus:border-lime-600 input input-bordered w-full rounded-xl placeholder:tracking-widest" />
+                        })} type="confirm_password" placeholder="Confirm Password" className="focus:border-opacity-80 focus:border-sky-600 input input-bordered w-full rounded-xl placeholder:tracking-widest" />
                         <p className='my-1 tracking-wide text-xs  font-medium text-red-500'>{errors.confirm_password?.message}</p>
 
                         <div className='w-full mt-1 flex justify-center'>
-                            <button type='submit' disabled={isLoading} className="btn bg-base-200 hover:bg-lime-900 opacity-80 rounded-xl btn-wide flex justify-center gap-2 hover:brightness-125 shadow-inner shadow-gray-200">
+                            <button type='submit' disabled={isLoading} className="btn bg-base-200 hover:bg-sky-900 opacity-80 rounded-xl btn-wide flex justify-center gap-2 hover:brightness-125 shadow-inner shadow-gray-200">
                                 {
                                     isLoading && <span className="loading loading-spinner loading-xs"></span>
                                 }

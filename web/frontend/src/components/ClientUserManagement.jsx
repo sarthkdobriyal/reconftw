@@ -107,7 +107,7 @@ const ClientUserManagement = () => {
               </div>
               <div>
 
-              <div className='flex bg-base-300 w-full text-lime-500 text-lg font-bold py-4 rounded-md sticky pr-3'>
+              <div className='flex bg-base-300 w-full text-sky-500 text-lg font-bold py-4 rounded-md sticky pr-3'>
                 <div className='  w-[10%] flex justify-center border-r border-gray-700'>
                     S.no
                 </div>

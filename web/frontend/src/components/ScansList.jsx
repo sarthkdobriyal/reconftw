@@ -77,7 +77,7 @@ const ScansList = () => {
         <div className='w-full h-full px-10'>
             {/* <h2 className='text-gray-200 text-2xl font-bold tracking-wide m-2'>View All Scans Here: </h2> */}
             <div className=' w-full  pt-4 h-screen   z-10' >
-                <div className='flex bg-base-300 w-full text-lime-500 text-lg font-bold py-4 rounded-md sticky pr-3'>
+                <div className='flex bg-base-300 w-full text-blue-500 text-lg font-bold py-4 rounded-md sticky pr-3'>
                     <div className='  w-[10%] flex justify-center border-r border-gray-700'>
                         Target
                     </div>

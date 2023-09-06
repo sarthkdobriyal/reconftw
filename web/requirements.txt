@@ -172,6 +172,7 @@ soupsieve==2.4.1
 SQLAlchemy==2.0.20
 sqlparse==0.4.4
 ssh-import-id==5.10
+stripe==6.3.0
 subgpt==0.0.1
 systemd-python==234
 tenant-schemas-celery==2.2.0

@@ -7,7 +7,7 @@ const ApiKeysSetting = () => {
 
       {/* ReconFTW Config */}
       <div className='w-full bg-base-200 py-5 rounded-xl flex  flex-col items-center border-8 border-gray-700'>
-        <h1 className='text-2xl font-bold text-lime-600 tracking-widest text-center mt-5 mb-5'>ReconFTW Config </h1>
+        <h1 className='text-2xl font-bold text-sky-600 tracking-widest text-center mt-5 mb-5'>ReconFTW Config </h1>
         <div className='w-full  px-20 flex flex-wrap justify-around gap-y-4 py-10 '>
           {/* SHODAN */}
           <div className="form-control w-full max-w-xs ">
@@ -58,7 +58,7 @@ const ApiKeysSetting = () => {
 
         {/* AMASS Tool */}
         <div className='w-full bg-base-200 py-5 rounded-xl flex  flex-col items-center border-8 border-gray-700'>
-        <h1 className='text-2xl font-bold text-lime-600 tracking-widest text-center mt-5 mb-5'>AMASS TOOL</h1>
+        <h1 className='text-2xl font-bold text-sky-600 tracking-widest text-center mt-5 mb-5'>AMASS TOOL</h1>
         <div className='w-full  flex flex-wrap justify-around gap-y-4 py-10 '>
           {/* PASSIVEDNS */}
           <div className="form-control w-full max-w-xs ">
@@ -488,7 +488,7 @@ const ApiKeysSetting = () => {
 
         {/* GITHUB TOKENS */}
         <div className='w-full bg-base-200 py-5 rounded-xl flex  flex-col items-center border-8 border-gray-700'>
-        <h1 className='text-2xl font-bold text-lime-600 tracking-widest text-center mt-5 mb-5'>GITHUB TOKENS</h1>
+        <h1 className='text-2xl font-bold text-sky-600 tracking-widest text-center mt-5 mb-5'>GITHUB TOKENS</h1>
         <div className='w-full  px-20 flex flex-wrap justify-around gap-y-4 py-10 '>
           {/* TOKEN 1 */}
           <div className="form-control w-full max-w-xs ">
