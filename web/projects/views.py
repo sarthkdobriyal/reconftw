@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from rest_framework.response import Response
 # from .serializers import ProjectSerializer
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from projects.models import Project
 from django.core.files.base import ContentFile
@@ -18,7 +18,7 @@ from pathlib import Path
 from subprocess import Popen
 import zipfile
 from rest_framework import status
-
+import csv
 
 from rest_framework.serializers import ModelSerializer
 
@@ -259,8 +259,10 @@ def DownloadBackup(request, id):
             os.remove(tempFolder+"/Backup-"+folderName+".zip")
 
         os.chdir(folderPath)
+
         with zipfile.ZipFile(tempFolder+"/Backup-"+folderName+".zip", "w") as zf:
             for item in Path(folderName).rglob("*"):
+                print("item -> ", item)
                 zf.write(item)
             zf.close()
 

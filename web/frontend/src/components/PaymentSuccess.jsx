@@ -38,9 +38,9 @@ const PaymentSuccess = () => {
         ) : (
           <div className='flex flex-col gap-4 items-center'>
             <span className='text-3xl font-bold text-success'>Payment Successful</span>
-            <Link className='text-base-content text-lg hover:underline flex items-center gap-1 ' to='/'>
+            <a className='text-base-content text-lg hover:underline flex items-center gap-1 ' href='/'>
               <BsFillArrowLeftCircleFill size={24} color='gray' />
-              Go back</Link>
+              Go back</a>
           </div>
         )
       }

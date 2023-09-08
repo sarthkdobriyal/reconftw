@@ -9,11 +9,13 @@ const ScanListItem = ({scan, handleCancel, handleDelete}) => {
 
     let date = new Date(last_change).toLocaleDateString()
     let time = new Date(last_change).toLocaleTimeString()
+    // let iconPath = icon ? icon.split('/').slice(2,).join('/') : null
     
+
   return (
     <div className={`flex my-2 rounded-md w-full bg-slate-400 py-3 text-black font-semibold  shadow-inner ${status === 'SCANNING' ? 'shadow-yellow-500': status === 'FINISHED' ? 'shadow-green-700': 'shadow-red-500'}  `}>
                 <div className='  w-[10%] flex justify-center border-r border-gray-700'>
-                    <img src={`${import.meta.env.VITE_IMAGES_URL}${icon}`} alt="target image" className='w-10 h-10 object-contain'/>
+                    <img src={`${import.meta.env.VITE_IMAGES_URL}/${icon}`} alt="target image" className='w-10 h-10 object-contain'/>
                 </div>
                 <div className='  w-[20%] flex justify-center items-center border-r border-gray-700'>
                     {domain}

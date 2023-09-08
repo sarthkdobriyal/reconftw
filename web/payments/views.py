@@ -27,7 +27,7 @@ def test_payment(request):
 
 
 # @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class StripeCheckoutView(APIView):
     def post(self, request):
         try:
@@ -49,7 +49,7 @@ class StripeCheckoutView(APIView):
 
 
 @api_view(['PATCH'])
-@permission_classes([IsAuthenticated,])
+# @permission_classes([IsAuthenticated,])
 def handlePaymentSuccess(request):
     print(request.data['tenant_id'])
     try:
