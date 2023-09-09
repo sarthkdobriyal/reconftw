@@ -26,7 +26,7 @@ const OsintModal = ({id,  title, count, data }) => {
                 <div className='flex items-center gap-4 relative'>
 
                     <div className='flex flex-2 flex-col gap-2 text-base-content  px-4 py-2'>
-                        <span className='text-lime-600 font-bold text-4xl'>{count}</span>
+                        <span className='text-sky-600 font-bold text-4xl'>{count}</span>
                         <span className=''>{title}</span>
                     </div>
 
@@ -37,7 +37,7 @@ const OsintModal = ({id,  title, count, data }) => {
 
                 </div>
 
-            <label htmlFor={`osint_modal_${id}`} className="btn rounded-xl text-sm  w-full shadow-inner shadow-gray-600 hover:text-lime-600">
+            <label htmlFor={`osint_modal_${id}`} className="btn rounded-xl text-sm  w-full shadow-inner shadow-gray-600 hover:text-sky-600">
                 View Details
             </label>
             </div>

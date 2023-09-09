@@ -2,6 +2,7 @@
 import { GoProjectRoadmap } from 'react-icons/go'
 import { FaPowerOff } from 'react-icons/fa'
 import { BiSolidUser } from 'react-icons/bi'
+import { BsFillCreditCard2FrontFill } from 'react-icons/bs'
 
 const DashboardButtons = ({heading, icon}) => {
   return (
@@ -11,7 +12,8 @@ const DashboardButtons = ({heading, icon}) => {
                     
                     {icon === 'logout' ? <FaPowerOff size={70} color='gray' /> :
                     icon === 'project' ? <GoProjectRoadmap size={70} color='gray' />:
-                    icon === 'create' ? <BiSolidUser size={70} color='gray' />
+                    icon === 'create' ? <BiSolidUser size={70} color='gray' />:
+                    icon === 'BsFillCreditCard2FrontFill' ? <BsFillCreditCard2FrontFill size={70} color='gray' />
                     : null}
 
 

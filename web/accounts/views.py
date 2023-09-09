@@ -73,7 +73,7 @@ def deleteClient(request, id):
 
 
 @api_view(['PATCH'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def toggle_is_active(request, account_id):
     # Get the account instance by ID
     account = get_object_or_404(Account, id=account_id)

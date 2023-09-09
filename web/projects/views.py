@@ -237,10 +237,12 @@ def delete_project(request, id):
 
 
 @api_view(['Get'])
-@permission_classes([IsAuthenticated]) 
+# @permission_classes([IsAuthenticated]) 
 def DownloadBackup(request, id):
-    print('id' + str(id))
+    print('id ' , id)
+    print(request.user)
     project = Project.objects.get(id=id)
+    print(project.status)
     if project.status == "FINISHED":
         command = str(project.command).split("'")
         del command[0::2]
@@ -269,7 +271,7 @@ def DownloadBackup(request, id):
         backupFileName = "Backup-"+folderName+".zip"
 
         file = open(tempFolder+"/"+backupFileName, "rb")
-
+        print(backupFileName)
         response = HttpResponse(file.read(), content_type='application/force-download')
         response['Content-Disposition'] = f'attachment; filename={backupFileName}'
         print('response -> ' ,response)

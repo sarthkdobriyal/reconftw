@@ -12,7 +12,7 @@ const ClientUserManagement = () => {
     
     const { user, authToken } = useContext(AuthContext)
     const queryClient = useQueryClient()
-    const employeesUrl = createUrl(user.tenant.schema_name, `/accounts/employees`)
+    const employeesUrl = createUrl('', `/accounts/employees`)
   const { isLoading, isError, data, refetch } = useQuery(['employees'], () => axios.get(`${employeesUrl}`, {
     headers: {
       'Authorization': `Bearer ${authToken.access}`,

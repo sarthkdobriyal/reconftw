@@ -49,7 +49,7 @@ const AdminUserManagement = ( ) => {
 
     const handleToggleIsActive = useMutation( {
       mutationFn: (id) => {   
-        let toggelActiveUrl = createUrl(``, `/accounts/employee/${id}/toggle_is_active`)
+        let toggelActiveUrl = createUrl('', `/accounts/employee/${id}/toggle_is_active`)
         console.log(toggelActiveUrl)    
             return axios.patch(toggelActiveUrl , {
               headers: {

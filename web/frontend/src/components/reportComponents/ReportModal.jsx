@@ -64,8 +64,8 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
     return (
         <div>
 
-            <label className="rounded-md text-sm  shadow-inner shadow-gray-800 flex items-center btn btn-ghost hover:bg-transparent  hover:border-b-lime-600" htmlFor={id} >
-                <span className='text-lime-600 text-2xl text-center flex justify-center '>
+            <label className="rounded-md text-sm  shadow-inner shadow-gray-800 flex items-center btn btn-ghost hover:bg-transparent  hover:border-b-sky-600" htmlFor={id} >
+                <span className='text-sky-600 text-2xl text-center flex justify-center '>
                     <PiCaretUpBold size={16} />
                 </span>
 

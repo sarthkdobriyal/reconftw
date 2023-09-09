@@ -51,7 +51,7 @@ const Dashboard = () => {
                             
                             
 
-                            <Link to='/checkout'>
+                            {/* <Link to='/checkout'>
                                 <button className='relative hover:shadow-yellow-600  bg-yellow-800  btn shadow-inner shadow-gray-300 rounded-lg text-white opacity-90  tracking-widest' disabled={user.tenant.paid_until != null}>
                                     {
                                         user.is_superuser || user.tenant.paid_until ? <span className='text-gray-700'>SUBSCRIBED</span> :
@@ -73,7 +73,7 @@ const Dashboard = () => {
 
 
                                 </button>
-                            </Link>
+                            </Link> */}
 
                         </div>
 
@@ -85,15 +85,24 @@ const Dashboard = () => {
 
 
                 <div className='py-5 flex justify-center items-center w-full gap-10 border-t border-white border-opacity-40'>
-                    <Link to='/scanslist'>
+                    {
+                        !user.is_superuser &&
+                        
+                        <Link to='/scanslist'>
                         <DashboardButtons heading="PROJECTS" icon='project' />
-                    </Link>
+                    </Link>}
 
                     {
                         user.is_staff && (
+                            <>
                             <Link to='/manageusers'>
                                 <DashboardButtons heading={`Manage Users`} icon='create' />
                             </Link>
+                            <Link to='/checkout'>
+                                <DashboardButtons heading={`Subscription`} icon='BsFillCreditCard2FrontFill' />
+                            </Link>
+                            
+                            </>
                         )
 
                     }

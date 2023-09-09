@@ -19,7 +19,7 @@ const NewScanForm = () => {
 
       const performScan = useMutation({
         mutationFn: (formData) => {
-            const url = createUrl(user.tenant.schema_name, '/scans/new/' )
+            const url = createUrl('', '/scans/new/' )
             console.log(url)
             return axios.post(url, formData, {
                 headers: {

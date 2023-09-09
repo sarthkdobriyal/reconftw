@@ -67,7 +67,7 @@ const CreateUser = () => {
         reset();
     })
 
-    const createUserUrl = createUrl(`${user.is_superuser ? '' : `${user.tenant.schema_name}`}`, '/signup/')
+    const createUserUrl = createUrl('', '/signup/')
 
    
 

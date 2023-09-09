@@ -8,10 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = secrets.token_hex(32)
 
-DEBUG = 1
+DEBUG = 0
 
 ipAddress=os.popen('hostname -I | cut -d " " -f1').read().strip()
-ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '0.0.0.0']
 
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
@@ -211,8 +211,8 @@ WSGI_APPLICATION = 'web.wsgi.application'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
 CACHE_MIDDLEWARE_SECONDS = 3600
 
-APPLICATION_DOMAIN = 'localhost'
-REACT_SITE_URL= 'http://localhost:9050'
+APPLICATION_DOMAIN = 'scanner.skandashield.com'
+REACT_SITE_URL= 'http://scanner.skandashield.com'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -299,7 +299,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
     os.path.join(BASE_DIR, 'frontend', 'dist', 'assets'),
 ]
-# STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # STATIC_ROOT = BASE_DIR / "static"
 
 
@@ -344,7 +344,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-requested-with',
     'x-request-id', 
-     'access-control-allow-origin' # Add 'x-request-id' to the list of allowed headers
+    'access-control-allow-origin' # Add 'x-request-id' to the list of allowed headers
 ]
 
 

@@ -36,7 +36,7 @@ const TableComponent = ({data, columns }) => {
     <div className='mb-16 mt-2 '>
     <div className='w-full flex justify-between py-2'>
 
-       <input value={filtering} onChange={(e) => setFiltering(e.target.value)} type="text" placeholder="Search" className="input  input-bordered w-full rounded-xl focus:border-lime-600 max-w-xs" />
+       <input value={filtering} onChange={(e) => setFiltering(e.target.value)} type="text" placeholder="Search" className="input  input-bordered w-full rounded-xl focus:border-sky-600 max-w-xs" />
        {
             table.getPageCount() > 1 &&
             <div className=' w-full flex justify-end'>
@@ -57,12 +57,12 @@ const TableComponent = ({data, columns }) => {
                 <tr key={headerGroup.id} className=''>
                   {
                     headerGroup.headers.map((header) => (
-                      <th onClick={header.column.getToggleSortingHandler()} key={header.id} className='text-lime-600  text-center text-xl'>
+                      <th onClick={header.column.getToggleSortingHandler()} key={header.id} className='text-sky-600  text-center text-xl'>
                         {flexRender(header.column.columnDef.header, header.getContext())}
                       {
                         {
-                          asc : <span className='text-lime-600 text-xs'> &#9650;</span>,
-                          desc : <span className='text-lime-600 text-xs'> &#9660;</span>
+                          asc : <span className='text-sky-600 text-xs'> &#9650;</span>,
+                          desc : <span className='text-sky-600 text-xs'> &#9660;</span>
                         } [
                           header.column.getIsSorted() ?? null
                         ]

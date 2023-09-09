@@ -25,7 +25,7 @@ const ReportHeader = ({ user, location, logoutUser }) => {
                     <div className='h-full w-80 bg-transparent flex flex-col justify-end fixed'>
                         <div className='h-[90%] bg-base-300 flex flex-col justify-between p-4'>
 
-                            <div className="menu  text-lime-500  font-bold flex flex-col gap-2">
+                            <div className="menu  text-sky-500  font-bold flex flex-col gap-2">
                                 {/* Sidebar content here */}
                                 <li><Link to='#subdomains'>SUBDOMAINS</Link></li>
                                 <li><Link>CLOUD ASSETS</Link></li>
@@ -58,10 +58,10 @@ const ReportHeader = ({ user, location, logoutUser }) => {
                     }
                     {status}</div>
                 <div className=' btn btn-ghost hover:bg-base-300 px-5 border-r-gray-800 hover:border-r-gray-800'>
-                    <span className='text-lime-600'>Scan Mode:</span>
+                    <span className='text-sky-600'>Scan Mode:</span>
                     {scanMode}</div>
                 <div className='btn btn-ghost hover:bg-base-300 px-5 border-r-gray-800 hover:border-r-gray-800 '>
-                    <span className='text-lime-600'>
+                    <span className='text-sky-600'>
                         {domain}
 
                     </span>

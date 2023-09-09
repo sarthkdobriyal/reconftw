@@ -669,6 +669,8 @@ def new_scan(request):
             single_domain = request.data['singleDomain']
             print("Single Domain -> " , single_domain)
 
+            # remove protocol and www , only get the domain_name
+
             if validators.domain(single_domain): 
                 command = ['../reconftw.sh','-d',single_domain]
 

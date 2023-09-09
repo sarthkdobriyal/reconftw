@@ -22,7 +22,7 @@ const Report = () => {
 
   const id = pathname.split('/')[2]
 
-  const reportUrl = createUrl(user.tenant.schema_name, `/scans/results/${id}`)
+  const reportUrl = createUrl('', `/scans/results/${id}`)
   const { isLoading, isError, data } = useQuery(['report'], () => axios.get(`${reportUrl}`, {
     headers: {
       'Authorization': `Bearer ${authToken.access}`,
@@ -31,9 +31,9 @@ const Report = () => {
 }))
 
 
-  if (isLoading) return <div className=' w-full text-center text-4xl flex flex-col gap-2 justify-center items-center mt-20  text-lime-400 animate-pulse duration-200'>
+  if (isLoading) return <div className=' w-full text-center text-4xl flex flex-col gap-2 justify-center items-center mt-20  text-sky-400 animate-pulse duration-200'>
     <span> Please Be Patient</span>
-    <span className="loading loading-dots loading-lg text-lime-400"></span></div>
+    <span className="loading loading-dots loading-lg text-sky-400"></span></div>
 
   if (isError) return <div className=' w-full text-center text-4xl flex flex-col gap-4 justify-center items-center mt-20  text-red-500'>
     <span className="">Something went wrong!</span>

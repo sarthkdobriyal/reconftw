@@ -41,7 +41,7 @@ const Header = () => {
                                     New Scan</label>
                                 
                             </div>
-                            <div className='join-item btn btn-ghost rounded-xl ' >Recon List</div>
+                            {/* <div className='join-item btn btn-ghost rounded-xl ' >Recon List</div> */}
                             <UserActions
                                 user={user}
                                 logoutUser={logoutUser}
