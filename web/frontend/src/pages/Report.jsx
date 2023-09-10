@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import createUrl from '../utils/createUrl'
 import axios from 'axios';
+import { generatePDF } from '../utils/generatePDF';
 
 const Report = () => {
 
@@ -48,8 +49,7 @@ const Report = () => {
 
       {
         data &&
-        (<>
-
+        (<div >
           {/* Subdomains */}
           <Subdomains
             data={{
@@ -120,7 +120,7 @@ const Report = () => {
           />
         }
 
-        </>
+        </div>
         )
 
       }

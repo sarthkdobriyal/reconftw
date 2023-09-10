@@ -2,6 +2,8 @@
 import { PiCaretUpBold } from 'react-icons/pi'
 import TableComponent from '../TableComponent';
 import { twMerge } from 'tailwind-merge'
+import PDFDownload from './PDFDownload';
+import { dnsRegistryPDF, dnsZonePDF, passwordsPDF } from '../../utils/generatePDF';
 
 const ReportModal = ({ id, heading, data, modalClassName }) => {
 
@@ -81,85 +83,96 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
                         (
                             <div>
                                 {
-                                    id === 'passwordsModal' && typeof data != 'string'  ? (
+                                    id === 'passwordsModal' && typeof data != 'string' ? (
                                         <div className=''>
-                                        {
-                                            data.map((password) => (
-                                                <p key={password} className="">{password}</p>
-                                            ))
-                                        }
+                                            <div className='my-1 w-full flex justify-end'>
+                                                <PDFDownload handleDownload={() => passwordsPDF(data)} />
+                                            </div>
+                                            {
+                                                data.map((password) => (
+                                                    <p key={password} className="">{password}</p>
+                                                ))
+                                            }
                                         </div>
                                     )
-                                    
-                                    :
-                                    id === 'dnsZonetransferModal' ? (
-                                        <p>
-                                            {data}
-                                        </p>
-                                    ) :
-                                        id === 'dnsRegistryModal' ? (
-                                            <div>
-                                                <TableComponent
-                                                    data={data}
-                                                    columns={registryColumns}
-                                                />
-                                            </div>
-                                        ) :
-                                            id === 'cmsModal' ? (
-                                                <></>
-                                            ) :
-                                            id === 'smuggling' ? (
-                                                <div className='w-full flex flex-wrap gap-5'>
-                                                    {
-                                                        Object.keys(data).map(url => {
-                                                            
-                                                            const urlData = data[url]
-                                                            return (
-                                                                <div key={url} className="collapse collapse-arrow bg-base-200">
-                                                                    <input type="checkbox" name="my-accordion-2" />
-                                                                    <div className="collapse-title text-2xl  font-bold ">
-                                                                        {url}
-                                                                    </div>
-                                                                    <div className="collapse-content">
 
-                                                                        <div className='w-full  px-10 py-2 flex gap-10 ' >
-
-                                                                            <div className='flex flex-col '>
-                                                                                {
-                                                                                    Object.keys(urlData).map((key) => (
-                                                                                        <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-bold'>
-                                                                                            {
-                                                                                                key
-                                                                                            }
-                                                                                        </div>
-                                                                                    ))
-                                                                                }
-                                                                            </div>
-
-
-
-                                                                            <div>
-                                                                                {
-                                                                                    Object.keys(urlData).map((key) => (
-                                                                                        <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-semibold'>
-                                                                                            {
-                                                                                                urlData[key]
-                                                                                            }
-                                                                                        </div>
-                                                                                    ))
-                                                                                }
-                                                                            </div>
-
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                                        :
+                                        id === 'dnsZonetransferModal' ? (
+                                            <p>
+                                                {data}
+                                                <div className='my-3 w-full flex justify-end'>
+                                                    <PDFDownload handleDownload={() => dnsZonePDF(data)} />
                                                 </div>
-                                            ) : null
+                                            </p>
+                                        ) :
+                                            id === 'dnsRegistryModal' ? (
+                                                <div>
+                                                    <div className='my-1 w-full flex justify-start'>
+                                                        <PDFDownload handleDownload={() => dnsRegistryPDF(data)} />
+                                                    </div>
+                                                    <TableComponent
+                                                        data={data}
+                                                        columns={registryColumns}
+                                                    />
+
+
+                                                </div>
+                                            ) :
+                                                id === 'cmsModal' ? (
+                                                    <></>
+                                                ) :
+                                                    id === 'smuggling' ? (
+                                                        <div className='w-full flex flex-wrap gap-5'>
+                                                            {
+                                                                Object.keys(data).map(url => {
+
+                                                                    const urlData = data[url]
+                                                                    return (
+                                                                        <div key={url} className="collapse collapse-arrow bg-base-200">
+                                                                            <input type="checkbox" name="my-accordion-2" />
+                                                                            <div className="collapse-title text-2xl  font-bold ">
+                                                                                {url}
+                                                                            </div>
+                                                                            <div className="collapse-content">
+
+                                                                                <div className='w-full  px-10 py-2 flex gap-10 ' >
+
+                                                                                    <div className='flex flex-col '>
+                                                                                        {
+                                                                                            Object.keys(urlData).map((key) => (
+                                                                                                <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-bold'>
+                                                                                                    {
+                                                                                                        key
+                                                                                                    }
+                                                                                                </div>
+                                                                                            ))
+                                                                                        }
+                                                                                    </div>
+
+
+
+                                                                                    <div>
+                                                                                        {
+                                                                                            Object.keys(urlData).map((key) => (
+                                                                                                <div key={key} className='border-b border-opacity-20 border-gray-500 py-3 font-semibold'>
+                                                                                                    {
+                                                                                                        urlData[key]
+                                                                                                    }
+                                                                                                </div>
+                                                                                            ))
+                                                                                        }
+                                                                                    </div>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                    ) : null
                                 }
                             </div>
                         )

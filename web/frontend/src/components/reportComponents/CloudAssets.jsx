@@ -2,8 +2,10 @@
 import ReportContainer from './ReportContainer'
 import TableComponent from '../TableComponent'
 import { useMemo } from 'react';
+import PDFDownload from './PDFDownload';
+import { cloudAssetsPDF } from '../../utils/generatePDF';
 
-const CloudAssets = ({data}) => {
+const CloudAssets = ({ data }) => {
 
   const cloudAssetsColumns = useMemo(
     () => [
@@ -34,22 +36,26 @@ const CloudAssets = ({data}) => {
 
   return (
     <>
-    <ReportContainer heading='CLOUD ASSETS'>
+      <ReportContainer heading='CLOUD ASSETS'>
         {
-            data ? (
-                <>
-                <TableComponent 
-                  data={data}
-                  columns={cloudAssetsColumns}
-                />
-                </>
-            ) : (
-                <p className='text-xl font-bold text-center text-red-500 mt-5'>No Cloud Assets Found</p>
-            )
+         data.length > 0 && data ? (
+            <div>
+              <TableComponent
+                data={data}
+                columns={cloudAssetsColumns}
+              />
+              <div className='my-1 w-full flex justify-end'>
+                <PDFDownload handleDownload={() => cloudAssetsPDF(data)} />
+              </div>
+
+            </div>
+          ) : (
+            <p className='text-xl font-bold text-center text-red-500 mt-5'>No Cloud Assets Found</p>
+          )
         }
 
-    </ReportContainer>     
-        
+      </ReportContainer>
+
     </>
   )
 }

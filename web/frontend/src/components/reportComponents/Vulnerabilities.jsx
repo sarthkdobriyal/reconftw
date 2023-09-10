@@ -3,6 +3,8 @@ import ReportContainer from './ReportContainer'
 import TableComponent from '../TableComponent'
 import ReportModal from './ReportModal'
 import { useMemo } from 'react';
+import PDFDownload from './PDFDownload';
+import { vulnsPDF } from '../../utils/generatePDF';
 
 const Vulnerabilities = ({ cors,
     broken_links,
@@ -177,7 +179,7 @@ const Vulnerabilities = ({ cors,
             'columns': sstiColumns
         },
     ], [corsArray, broken_links, command_injection, open_redirect, ssrf, crlf, xss, lfi, ssti,
-        sstiColumns,lfiColumns,xssColumns,crlfColumns,ssrfColumns,openRedirectColumns,commandInjectionColumns,brokenLinksColumns,corsColumns
+        sstiColumns, lfiColumns, xssColumns, crlfColumns, ssrfColumns, openRedirectColumns, commandInjectionColumns, brokenLinksColumns, corsColumns
     ]);
 
 
@@ -234,7 +236,7 @@ const Vulnerabilities = ({ cors,
             'data': smuggling
         },
     ], [smuggling]);
-        
+
 
 
 
@@ -249,7 +251,10 @@ const Vulnerabilities = ({ cors,
                         <TableComponent
                             data={vuln.data}
                             columns={vuln.columns}
-                        />
+                        />  
+                        <div className='my-1 w-full flex justify-end'>
+                        <PDFDownload handleDownload={() => vulnsPDF(vuln)} />
+                    </div>
                     </div>
                 ))
             }

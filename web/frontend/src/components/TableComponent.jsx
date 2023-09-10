@@ -33,7 +33,7 @@ const TableComponent = ({data, columns }) => {
 
 
   return (
-    <div className='mb-16 mt-2 '>
+    <div className='mb-5 mt-2 '>
     <div className='w-full flex justify-between py-2'>
 
        <input value={filtering} onChange={(e) => setFiltering(e.target.value)} type="text" placeholder="Search" className="input  input-bordered w-full rounded-xl focus:border-sky-600 max-w-xs" />

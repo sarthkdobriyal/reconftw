@@ -1,6 +1,8 @@
 import TableComponent from '../TableComponent'
 import ReportModal from './ReportModal'
 import ReportContainer from './ReportContainer'
+import {subdomainsPDF} from '../../utils/generatePDF'
+import PDFDownload from './PDFDownload'
 
 const Subdomains = ({ data }) => {
     // Table
@@ -42,7 +44,7 @@ const Subdomains = ({ data }) => {
             {data ?
 
                 (
-                    <>
+                    <div>
                         <TableComponent
                             data={subdomainsTable}
                             columns={subdomainsColumns}
@@ -74,7 +76,10 @@ const Subdomains = ({ data }) => {
 
 
                         </div>
-                    </>
+                        <div className='my-1 w-full flex justify-end'>
+                            <PDFDownload handleDownload={() => subdomainsPDF(subdomainsTable)} />
+                        </div>
+                    </div>
                 ) : (
                     <p className='text-xl font-bold text-center text-red-500 mt-5'>No Subdmains Found</p>
                 )}

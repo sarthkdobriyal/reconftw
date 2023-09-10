@@ -19,11 +19,11 @@ const Dashboard = () => {
 
 
                 <div className=' flex'>
-                    <span className='text-8xl text-gray-600 font-mono font-bold tracking-tighter opacity-60 mr-5'>WELCOME</span>
+                    <span className='text-7xl text-gray-600 font-mono font-bold tracking-tighter opacity-60 mr-5'>WELCOME</span>
                     <div className='flex flex-col border-b rounded-md py-2 px-1 w-[32%]'>
 
-                        <span className='text-5xl text-sky-300 font-bold opacity-70 px-2 '>{user.username}</span>
-                        <span className='text-2xl text-sky-300 font-bold opacity-70 px-2 my-2'>org:
+                        <span className='text-4xl text-sky-300 font-bold opacity-70 px-2 '>{user.username}</span>
+                        <span className='text-xl text-sky-300 font-bold opacity-70 px-2 my-1'>org:
                             <span className="text-sky-100 mx-2 underline">{user.tenant.schema_name}</span>
                         </span>
                        
@@ -31,8 +31,8 @@ const Dashboard = () => {
 
                     
                            
-                            <div className="text-2xl text-sky-300 font-bold opacity-70  flex justify-between ">
-                            <span className='mx-2 my-2 '>
+                            <div className="text-xl text-sky-300 font-bold opacity-70  flex justify-between ">
+                            <span className='mx-2 my-1 '>
                                 {
 
                                     user.is_superuser ?  <span>PAID UNTIL: 
@@ -96,7 +96,7 @@ const Dashboard = () => {
                         user.is_staff && (
                             <>
                             <Link to='/manageusers'>
-                                <DashboardButtons heading={`Manage Users`} icon='create' />
+                                <DashboardButtons heading={`Users`} icon='create' />
                             </Link>
                             <Link to='/checkout'>
                                 <DashboardButtons heading={`Subscription`} icon='BsFillCreditCard2FrontFill' />

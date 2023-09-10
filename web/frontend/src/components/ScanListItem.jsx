@@ -12,7 +12,7 @@ const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
     let date = new Date(last_change).toLocaleDateString()
     let time = new Date(last_change).toLocaleTimeString()
     // let iconPath = icon ? icon.split('/').slice(2,).join('/') : null
-    const downloadUrl = createUrl('', `/projects/${id}/backup/`)
+    // const downloadUrl = createUrl('', `/projects/${id}/backup/`)
     
 
   return (
@@ -53,9 +53,9 @@ const ScanListItem = ({scan, handleCancel, handleDelete, handleDownload}) => {
                         <BiSolidAlarm size={24} color='blue' />
                     </button>
                     {/* <Link to={downloadUrl} > */}
-                    <button download onClick={() => handleDownload(id, domain)}  data-tip='Download Report' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
+                    {/* <button download onClick={() => handleDownload(id, domain)}  data-tip='Download Report' className='tooltip outline-none border-none bg-transparent  flex justify-center items-center active:translate-y-2 transition duration-150'>
                         <GoDownload size={24} color={`${handleDelete.isLoading ? 'gray' : 'green'}`} />
-                    </button>
+                    </button> */}
                     {/* </Link> */}
                 </div>
                 <div className='  w-[10%] flex justify-center items-center gap-2'>

@@ -6,7 +6,7 @@ import { BsFillCreditCard2FrontFill } from 'react-icons/bs'
 
 const DashboardButtons = ({heading, icon}) => {
   return (
-    <div className='flex flex-col gap-10 items-center bg-base-100 shadow-inner px-20 py-20 rounded-xl shadow-gray-600  hover:shadow-gray-400  transition-transform hover:scale-105 ease-in duration-100 group '>
+    <div className=' flex flex-col gap-10 items-center bg-base-100 shadow-inner px-20 py-20 rounded-xl shadow-gray-600  hover:shadow-gray-400  transition-transform hover:scale-105 ease-in duration-100 group '>
                 <div className='rounded-full border-8 border-gray-800 p-6 border-opacity-90 group-hover:border-gray-500 '>
 
                     
