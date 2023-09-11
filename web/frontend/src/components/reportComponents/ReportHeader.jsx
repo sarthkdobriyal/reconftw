@@ -12,7 +12,7 @@ const ReportHeader = ({ user, location, logoutUser }) => {
     const status = searchParams.get('status').toUpperCase();
 
     return (
-        <div className=' py-4 bg-base-300 text-base-content px-5 flex w-full pr-32 z-10 relative '>
+        <div className=' py-4 px-7 bg-base-300 text-base-content   flex justify-around  z-10 relative '>
             <div className='drawer flex gap-3'>
                 <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                 <label htmlFor="my-drawer" className="btn  bg-base-300 border-none hover:bg-base-200 drawer-button"><GiHamburgerMenu size={24} color='gray' /></label>
@@ -51,7 +51,7 @@ const ReportHeader = ({ user, location, logoutUser }) => {
 
             </div>
 
-            <div className='join mr-3'>
+            <div className='flex  w-full '>
                 <div className='btn btn-ghost hover:bg-base-300 px-5 border-r-gray-800 hover:border-r-gray-800 p-1'>
                     {
                         status === 'SCANNING' && <span className="loading loading-spinner loading-xs"></span>
@@ -60,21 +60,21 @@ const ReportHeader = ({ user, location, logoutUser }) => {
                 <div className=' btn btn-ghost hover:bg-base-300 px-5 border-r-gray-800 hover:border-r-gray-800'>
                     <span className='text-sky-600'>Scan Mode:</span>
                     {scanMode}</div>
-                <div className='btn btn-ghost hover:bg-base-300 px-5 border-r-gray-800 hover:border-r-gray-800 '>
+                <div className='btn btn-ghost hover:bg-base-300 '>
                     <span className='text-sky-600'>
                         {domain}
 
                     </span>
                 </div>
-                <UserActions
-                    user={user}
-                    logoutUser={logoutUser}
 
-                />
                 
 
             </div>
 
+                <UserActions
+                    user={user}
+                    logoutUser={logoutUser}
+                    />
 
         </div>
     )

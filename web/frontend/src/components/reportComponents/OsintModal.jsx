@@ -4,6 +4,8 @@ import { FiUser } from 'react-icons/fi'
 import { BiCoinStack } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { GoUnlock, GoInfo } from 'react-icons/go'
+import PDFDownload from './PDFDownload'
+import { googledorksPDF, softUsedPDF, gitdorksPDF,metadataPDF,usersPDF,emailsPDF, osintPasswordsPDF, domainsInfoPDF } from '../../utils/generatePDF'
 
 const OsintModal = ({id,  title, count, data }) => {
 
@@ -20,9 +22,23 @@ const OsintModal = ({id,  title, count, data }) => {
                    id === 'passwords' ? <GoUnlock size={50} color='gray' /> : 
                    id === 'domain' ? <GoInfo size={50} color='gray' /> : null
 
+
+    const handleDownload = (data) => {
+        id === 'googleDorks' ? googledorksPDF(data) : 
+        id === 'softwares' ? softUsedPDF(data) : 
+        id === 'githubDorks' ? gitdorksPDF(data) :  
+        id === 'users' ? usersPDF(data) : 
+        id === 'metadata' ? metadataPDF(data) : null
+        id === 'emails' ? emailsPDF(data) : null
+        id === 'passwords' ? osintPasswordsPDF(data) : 
+        id === 'domain' ? domainsInfoPDF(data) : null
+
+    }
+
+
     return (
         <div className=''>
-            <div className='rounded-xl shadow-inner shadow-gray-600 '>
+            <div className='rounded-xl shadow-inner shadow-gray-600 pb-2'>
                 <div className='flex items-center gap-4 relative'>
 
                     <div className='flex flex-2 flex-col gap-2 text-base-content  px-4 py-2'>
@@ -37,9 +53,18 @@ const OsintModal = ({id,  title, count, data }) => {
 
                 </div>
 
-            <label htmlFor={`osint_modal_${id}`} className="btn rounded-xl text-sm  w-full shadow-inner shadow-gray-600 hover:text-sky-600">
+            <div className='flex gap-5 ml-1 '>
+
+            <label htmlFor={`osint_modal_${id}`} className="btn rounded-xl text-sm  w-[50%] shadow-inner shadow-gray-400 hover:text-sky-600">
                 View Details
             </label>
+            
+            <div className='w-full'>
+
+            <PDFDownload handleDownload={() => handleDownload(data)} />
+            </div>
+            </div>
+            
             </div>
 
             <input type="checkbox" id={`osint_modal_${id}`} className="modal-toggle" />
@@ -55,6 +80,7 @@ const OsintModal = ({id,  title, count, data }) => {
                     <div className="modal-action absolute -top-4 right-2">
                         <label htmlFor={`osint_modal_${id}`} className="btn btn-ghost rounded-xl text-red-500 text-xl font-bold ">X</label>
                     </div>
+                    
                     <div className="modal-action">
                         <label htmlFor={`osint_modal_${id}`} className="btn rounded-xl ">Close</label>
                     </div>

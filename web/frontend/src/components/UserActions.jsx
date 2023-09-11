@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const UserActions = ({user, logoutUser}) => {
   return (
-    <div tabIndex={0} className='join-item btn btn-ghost rounded-xl dropdown dropdown-end dropdown-bottom flex justify-center items-center z-50'>
+    <div tabIndex={0} className=' btn btn-ghost rounded-xl dropdown dropdown-end dropdown-bottom flex justify-center items-center z-50'>
     {
         user ? (
             <img src={user.image || '/images/avatar.svg'} alt={user.name || ''} className='w-8 h-8 rounded-full' />

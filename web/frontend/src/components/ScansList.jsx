@@ -92,10 +92,10 @@ const ScansList = () => {
 
 
     return (
-        <div className='w-full h-full px-10'>
+        <div className='w-full h-full px-3 md:px-10'>
             {/* <h2 className='text-gray-200 text-2xl font-bold tracking-wide m-2'>View All Scans Here: </h2> */}
             <div className=' w-full  pt-4 h-screen   z-10' >
-                <div className='flex bg-base-300 w-full text-blue-500 text-lg font-bold py-4 rounded-md sticky pr-3'>
+                <div className='flex bg-base-300 w-full text-blue-500 text-xs md:text-lg font-bold py-4 rounded-md sticky pr-3'>
                     <div className='  w-[10%] flex justify-center border-r border-gray-700'>
                         Target
                     </div>
@@ -105,19 +105,19 @@ const ScansList = () => {
                     <div className='  w-[10%] flex justify-center border-r border-gray-700'>
                         Version
                     </div>
-                    <div className='  w-[10%] flex justify-center border-r border-gray-700'>
+                    <div className='  w-[20%] flex justify-center border-r border-gray-700'>
                         Scan mode
                     </div>
                     <div className='  w-[15%] flex justify-center border-r border-gray-700'>
                         Last Change
                     </div>
-                    <div className='  w-[10%] flex justify-center border-r border-gray-700'>
+                    <div className='  md:w-[10%] flex justify-center border-r border-gray-700'>
                         Result
                     </div>
                     <div className='  w-[20%] flex justify-center border-r border-gray-700'>
                         Actions
                     </div>
-                    <div className='  w-[10%] flex justify-center'>
+                    <div className='  w-[16%] lg:w-[10%]  flex justify-center'>
                         Status
                     </div>
                 </div>

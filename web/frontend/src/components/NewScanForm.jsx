@@ -64,13 +64,13 @@ const NewScanForm = () => {
 
 
   return (
-    <form onSubmit={onSubmit} method="dialog" className="w-full ">
+    <form onSubmit={onSubmit} method="dialog" className="w-full">
                     <div className='pb-2  flex flex-col gap-2'>
                         <h2 className='text-accent'> Target Options</h2>
                         <div  className='flex items-center text-sm ml-2 gap-5'>
 
                             <label className="label " >
-                                <input {...register('typeDomain', {required: 'Target Option is required'})} type="radio"  name="typeDomain" id="single" value='0' className="radio"  />
+                                <input {...register('typeDomain', {required: 'Target Option is required'})} type="radio"  name="typeDomain" id="single" value='0' checked className="radio"  />
                                 <span className="label-text ml-2">Single</span>
                             </label>
                             <label className="label" >

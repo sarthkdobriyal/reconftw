@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
     <form onSubmit={onSubmit} className='h-screen w-screen  flex justify-center items-center '>
-        <div className= 'h-full w-full    lg:max-w-[30%] lg:max-h-[70%]  shadow-inner bg-sky-950 shadow-gray-400 form-control rounded-lg flex justify-start flex-col py-10 px-10 gap-1'>
+        <div className= 'h-[70%] w-[90%]     md:max-w-[50%] md:max-h-[70%]  lg:max-w-[30%]  shadow-inner bg-sky-950 shadow-gray-400 form-control rounded-lg flex justify-start flex-col py-10 px-10 gap-1'>
         {/* <h1 className='text-4xl text-slate-500 text-center font-bold mb-10 tracking-widest '>Login</h1> */}
         <img src="/images/logo.png" alt="logo" className='w-44 mx-auto mb-16  object-contain '/>
         <label htmlFor="username" className="label tracking-widest"> Username: 

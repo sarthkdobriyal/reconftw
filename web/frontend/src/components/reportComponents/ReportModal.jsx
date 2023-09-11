@@ -98,12 +98,12 @@ const ReportModal = ({ id, heading, data, modalClassName }) => {
 
                                         :
                                         id === 'dnsZonetransferModal' ? (
-                                            <p>
+                                            <div>
                                                 {data}
                                                 <div className='my-3 w-full flex justify-end'>
                                                     <PDFDownload handleDownload={() => dnsZonePDF(data)} />
                                                 </div>
-                                            </p>
+                                            </div>
                                         ) :
                                             id === 'dnsRegistryModal' ? (
                                                 <div>

@@ -51,7 +51,7 @@ const Header = () => {
 
                         <input type="checkbox" id="my_modal_6" className="modal-toggle" />
                         <div className="modal">
-                            <div className="flex flex-col px-4 py-5 bg-base-200 text-base-content w-[60%]  relative  rounded-lg">
+                            <div className="flex flex-col px-4 py-5 bg-base-200 text-base-content w-[90%]   lg:w-[60%] relative  rounded-lg">
                             <h3 className="font-bold text-lg border-b py-4">New Scan</h3>
 
                                 <div className="modal-action">

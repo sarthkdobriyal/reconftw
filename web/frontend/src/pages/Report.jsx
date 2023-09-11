@@ -15,6 +15,7 @@ import AuthContext from '../context/AuthContext';
 import createUrl from '../utils/createUrl'
 import axios from 'axios';
 import { generatePDF } from '../utils/generatePDF';
+import PDFDownload from '../components/reportComponents/PDFDownload';
 
 const Report = () => {
 
@@ -46,7 +47,9 @@ const Report = () => {
   console.log(data)
   return (
     <div className='w-full flex-col flex justify-center'>
-
+      <button onClick={() => generatePDF(data.data)} className='btn rounded-xl shadow-inner shadow-gray-100 w-[30%] mx-auto  my-2 ' >
+        Download Report
+      </button>
       {
         data &&
         (<div >

@@ -2,7 +2,7 @@
 import ReportContainer from './ReportContainer'
 import OsintModal from './OsintModal'
 import PDFDownload from './PDFDownload'
-import { osintResouircePDF } from '../../utils/generatePDF'
+
 
 const OsintResources = ({data}) => {
 
@@ -23,7 +23,7 @@ const OsintResources = ({data}) => {
 
         </div>
         <div className='my-1 w-full flex justify-end'>
-                <PDFDownload handleDownload={() => osintResouircePDF(data)} />
+                {/* <PDFDownload handleDownload={() => osintResouircePDF(data)} /> */}
               </div>
     </ReportContainer>
   )

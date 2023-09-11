@@ -1,14 +1,15 @@
 import os, secrets
 from pathlib import Path
 from datetime import timedelta
-
+from dotenv import load_dotenv
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = secrets.token_hex(32)
 
-DEBUG = 0
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ipAddress=os.popen('hostname -I | cut -d " " -f1').read().strip()
 ALLOWED_HOSTS = [ipAddress, 'localhost', '127.0.0.1', '0.0.0.0']
@@ -218,21 +219,18 @@ REACT_SITE_URL= 'http://scanner.skandashield.com'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
         # Tenant Engine
         'ENGINE': 'tenant_schemas.postgresql_backend',
         # set database name
-        'NAME': 'postgres',
+        'NAME': os.environ.get('DB_NAME'),
         # set your user details
-        'USER': 'postgres',
-        'PASSWORD': 'recon123',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST':os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT')
     }
+   
 }
 
 # DATABASE ROUTER
