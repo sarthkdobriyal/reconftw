@@ -280,10 +280,10 @@ def DownloadBackup(request, id):
         # return HttpResponse('Scanning is not completed, please wait.')
         return Response({'message': 'Scanning is not completed, please wait.'}, status=status.HTTP_400_BAD_REQUEST) 
 
-# TODO: Cancel Scan Function 
+
 # @login_required(login_url='/login/')
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def cancel_scan(request, id):
     print("Canceling Scan", id)
     project = Project.objects.get(id=id)

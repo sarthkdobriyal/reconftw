@@ -1,3 +1,4 @@
+acme==1.1.0
 aiohttp==3.8.5
 aiosignal==1.3.1
 amqp==5.1.1
@@ -19,6 +20,7 @@ botocore==1.31.28
 bs4==0.0.1
 celery==5.3.1
 censys==2.2.4
+certbot==0.40.0
 certifi==2023.7.22
 chardet==5.2.0
 charset-normalizer==3.2.0
@@ -35,6 +37,7 @@ colored==1.4.4
 colorlog==6.7.0
 command-not-found==0.3
 commix @ file:///home/ubuntu/Tools/commix
+ConfigArgParse==0.13.0
 configobj==5.0.6
 constantly==15.1.0
 cron-descriptor==1.4.0
@@ -58,6 +61,7 @@ django-cors-headers==4.2.0
 django-environ==0.10.0
 django-tenant-schemas==1.12.0
 django-tenants==3.5.0
+django-tenants-celery-beat==0.2.1
 django-timezone-field==5.1
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
@@ -95,6 +99,7 @@ ipaddress==1.0.23
 ipwhois==1.2.0
 Jinja2==2.10.1
 jmespath==1.0.1
+josepy==1.2.0
 jsonpatch==1.22
 jsonpointer==2.0
 jsonschema==3.2.0
@@ -110,6 +115,7 @@ MarkupSafe==1.1.0
 mdurl==0.1.2
 metafinder==1.2
 mmh3==4.0.1
+mock==3.0.5
 more-itertools==4.2.0
 multidict==6.0.4
 netaddr==0.8.0
@@ -118,6 +124,8 @@ oauthlib==3.1.0
 openpyxl==3.1.2
 ordered-set==4.1.0
 packaging==23.1
+parsedatetime==2.4
+pbr==5.4.5
 pexpect==4.6.0
 pikepdf==8.4.0
 Pillow==10.0.0
@@ -134,11 +142,13 @@ pyfiglet==0.8.post1
 Pygments==2.16.1
 PyGObject==3.36.0
 PyHamcrest==1.9.0
+PyICU==2.4.2
 PyJWT==2.8.0
 pymacaroons==0.13.0
 PyNaCl==1.3.0
 pyOpenSSL==19.0.0
 pyparsing==3.1.1
+pyRFC3339==1.1
 pyrsistent==0.15.5
 pyserial==3.4
 PySocks==1.7.1
@@ -156,6 +166,7 @@ regex==2023.8.8
 requests==2.31.0
 requests-file==1.5.1
 requests-futures==1.0.1
+requests-toolbelt==0.8.0
 requests-unixsocket==0.2.0
 retrying==1.3.4
 rich==13.5.2
@@ -206,4 +217,7 @@ XlsxWriter==3.1.2
 xnLinkFinder @ file:///root/Tools/xnLinkFinder
 yarl==1.9.2
 zipp==3.16.2
+zope.component==4.3.0
+zope.event==4.4
+zope.hookable==5.0.0
 zope.interface==6.0

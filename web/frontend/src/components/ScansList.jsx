@@ -30,7 +30,7 @@ const ScansList = () => {
 
     const handleDelete = useMutation({
         mutationFn: (id) => {
-            const url = createUrl(user.tenant.schema_name, `/projects/${id}/delete/`)
+            const url = createUrl('', `/projects/${id}/delete/`)
             return axios.delete(url, {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`,
@@ -53,8 +53,8 @@ const ScansList = () => {
 
     const handleCancel = useMutation({
         mutationFn: (id) => {
-            const url = createUrl(user.tenant.schema_name, `/projects/${id}/cancel/`)
-            return axios.post(url, {
+            const url = createUrl('', `/projects/${id}/cancel/`)
+            return axios.get(url, {
                 headers: {
                     'Authorization': `Bearer ${authToken.access}`,
                     'x-request-id': user.tenant.tenant_uuid

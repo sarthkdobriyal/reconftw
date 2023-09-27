@@ -1,6 +1,7 @@
 // /** @type {import('tailwindcss').Config} */
 const tailwindScrollbar = require('tailwind-scrollbar');
 const daisyui = require('daisyui');
+
 module.exports = {
   content: [
     "./index.html",

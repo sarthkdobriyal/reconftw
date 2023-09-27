@@ -1,8 +1,13 @@
 from django.db import models
 from tenant_schemas.models import TenantMixin
+from django_tenants_celery_beat.models import TenantTimezoneMixin
+
 import uuid
 
-class Tenant(TenantMixin):
+
+
+
+class Tenant(TenantMixin, TenantTimezoneMixin):
     REQUIRED_FIELDS = ('tenant_name', 'schema_name', 'domain_url')
     tenant_name = models.CharField(max_length=100, unique=True, null=False, blank=False, )
     tenant_uuid = models.UUIDField(default=uuid.uuid4, null=False, blank=False)
