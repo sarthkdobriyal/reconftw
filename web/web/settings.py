@@ -54,6 +54,7 @@ SHARED_APPS = [
     # we place blog here since we want 
     # public schema to have the same structure like tenant apps
     'accounts',
+    'flower'
 
 ]
 """
@@ -81,6 +82,7 @@ TENANT_APPS = [
     'corsheaders',
     'schedules',
     'django_celery_results',
+    'flower'
 ]
 
 INSTALLED_APPS =  [
@@ -107,6 +109,7 @@ INSTALLED_APPS =  [
     'rest_framework',
     'schedules',
     'django_celery_results',
+    'flower',
     'accounts',
     
 

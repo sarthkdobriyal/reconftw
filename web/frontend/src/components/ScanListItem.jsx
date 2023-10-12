@@ -15,6 +15,8 @@ const ScanListItem = ({ scan, handleCancel, handleDelete, handleDownload }) => {
     // let iconPath = icon ? icon.split('/').slice(2,).join('/') : null
     // const downloadUrl = createUrl('', `/projects/${id}/backup/`)
 
+    
+
 
     return (
         <div className={`flex my-2 rounded-md w-full bg-slate-400 py-3 text-black font-semibold text-xs md:text-base shadow-inner ${status === 'SCANNING' ? 'shadow-yellow-500' : status === 'FINISHED' ? 'shadow-green-700' : 'shadow-red-500'}  `}>

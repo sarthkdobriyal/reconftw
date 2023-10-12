@@ -7,7 +7,7 @@ export default defineConfig({
     port: 9050,
   },
   build: {
-    chunkSizeWarningLimit: 1000, // Set your desired limit in kBs
+    chunkSizeWarningLimit: 1200, // Set your desired limit in kBs
   },
   plugins: [react()],
 })

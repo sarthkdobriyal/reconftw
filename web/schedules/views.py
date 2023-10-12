@@ -10,7 +10,7 @@ from pathlib import Path
 from datetime import datetime
 
 from projects.models import Project
-from django_celery_beat.models import CrontabSchedule, PeriodicTask
+from django_tenants_celery_beat.models import CrontabSchedule, PeriodicTask
 
 
 from rest_framework.decorators import api_view, permission_classes
@@ -52,7 +52,7 @@ def schedule_scan(request):
         
         post = request.data
 
-        print(request.data)
+        print(request.user.tenant.id)
 
         days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         daylist = ""
@@ -80,8 +80,9 @@ def schedule_scan(request):
                 minute=minutes,
                 day_of_week=daylist
             ) 
-
+            
             task = PeriodicTask.objects.create(
+                tenant=request.user.tenant.id,
                 name=id+"-"+str(datetime.now()),
                 task='new_scan_single_domain',
                 crontab=schedule,
